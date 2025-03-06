@@ -1,32 +1,33 @@
 from dotenv import load_dotenv
 import os
-import subprocess
-from openai import OpenAI
 import re
-import os
-from dotenv import load_dotenv
-from moviepy import VideoFileClip, AudioFileClip, concatenate_videoclips, CompositeVideoClip
-import glob
-import os
 import json
-from dotenv import load_dotenv
-from elevenlabs import set_api_key, generate
-from elevenlabs.client import ElevenLabs
-
+import subprocess
+import glob
+import requests
+import shutil
+import tempfile
+from openai import OpenAI
 
 # Load environment variables from the .env file
 load_dotenv()
 
-# Initialize the OpenAI client
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-client = ElevenLabs(apikey=os.getenv("ELEVENLABS_API_KEY"))
+# Initialize OpenAI client
+openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def gpt_generates_script(user_description: str) -> str:
+    """
+    Generate an educational script with scene markers for a math topic.
+    Improved to create fewer, more meaningful scenes.
+    
+    Args:
+        user_description: The mathematical topic to create a script for
+        
+    Returns:
+        A formatted script with time codes and scene markers
+    """
     system_content = (
-
         """
-Steps
-
 You are an expert math professor capable of teaching any concept with clarity and precision. Your task is to generate a highly structured, 5-minute educational script on a given mathematical topic. 
 
 ### **Formatting and Structure Rules:**
@@ -45,17 +46,20 @@ You are an expert math professor capable of teaching any concept with clarity an
    - The script must follow this structure but flow naturally as if spoken by a professor:  
      - **Hook (First 30 seconds):** Start with an engaging analogy, puzzle, or real-world connection.  
      - **Introduction (Next 30 seconds):** Recall prior knowledge, introduce key terms, and state the lesson objective.  
-     - **Main Explanation (3 minutes, 30 seconds):** Provide step-by-step explanations, examples, and intuitive insights.  
+     - **Main Explanation (3 minutes):** Provide step-by-step explanations, examples, and intuitive insights.  
      - **Practice Problem (30 seconds):** Present a problem, prompt the audience to think, then reveal the answer.  
      - **Conclusion (Final 30 seconds):** Summarize key takeaways and encourage further exploration.  
 
 4. **Scene Management:**
-    - Embedded within the structure are scenes.
-    - Each scene is a single animation.
-    - Each scene must be self-contained and not rely on other scenes.
-    - Each scene corresponds to a chunk of text.
-    - Each scene should be marked with [SCENE] at the start and [/SCENE] at the end.
-    - Each scene should have a brief description of what should be animated.
+    - Include exactly 5 meaningful scenes in your script, each corresponding to the 5 sections above.
+    - Each scene MUST start with "[SCENE]" and end with "[/SCENE]".
+    - Between these tags, provide a clear, detailed description of what to animate that directly supports the content.
+    - Format example:
+      [SCENE]
+      Show a right triangle being drawn with sides labeled a, b, and c, where c is the hypotenuse. Highlight how the sides relate to the theorem.
+      [/SCENE]
+    - Place scene markers at logical transitions in your script, not randomly or too frequently.
+    - Make each scene description specific and purposeful - it should directly illustrate the concepts being discussed.
 
 5. **Common Mistakes:**  
    - **Only include common mistakes if they are critical to understanding the concept.**  
@@ -65,40 +69,140 @@ You are an expert math professor capable of teaching any concept with clarity an
 - **Ensure all time codes increase precisely according to 100 WPM pacing.**  
 - **Ensure all math notation is fully written out in words.**  
 - **Ensure the script feels natural and engaging, as if a professor is speaking.**  
-- **Generate a 5-minute script on topic the user gives you. * 
-
+- **Include EXACTLY 5 [SCENE][/SCENE] TAGS with purposeful animation descriptions that align with the 5 script sections.**
+- **Generate a 5-minute script on topic the user gives you.**
 """
     )
 
-    response = client.chat.completions.create(
+    response = openai_client.chat.completions.create(
         model="gpt-4",
         messages=[
             {"role": "system", "content": system_content},
-            {"role": "user", "content": user_description}
+            {"role": "user", "content": f"Create a detailed educational script about {user_description}. Include exactly 5 scene markers with specific, purposeful animation instructions that align with each section of the script."}
         ],
-        max_tokens=1500,
+        max_tokens=2000,
         temperature=0.7
     )
 
-    return response.choices[0].message.content
+    result = response.choices[0].message.content
+    
+    # Debug the script to see if it contains scene markers
+    print("\n--- Script Preview (first 300 chars) ---")
+    print(result[:300] + "...")
+    if "[SCENE]" in result:
+        print(f"Found [SCENE] tags in script")
+        # Count how many scenes
+        scene_count = result.count("[SCENE]")
+        print(f"Detected {scene_count} scenes in the script")
+    else:
+        print("WARNING: No [SCENE] tags found! Adding default scenes...")
+        # Add default scenes - one for each section
+        result = add_default_scenes(result, user_description)
+        
+    return result
 
-def elevenlabs_generates_audio(text, output_file="output.mp3"):
-    try:
-        audio = generate(
-            text=text,
-            voice_id="pqHfZKP75CvOlQylNhV4",
-            model_id="eleven_multilingual_v2"
+def add_default_scenes(script, topic):
+    """
+    Add default scene markers if none were generated by the AI.
+    Improved to create exactly 5 meaningful scenes aligned with script sections.
+    
+    Args:
+        script: The original script without scene markers
+        topic: The mathematical topic to create default scenes for
+    
+    Returns:
+        Updated script with default scene markers added
+    """
+    # Create scene prompts for each section of the script
+    scene_prompts = [
+        f"Create a hook/introduction scene for {topic} that captures attention",
+        f"Create a scene showing key terms and concepts for {topic}",
+        f"Create a main explanation scene for {topic} showing step-by-step visualization",
+        f"Create a practice problem scene for {topic} showing a specific example",
+        f"Create a conclusion scene for {topic} summarizing key points"
+    ]
+    
+    # Find approximate sections based on timing
+    timing_pattern = r'\[(\d+):(\d+)\]'
+    times = [(int(m.group(1))*60 + int(m.group(2))) for m in re.finditer(timing_pattern, script)]
+    
+    if len(times) < 10:  # Not enough timestamps to segment
+        # Simplified approach - split evenly
+        section_points = [0, 60, 120, 240, 270, 300]
+    else:
+        # More intelligent sectioning based on timing
+        section_points = [0, 30, 60, 240, 270, 300]
+    
+    # Generate scene descriptions
+    updated_script = script
+    scene_sections = []
+    
+    for i in range(5):
+        # Find closest time code to the section start
+        section_start = section_points[i]
+        section_end = section_points[i+1]
+        
+        # Generate scene description
+        scene_response = openai_client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {
+                    "role": "system", 
+                    "content": "You are an animation director for educational math videos. Create a detailed, purposeful scene description that visually illustrates the mathematical concept at this point in the script."
+                },
+                {
+                    "role": "user", 
+                    "content": scene_prompts[i]
+                }
+            ],
+            max_tokens=200,
+            temperature=0.7
         )
-        with open(output_file, "wb") as f:
-            f.write(audio)
-        return f"Audio saved to {output_file}"
-    except Exception as e:
-        return f"Error: {e}"
+        
+        scene_desc = scene_response.choices[0].message.content.strip()
+        # Clean up the scene description (remove any "Scene X:" prefix)
+        if scene_desc.lower().startswith("scene"):
+            scene_desc = re.sub(r'^scene\s*\d*\s*:*\s*', '', scene_desc, flags=re.IGNORECASE).strip()
+            
+        scene_sections.append((section_start, scene_desc))
+    
+    # Now insert scenes at appropriate points in the script
+    for section_time, scene_desc in reversed(scene_sections):
+        # Find the nearest timestamp
+        time_matches = list(re.finditer(timing_pattern, script))
+        nearest_idx = 0
+        nearest_diff = 300  # Initialize with maximum possible difference
+        
+        for idx, match in enumerate(time_matches):
+            minutes = int(match.group(1))
+            seconds = int(match.group(2))
+            timestamp = minutes * 60 + seconds
+            diff = abs(timestamp - section_time)
+            
+            if diff < nearest_diff:
+                nearest_diff = diff
+                nearest_idx = idx
+        
+        if len(time_matches) > nearest_idx:
+            # Insert before this timestamp
+            match = time_matches[nearest_idx]
+            script_prefix = script[:match.start()]
+            script_suffix = script[match.start():]
+            
+            # Add the scene marker
+            updated_script = f"{script_prefix}\n\n[SCENE]\n{scene_desc}\n[/SCENE]\n\n{script_suffix}"
+    
+    return updated_script
 
 def gpt_splits_script_into_scenes(script: str) -> list[str]:
     """
     Split a script into scenes based on [SCENE] markers.
-    Returns a list of scene descriptions.
+    
+    Args:
+        script: The complete script with scene markers
+        
+    Returns:
+        A list of scene descriptions
     """
     scenes = []
     scene_pattern = r'\[SCENE\](.*?)\[/SCENE\]'
@@ -110,19 +214,146 @@ def gpt_splits_script_into_scenes(script: str) -> list[str]:
         
     return scenes
 
+def extract_timing_from_script(script: str) -> dict:
+    """
+    Extract timing information from the script to help control speech pace.
+    
+    Args:
+        script: The complete script with time codes
+        
+    Returns:
+        Dictionary with extracted timing information
+    """
+    # Extract time codes and text
+    pattern = r'\[(\d+):(\d+)\]\s*\{([^}]+)\}'
+    matches = re.findall(pattern, script)
+    
+    timing_data = []
+    total_words = 0
+    
+    for minutes, seconds, text in matches:
+        time_seconds = int(minutes) * 60 + int(seconds)
+        word_count = len(text.split())
+        total_words += word_count
+        
+        timing_data.append({
+            "time": time_seconds,
+            "text": text.strip(),
+            "word_count": word_count
+        })
+    
+    # Calculate the total script duration and words per minute
+    if timing_data:
+        total_duration = timing_data[-1]["time"]
+        words_per_minute = (total_words / total_duration) * 60 if total_duration > 0 else 100
+    else:
+        total_duration = 300  # Default 5 minutes
+        words_per_minute = 100  # Default WPM
+    
+    return {
+        "timing_data": timing_data,
+        "total_words": total_words,
+        "total_duration": total_duration,
+        "words_per_minute": words_per_minute
+    }
+
+def elevenlabs_generates_audio(text, output_file="narration.mp3"):
+    """
+    Generate audio narration from the script using ElevenLabs API.
+    Improved to control speech pace and timing.
+    
+    Args:
+        text: The script text to convert to speech
+        output_file: Filename to save the generated audio
+        
+    Returns:
+        A message indicating success or error
+    """
+    # Extract just the script content without scene markers for audio generation
+    clean_text = re.sub(r'\[SCENE\].*?\[/SCENE\]', '', text, flags=re.DOTALL)
+    
+    # Also remove the time codes while keeping the sentences
+    clean_text = re.sub(r'\[\d+:\d+\]\s*\{', '', clean_text)
+    clean_text = clean_text.replace('}', '')
+    
+    # Extract timing information to adjust speech pace
+    timing_info = extract_timing_from_script(text)
+    
+    try:
+        print("Using ElevenLabs REST API to generate audio with controlled timing...")
+        print(f"Script has {timing_info['total_words']} words with target pace of {timing_info['words_per_minute']:.1f} WPM")
+        
+        # Calculate ideal stability and speaking rate based on script analysis
+        target_wpm = timing_info['words_per_minute']
+        
+        # Normalize speaking rate (1.0 is roughly 150 WPM for ElevenLabs)
+        # So if our target is 100 WPM, we'd use 100/150 = 0.67
+        speaking_rate = target_wpm / 150  
+        
+        # Use the REST API directly
+        url = "https://api.elevenlabs.io/v1/text-to-speech/pqHfZKP75CvOlQylNhV4"
+        
+        headers = {
+            "Accept": "audio/mpeg",
+            "Content-Type": "application/json",
+            "xi-api-key": os.getenv("ELEVENLABS_API_KEY")
+        }
+        
+        # Include voice_settings to control timing and style
+        data = {
+            "text": clean_text,
+            "model_id": "eleven_multilingual_v2",
+            "voice_settings": {
+                "stability": 0.4,                 # Lower for more natural variations
+                "similarity_boost": 0.75,         # Higher to maintain voice consistency 
+                "use_speaker_boost": True,        # Better voice clarity
+                "speaking_rate": speaking_rate    # Adjust speed to match our target WPM
+            }
+        }
+        
+        print(f"Speech settings: stability=0.4, similarity_boost=0.75, speaking_rate={speaking_rate:.2f}")
+        print("Sending request to ElevenLabs API...")
+        
+        response = requests.post(url, json=data, headers=headers)
+        
+        if response.status_code == 200:
+            print(f"API request successful, saving audio...")
+            with open(output_file, "wb") as f:
+                f.write(response.content)
+            print(f"Audio saved successfully to {output_file}")
+            return f"Audio saved to {output_file}"
+        else:
+            print(f"API request failed with status code: {response.status_code}")
+            print(f"Response: {response.text}")
+            return f"Error with ElevenLabs API: {response.status_code}"
+                
+    except Exception as e:
+        print(f"Error generating audio: {str(e)}")
+        return f"Error: {e}"
+
 def gpt_codes_single_scene(user_description: str) -> str:
-    # Updated system message to request only code
+    """
+    Generate Manim animation code for a scene description.
+    
+    Args:
+        user_description: Description of what to animate
+        
+    Returns:
+        Python code for a Manim animation
+    """
     system_content = (
-        "You are an expert in Python and the Manim animation library. Your task is to generate a complete, self-contained Python code snippet that creates a Manim animation based on a user-provided description. The code should:\n"
+        "You are an expert in Python and the Manim animation library. Your task is to generate a complete, self-contained Python code snippet that creates a Manim animation based on a user-provided description. The code MUST follow these strict requirements:\n\n"
         "1. Import all necessary modules from Manim.\n"
-        "2. Define a scene class named \"UserAnimationScene\" inheriting from Scene (or a related subclass).\n"
-        "3. Use Manim's built-in methods (like Create, Transform, FadeOut, etc.) to animate the objects as described.\n"
-        "4. Be structured and commented clearly so that it's easy to understand and run.\n"
-        "Please provide only the Python code without any additional explanation or text."
+        "2. Define a scene class named \"UserAnimationScene\" inheriting from Scene.\n"
+        "3. Use ONLY built-in Manim objects and shapes (Circle, Square, Rectangle, Arrow, Line, etc.).\n"
+        "4. DO NOT use SVGMobject, ImageMobject, or try to load any external files.\n"
+        "5. For text, use ONLY Text() objects, NOT Tex() or MathTex().\n"
+        "6. Use Manim's built-in methods (like Create, Transform, FadeOut, etc.) to animate the objects.\n"
+        "7. Keep the code simple, focused, and error-free.\n\n"
+        "Please provide only Python code without any additional explanation."
     )
 
-    # Send the request to OpenAI GPT-4
-    response = client.chat.completions.create(
+    response = openai_client.chat.completions.create(
         model="gpt-4",
         messages=[
             {"role": "system", "content": system_content},
@@ -132,10 +363,9 @@ def gpt_codes_single_scene(user_description: str) -> str:
         temperature=0
     )
 
-    # Get the raw response
     response_text = response.choices[0].message.content
     
-    # Extract code block if wrapped in triple backticks (e.g., ```python ... ```)
+    # Clean up the code - extract from code blocks if present
     match = re.search(r'```python\n(.*?)\n```', response_text, re.DOTALL)
     if match:
         return match.group(1)  # Return only the code inside the block
@@ -143,11 +373,31 @@ def gpt_codes_single_scene(user_description: str) -> str:
 
 def gpt_renders_multiple_scenes(scenes: list[str]) -> list[str]:
     """
-    Render a list of scenes into multiple video files.
-    Returns a list of video file paths.
+    Render a list of scenes into multiple video files with improved file detection.
+    
+    Args:
+        scenes: List of scene descriptions
+        
+    Returns:
+        List of video file paths
     """
     video_files = []
+    
+    if not scenes:
+        print("No scenes to render!")
+        return video_files
+    
+    # Record existing MP4 files before rendering
+    existing_mp4s = set()
+    for root, dirs, files in os.walk('.'):
+        for file in files:
+            if file.endswith('.mp4'):
+                existing_mp4s.add(os.path.join(root, file))
+    
     for i, scene in enumerate(scenes):
+        print(f"\nRendering scene {i+1}/{len(scenes)}...")
+        print(f"Scene description: {scene[:100]}...")
+        
         # Generate the Manim code for this scene
         scene_code = gpt_codes_single_scene(scene)
         
@@ -157,117 +407,354 @@ def gpt_renders_multiple_scenes(scenes: list[str]) -> list[str]:
             f.write(scene_code)
             
         # Render the scene using Manim
+        print(f"Running Manim on scene_{i}.py...")
         command = ["manim", scene_file, "UserAnimationScene", "-p", "-ql"]
-        subprocess.run(command)
+        result = subprocess.run(command, capture_output=True, text=True)
         
-        # Add the generated video file to our list
-        video_file = f"media/videos/1080p60/UserAnimationScene.mp4"
-        if os.path.exists(video_file):
-            video_files.append(video_file)
-            
-        # Clean up the temporary file
-        os.remove(scene_file)
+        # Print any errors for debugging
+        if result.stderr:
+            print(f"Manim output for scene {i}:")
+            print(result.stderr[:500])  # Print first 500 chars of error
+        
+        # Find newly created MP4 files
+        new_mp4s = set()
+        for root, dirs, files in os.walk('.'):
+            for file in files:
+                if file.endswith('.mp4'):
+                    filepath = os.path.join(root, file)
+                    if filepath not in existing_mp4s:
+                        new_mp4s.add(filepath)
+        
+        # Update existing MP4s for next iteration
+        existing_mp4s.update(new_mp4s)
+        
+        if new_mp4s:
+            # Use the most recently created MP4
+            newest_file = max(new_mp4s, key=os.path.getctime)
+            video_files.append(newest_file)
+            print(f"Found new video file: {newest_file}")
+        else:
+            print(f"WARNING: No new video file detected for scene {i}")
+        
+        print(f"Scene {i+1} rendering complete")
         
     return video_files
 
-def merge_scenes_into_video(scenes: list[str]) -> str:
+def create_timing_data(scenes: list[str], duration: int = 300) -> list[dict]:
     """
-    Merge a list of scenes into a single video, synchronizing with audio timestamps.
-    Each scene will hold its final frame until the next scene's timestamp.
+    Create timing data for synchronizing scenes with audio.
+    Distributes time more intelligently based on script structure.
+    
+    Args:
+        scenes: List of scene descriptions
+        duration: Total video duration in seconds (default: 5 minutes)
+        
+    Returns:
+        List of timing data dictionaries
     """
-
-    # Get all generated MP4 files in order
-    video_files = sorted(glob.glob("media/videos/1080p60/*.mp4"))
-    if not video_files:
-        print("No video files found to merge")
-        return None
-
-    # Load the script timing data (assuming it's saved as JSON)
-    with open("script_timing.json", "r") as f:
-        timing_data = json.load(f)
-
-    # Load all video clips and prepare segments
-    final_clips = []
+    scene_count = len(scenes)
+    if scene_count == 0:
+        return []
+        
+    # Distribute time based on script structure (based on 5-minute standard format)
+    # Hook - 30s, Intro - 30s, Main - 180s, Practice - 30s, Conclusion - 30s
+    section_durations = [30, 30, 180, 30, 30]
+    
+    # Adjust if we have fewer than 5 scenes
+    if scene_count < 5:
+        # Distribute remaining time proportionately
+        total_allocated = sum(section_durations[:scene_count])
+        remaining = duration - total_allocated
+        
+        # Distribute remaining time proportionally
+        for i in range(scene_count):
+            section_durations[i] += (section_durations[i] / total_allocated) * remaining
+    
+    # If we have more than 5 scenes, distribute time evenly
+    if scene_count > 5:
+        section_durations = [duration / scene_count] * scene_count
+    
+    # Create timing data
+    timing_data = []
     current_time = 0
     
-    for i, (video_file, scene_data) in enumerate(zip(video_files, timing_data)):
-        clip = VideoFileClip(video_file)
+    for i in range(scene_count):
+        scene_duration = section_durations[i] if i < len(section_durations) else duration / scene_count
         
-        # Get the timestamp when this scene should end
-        scene_end_time = scene_data["end_time"]
+        timing_data.append({
+            "start_time": current_time,
+            "end_time": current_time + scene_duration
+        })
         
-        # Calculate how long to hold the final frame
-        scene_duration = scene_end_time - current_time
+        current_time += scene_duration
+    
+    # Save timing data to file
+    with open("script_timing.json", "w") as f:
+        json.dump(timing_data, f)
         
-        if scene_duration > clip.duration:
-            # Freeze the final frame for the remaining duration
-            frozen_duration = scene_duration - clip.duration
-            last_frame = clip.to_ImageClip(clip.duration)
-            last_frame = last_frame.set_duration(frozen_duration)
-            
-            # Combine the animated part with the frozen part
-            scene_clip = concatenate_videoclips([clip, last_frame])
+    return timing_data
+
+def check_ffmpeg_installation():
+    """Check if FFmpeg is installed and available."""
+    try:
+        # Try to run FFmpeg with the -version flag
+        result = subprocess.run(["ffmpeg", "-version"], capture_output=True, text=True)
+        if result.returncode == 0:
+            print("FFmpeg is installed and working.")
+            return True
         else:
-            scene_clip = clip.subclip(0, scene_duration)
+            print("FFmpeg command returned an error code.")
+            return False
+    except Exception as e:
+        print(f"Error checking FFmpeg: {e}")
+        return False
+
+def extend_video_with_ffmpeg(video_path, target_duration, output_path):
+    """
+    Extend a video to the target duration by freezing the last frame.
+    Uses FFmpeg directly for reliable processing.
+    
+    Args:
+        video_path: Path to the input video
+        target_duration: Desired duration in seconds
+        output_path: Path to save the extended video
+    
+    Returns:
+        Path to the extended video if successful, None otherwise
+    """
+    try:
+        # Get original video duration
+        result = subprocess.run(
+            ["ffprobe", "-v", "error", "-show_entries", "format=duration", 
+             "-of", "default=noprint_wrappers=1:nokey=1", video_path],
+            capture_output=True, text=True
+        )
         
-        final_clips.append(scene_clip)
-        current_time = scene_end_time
+        if result.returncode != 0:
+            print(f"Error getting video duration: {result.stderr}")
+            return None
+            
+        original_duration = float(result.stdout.strip())
+        print(f"Original video duration: {original_duration:.2f}s")
+        
+        if original_duration >= target_duration:
+            # No need to extend, just copy
+            shutil.copy2(video_path, output_path)
+            return output_path
+            
+        # Calculate freeze duration
+        freeze_duration = target_duration - original_duration
+        print(f"Extending video by freezing last frame for {freeze_duration:.2f}s")
+        
+        # Create a temporary directory for our work
+        with tempfile.TemporaryDirectory() as temp_dir:
+            # Extract the last frame as an image
+            last_frame_path = os.path.join(temp_dir, "last_frame.png")
+            frame_time = max(0, original_duration - 0.1)  # 0.1 seconds before the end
+            
+            subprocess.run([
+                "ffmpeg", "-y", "-ss", str(frame_time), 
+                "-i", video_path, "-vframes", "1", 
+                "-q:v", "1", last_frame_path
+            ], check=True)
+            
+            # Create a video from the last frame with the required duration
+            frozen_video_path = os.path.join(temp_dir, "frozen.mp4")
+            subprocess.run([
+                "ffmpeg", "-y", "-loop", "1", "-i", last_frame_path,
+                "-c:v", "libx264", "-t", str(freeze_duration),
+                "-pix_fmt", "yuv420p", frozen_video_path
+            ], check=True)
+            
+            # Create a file list for concatenation
+            concat_file_path = os.path.join(temp_dir, "concat.txt")
+            with open(concat_file_path, "w") as f:
+                f.write(f"file '{os.path.abspath(video_path)}'\n")
+                f.write(f"file '{os.path.abspath(frozen_video_path)}'\n")
+            
+            # Concatenate the original video with the frozen frame video
+            subprocess.run([
+                "ffmpeg", "-y", "-f", "concat", "-safe", "0",
+                "-i", concat_file_path, "-c", "copy", output_path
+            ], check=True)
+            
+        print(f"Successfully extended video to {output_path}")
+        return output_path
+    except Exception as e:
+        print(f"Error extending video: {e}")
+        return None
 
-    # Concatenate all video segments
-    final_video = concatenate_videoclips(final_clips)
+def merge_scenes_with_ffmpeg(video_files, scenes, audio_path="narration.mp3"):
+    """
+    Merge scene videos and audio using FFmpeg directly.
+    This avoids the problems with MoviePy.
+    
+    Args:
+        video_files: List of video file paths
+        scenes: List of scene descriptions
+        audio_path: Path to the narration audio file
+        
+    Returns:
+        Path to the final video file
+    """
+    if not video_files:
+        print("No video files to merge")
+        return None
+        
+    print(f"Merging {len(video_files)} video files using FFmpeg:")
+    for i, vf in enumerate(video_files):
+        print(f"  {i+1}. {vf}")
+    
+    # Check if FFmpeg is installed
+    if not check_ffmpeg_installation():
+        print("FFmpeg is not installed or not working. Please install FFmpeg.")
+        return None
+    
+    # Create timing data if it doesn't exist
+    timing_data_path = "script_timing.json"
+    if not os.path.exists(timing_data_path):
+        timing_data = create_timing_data(scenes)
+    else:
+        with open(timing_data_path, "r") as f:
+            timing_data = json.load(f)
+    
+    # Make sure we have timing data for all videos
+    if len(timing_data) < len(video_files):
+        print("Warning: Not enough timing data. Adjusting...")
+        scene_duration = 300 / len(video_files)  # 5 minutes divided evenly
+        for i in range(len(timing_data), len(video_files)):
+            timing_data.append({
+                "start_time": i * scene_duration,
+                "end_time": (i + 1) * scene_duration
+            })
+        with open(timing_data_path, "w") as f:
+            json.dump(timing_data, f)
+    
+    try:
+        # Create a temporary directory for our work
+        with tempfile.TemporaryDirectory() as temp_dir:
+            # Process each video - extend or trim as needed
+            processed_videos = []
+            
+            for i, (video_file, timing) in enumerate(zip(video_files, timing_data)):
+                # Calculate target duration for this scene
+                target_duration = timing["end_time"] - timing["start_time"]
+                print(f"Processing video {i+1}: {video_file} (target duration: {target_duration:.2f}s)")
+                
+                # Output path for the processed video
+                processed_path = os.path.join(temp_dir, f"processed_{i}.mp4")
+                
+                # Extend or trim the video
+                extended_video = extend_video_with_ffmpeg(video_file, target_duration, processed_path)
+                if extended_video:
+                    processed_videos.append(extended_video)
+                else:
+                    print(f"Warning: Could not process video {i+1}. Using original.")
+                    processed_videos.append(video_file)
+            
+            # Create a file list for concatenation
+            concat_file_path = os.path.join(temp_dir, "concat.txt")
+            with open(concat_file_path, "w") as f:
+                for video in processed_videos:
+                    f.write(f"file '{os.path.abspath(video)}'\n")
+            
+            # Concatenate all videos
+            combined_video_path = os.path.join(temp_dir, "combined.mp4")
+            print("Concatenating videos...")
+            subprocess.run([
+                "ffmpeg", "-y", "-f", "concat", "-safe", "0",
+                "-i", concat_file_path, "-c", "copy", combined_video_path
+            ], check=True)
+            
+            # Final output path
+            output_path = "final_math_lesson.mp4"
+            
+            # Add audio if it exists
+            if os.path.exists(audio_path):
+                print(f"Adding audio from {audio_path}")
+                # Add audio to the video
+                subprocess.run([
+                    "ffmpeg", "-y", "-i", combined_video_path, 
+                    "-i", audio_path, "-c:v", "copy", "-c:a", "aac",
+                    "-map", "0:v:0", "-map", "1:a:0", "-shortest",
+                    output_path
+                ], check=True)
+            else:
+                print("No audio file found. Creating video without audio.")
+                shutil.copy2(combined_video_path, output_path)
+            
+            print(f"Final video created successfully: {output_path}")
+            return output_path
+    except Exception as e:
+        print(f"Error merging videos with FFmpeg: {e}")
+        
+        # Simple fallback - just use the first video if available
+        try:
+            if video_files:
+                print("Falling back to using just the first video...")
+                output_path = "simple_math_lesson.mp4"
+                
+                # If we have audio, try to add it
+                if os.path.exists(audio_path):
+                    subprocess.run([
+                        "ffmpeg", "-y", "-i", video_files[0], 
+                        "-i", audio_path, "-c:v", "copy", "-c:a", "aac",
+                        "-map", "0:v:0", "-map", "1:a:0", "-shortest",
+                        output_path
+                    ], check=True)
+                else:
+                    shutil.copy2(video_files[0], output_path)
+                    
+                print(f"Created simple video from first scene: {output_path}")
+                return output_path
+        except Exception as simple_e:
+            print(f"Simple fallback also failed: {simple_e}")
+            
+        return None
 
-    # Load and add the audio
-    if os.path.exists("narration.mp3"):
-        audio = AudioFileClip("narration.mp3")
-        final_video = final_video.set_audio(audio)
-
-    # Write the final video
-    output_path = "final_animation.mp4"
-    final_video.write_videofile(output_path)
-
-    # Clean up
-    for clip in final_clips:
-        clip.close()
-    if 'audio' in locals():
-        audio.close()
-    final_video.close()
-
-    return output_path
-
-def run_manim():
-    command = ["manim", "generated_animation.py", "UserAnimationScene", "-p", "-ql"]
-    print("\nRunning Manim to render the animation...\n")
-    result = subprocess.run(command, capture_output=True, text=True)
-    if result.stdout:
-        print("Manim Output:\n", result.stdout)
-    if result.stderr:
-        print("Manim Errors:\n", result.stderr)
+def main(topic):
+    """
+    Main function to create a complete math tutorial video.
+    
+    Args:
+        topic: Mathematical topic to create a video about
+        
+    Returns:
+        Path to the final video
+    """
+    print(f"Creating math tutorial on: {topic}")
+    
+    # Step 1: Generate script with scene markers - aim for 5 meaningful scenes
+    script = gpt_generates_script(topic)
+    
+    # Step 2: Extract scenes from script
+    scenes = gpt_splits_script_into_scenes(script)
+    print(f"Found {len(scenes)} scenes in script")
+    
+    # Step 3: Generate audio narration with controlled timing
+    audio_result = elevenlabs_generates_audio(script)
+    print(audio_result)
+    
+    # Step 4: Render animations for each scene
+    video_files = gpt_renders_multiple_scenes(scenes)
+    print(f"Generated {len(video_files)} scene videos")
+    
+    # Step 5: Merge everything into a final video using FFmpeg
+    final_video = merge_scenes_with_ffmpeg(video_files, scenes)
+    
+    if final_video:
+        print(f"Success! Final video saved to: {final_video}")
+        return final_video
+    else:
+        print("Failed to create final video")
+        return None
 
 if __name__ == "__main__":
-    # Get user input for the math topic
-    topic = input("Enter the mathematical topic you want to learn about: ")
+    import sys
     
-    # Generate the script with scene markers
-    print("\nGenerating educational script...\n")
-    script = gpt_generates_script(topic)
-    print("Script generated successfully!")
+    if len(sys.argv) > 1:
+        topic = sys.argv[1]
+    else:
+        topic = input("Enter a mathematical topic: ")
     
-    # Generate audio narration
-    print("\nGenerating audio narration...\n")
-    audio_file = elevenlabs_generates_audio(script)
-    print("Audio generated successfully!")
-    
-    # Split script into scenes
-    print("\nSplitting script into scenes...\n")
-    scenes = gpt_splits_script_into_scenes(script)
-    print(f"Split into {len(scenes)} scenes")
-    
-    # Render all scenes
-    print("\nRendering individual scenes...\n")
-    video_files = gpt_renders_multiple_scenes(scenes)
-    print("All scenes rendered successfully!")
-    
-    # Merge scenes with audio
-    print("\nMerging scenes and audio...\n")
-    final_video = merge_scenes_into_video(scenes)
-    print(f"\nFinal video created at: {final_video}")
+    main(topic)
