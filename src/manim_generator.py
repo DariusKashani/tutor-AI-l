@@ -131,33 +131,29 @@ def create_base_code_with_timing(scene_description):
         print("WARNING: No timing instructions found in scene description")
         # Fall back to a basic template
         animation_code = "        # Basic animation\n        title = Text(\"Math Concept\", font_size=48)\n        self.play(Write(title))"
-        return BASE_TEMPLATE.format(animations=animation_code)
+        # Use string replacement instead of format
+        return BASE_TEMPLATE.replace("{animations}", animation_code)
     
     # Generate the animation sequence
     animation_sequence = generate_animation_sequence(instructions)
     
-    # Use named placeholder
-    return BASE_TEMPLATE.format(animations=animation_sequence)
+    # Use string replacement instead of format
+    return BASE_TEMPLATE.replace("{animations}", animation_sequence)
 
 def request_manim_code_from_gpt(scene_description, base_code):
     """Request complete Manim animation code from GPT."""
-    system_content = f"""You are an expert at creating animations using the Manim library. 
-Your task is to implement Manim animation code based on timing instructions from a scene description.
+    # Create a shorter, more focused prompt that emphasizes simplicity and stability
+    system_content = """You are an expert at creating animations using the Manim library. 
+Your task is to implement Manim animation code based on timing instructions.
 
-Here is the Manim knowledge base to help you create accurate, working code:
-
-{MANIM_KNOWLEDGE}
-
-Follow these critical requirements:
-1. ALWAYS use self.play() for animations, never add objects directly to the scene
-2. Keep all objects within the visible frame (-6 to 6 horizontally, -3.5 to 3.5 vertically)
-3. Use appropriate font sizes for text (24-36 pt)
-4. DO NOT add additional wait() calls beyond those already in the template
-5. Implement animations SEQUENTIALLY at the exact times specified
-6. Keep animations simple and robust - don't try complex techniques
-
-You will be given a scene description and a code template with timing structure.
-Implement the animation code for each step keeping the existing comments and wait() calls.
+Critical requirements:
+1. ALWAYS use self.play() for animations, never add objects directly
+2. Keep ALL objects within the visible frame (-6 to 6 horizontally, -3.5 to 3.5 vertically)
+3. Use appropriate font sizes (36-48 for titles, 24-30 for other text)
+4. Keep animations simple and reliable
+5. Use ONLY core Manim features (basic shapes, text, transforms)
+6. DO NOT use experimental features or custom classes
+7. Return COMPLETE, working Manim code that implements the scene
 """
 
     # Request the completed code from GPT
@@ -166,23 +162,24 @@ Implement the animation code for each step keeping the existing comments and wai
             model="gpt-4",
             messages=[
                 {"role": "system", "content": system_content},
-                {"role": "user", "content": f"""Here is a scene description with timing instructions:
+                {"role": "user", "content": f"""Create a simple, reliable Manim animation for this scene:
 
 {scene_description}
 
-I've created a template with the proper timing structure:
+I've created this template with proper timing structure:
 
 {base_code}
 
-Implement the animation code for each step following the instructions in the comments.
-DO NOT modify the existing structure or wait times - only add the animation code itself.
-Create a COMPLETE, working animation that implements the scene sequentially.
-
-The animation should stay simple and reliable - focus on basic shapes, text, and standard animations
-that won't cause errors."""}
+IMPORTANT GUIDELINES:
+- Keep ALL animations simple and reliable
+- Use only basic shapes, Text, MathTex, and standard animations
+- DO NOT use experimental features or complex techniques
+- Focus on educational clarity rather than visual complexity
+- Always use self.play() for animations
+- Keep the class name as UserAnimationScene"""}
             ],
             max_tokens=3000,
-            temperature=0
+            temperature=0.2  # Lower temperature for more conservative code
         )
         return response.choices[0].message.content
     except Exception as e:
@@ -195,6 +192,7 @@ def create_fallback_code(scene_description):
     topic_match = re.search(r'pythagorean theorem|triangle|math concept', scene_description, re.IGNORECASE)
     topic = topic_match.group(0) if topic_match else "Math Concept"
     
+    # Create a very simple, reliable animation that should work in most cases
     fallback_code = f"""from manim import *
 
 class UserAnimationScene(Scene):
@@ -205,26 +203,16 @@ class UserAnimationScene(Scene):
         self.wait(1)
         self.play(title.animate.to_edge(UP))
         
-        # Create a right triangle
-        triangle = Polygon(
-            [-2, -1, 0], 
-            [2, -1, 0], 
-            [2, 2, 0], 
-            color=WHITE
-        )
-        self.play(Create(triangle))
+        # Create a simple shape
+        circle = Circle(radius=2, color=WHITE)
+        self.play(Create(circle))
         self.wait(1)
         
-        # Label the sides
-        a_label = Text("a", font_size=36).next_to(triangle, LEFT)
-        b_label = Text("b", font_size=36).next_to(triangle, DOWN)
-        c_label = Text("c", font_size=36).next_to(triangle, UP+RIGHT)
-        self.play(Write(a_label), Write(b_label), Write(c_label))
+        # Add some text
+        explanation = Text("This illustrates {topic}", font_size=24)
+        explanation.next_to(circle, DOWN, buff=0.5)
+        self.play(Write(explanation))
         self.wait(1)
-        
-        # Show formula
-        formula = MathTex(r"a^2 + b^2 = c^2", font_size=36).to_edge(DOWN)
-        self.play(Write(formula))
         
         # Final pause
         self.wait(2)

@@ -7,13 +7,14 @@ import shutil
 import tempfile
 import sys
 import re
+from pathlib import Path
 from openai import OpenAI
 
 # Import functions from script generator
-from script_generator import generate_script, extract_scenes_from_script, extract_timing_from_script, clean_script_for_narration
+from src.script_generator import generate_script, extract_scenes_from_script, extract_timing_from_script, clean_script_for_narration
 
 # Import functions from manim generator
-from manim_generator import generate_manim_code
+from src.manim_generator import generate_manim_code
 
 # Load environment variables from the .env file
 load_dotenv()
@@ -21,12 +22,46 @@ load_dotenv()
 # Initialize OpenAI client
 openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-def generate_audio_narration(script: str, output_file="narration.mp3") -> str:
+# Directory structure setup
+def setup_directory_structure(project_name="math_tutorial"):
+    """
+    Create an organized directory structure for the project.
+    
+    Args:
+        project_name: Base name for the project folder
+        
+    Returns:
+        Dictionary with path information
+    """
+    # Create timestamped project folder
+    import time
+    timestamp = time.strftime("%Y%m%d_%H%M%S")
+    project_dir = f"{project_name}_{timestamp}"
+    
+    # Create main directory structure
+    paths = {
+        "project": project_dir,
+        "scenes": os.path.join(project_dir, "scenes"),
+        "videos": os.path.join(project_dir, "videos"),
+        "audio": os.path.join(project_dir, "audio"),
+        "data": os.path.join(project_dir, "data"),
+        "temp": os.path.join(project_dir, "temp")
+    }
+    
+    # Create directories
+    for dir_path in paths.values():
+        os.makedirs(dir_path, exist_ok=True)
+        
+    print(f"Created project directory structure in '{project_dir}'")
+    return paths
+
+def generate_audio_narration(script: str, output_dir: str, output_file="narration.mp3") -> str:
     """
     Generate audio narration from the script using ElevenLabs API.
     
     Args:
         script: The script text to convert to speech
+        output_dir: Directory to save outputs
         output_file: Filename to save the generated audio
         
     Returns:
@@ -42,9 +77,10 @@ def generate_audio_narration(script: str, output_file="narration.mp3") -> str:
     timing_info = extract_timing_from_script(script)
     
     # Save the cleaned text to a file for verification
-    with open("narrator_script.txt", "w") as f:
+    narrator_script_path = os.path.join(output_dir, "narrator_script.txt")
+    with open(narrator_script_path, "w") as f:
         f.write(clean_text)
-    print("Cleaned script saved to narrator_script.txt for verification")
+    print(f"Cleaned script saved to {narrator_script_path} for verification")
     
     # Verify the script is clean by checking for bracket-like characters
     bracket_check = re.findall(r'[\[\]\{\}]', clean_text)
@@ -88,10 +124,11 @@ def generate_audio_narration(script: str, output_file="narration.mp3") -> str:
         response = requests.post(url, json=data, headers=headers)
         
         if response.status_code == 200:
-            with open(output_file, "wb") as f:
+            output_path = os.path.join(output_dir, output_file)
+            with open(output_path, "wb") as f:
                 f.write(response.content)
-            print(f"Audio saved successfully to {output_file}")
-            return f"Audio saved to {output_file}"
+            print(f"Audio saved successfully to {output_path}")
+            return output_path
         else:
             print(f"API request failed with status code: {response.status_code}")
             print(f"Response: {response.text}")
@@ -101,12 +138,13 @@ def generate_audio_narration(script: str, output_file="narration.mp3") -> str:
         print(f"Error generating audio: {str(e)}")
         return f"Error: {e}"
 
-def render_manim_scenes(scenes: list[str]) -> list[str]:
+def render_manim_scenes(scenes: list[str], output_dirs: dict) -> list[str]:
     """
     Render a list of scenes into multiple video files.
     
     Args:
         scenes: List of scene descriptions
+        output_dirs: Dictionary with output directory paths
         
     Returns:
         List of video file paths
@@ -124,6 +162,9 @@ def render_manim_scenes(scenes: list[str]) -> list[str]:
             if file.endswith('.mp4'):
                 existing_mp4s.add(os.path.join(root, file))
     
+    scenes_dir = output_dirs["scenes"]
+    videos_dir = output_dirs["videos"]
+    
     for i, scene in enumerate(scenes):
         print(f"\nRendering scene {i+1}/{len(scenes)}...")
         print(f"Scene description length: {len(scene)} characters")
@@ -132,29 +173,63 @@ def render_manim_scenes(scenes: list[str]) -> list[str]:
         # Generate the Manim code for this scene using the imported function
         scene_code = generate_manim_code(scene)
         
-        # Write the code to a temporary file
-        scene_file = f"scene_{i}.py"
+        # Write the code to a scene file in the scenes directory
+        scene_file = os.path.join(scenes_dir, f"scene_{i}.py")
         with open(scene_file, "w") as f:
             f.write(scene_code)
             
-        # Render the scene using Manim
-        print(f"Running Manim on scene_{i}.py...")
-        command = ["manim", scene_file, "UserAnimationScene", "-p", "-ql"]
-        result = subprocess.run(command, capture_output=True, text=True)
+        # Render the scene using Manim with output to videos directory
+        print(f"Running Manim on {scene_file}...")
         
-        # Print any errors for debugging
-        if result.stderr:
-            print(f"Manim output for scene {i}:")
-            print(result.stderr[:500])  # Print first 500 chars of error
+        # Create a symbolic link to the videos directory for Manim output
+        # or use the -o flag to specify output directory
+        command = [
+            "manim", 
+            scene_file, 
+            "UserAnimationScene", 
+            "-p",           # Preview
+            "-ql",          # Low quality for faster rendering
+            "--media_dir",  # Specify media output directory
+            videos_dir
+        ]
+        
+        try:
+            result = subprocess.run(command, capture_output=True, text=True, timeout=300)
+            
+            # Print any errors for debugging
+            if result.stderr:
+                print(f"Manim output for scene {i}:")
+                print(result.stderr[:500])  # Print first 500 chars of error
+                
+            # If the command failed, retry with simpler options
+            if result.returncode != 0:
+                print(f"Scene {i} failed to render. Retrying with simplified options...")
+                retry_command = ["manim", scene_file, "UserAnimationScene", "-ql"]
+                retry_result = subprocess.run(retry_command, capture_output=True, text=True)
+                
+                if retry_result.stderr:
+                    print(f"Retry output for scene {i}:")
+                    print(retry_result.stderr[:500])
+        except subprocess.TimeoutExpired:
+            print(f"Rendering timeout for scene {i}. Continuing with next scene.")
         
         # Find newly created MP4 files
         new_mp4s = set()
-        for root, dirs, files in os.walk('.'):
-            for file in files:
-                if file.endswith('.mp4'):
-                    filepath = os.path.join(root, file)
-                    if filepath not in existing_mp4s:
-                        new_mp4s.add(filepath)
+        # First check the videos directory
+        for file in os.listdir(videos_dir):
+            if file.endswith('.mp4'):
+                filepath = os.path.join(videos_dir, file)
+                if filepath not in existing_mp4s:
+                    new_mp4s.add(filepath)
+        
+        # If none found, search all directories
+        if not new_mp4s:
+            for root, dirs, files in os.walk('.'):
+                for file in files:
+                    if file.endswith('.mp4'):
+                        filepath = os.path.join(root, file)
+                        if filepath not in existing_mp4s:
+                            new_mp4s.add(filepath)
         
         # Update existing MP4s for next iteration
         existing_mp4s.update(new_mp4s)
@@ -162,19 +237,23 @@ def render_manim_scenes(scenes: list[str]) -> list[str]:
         if new_mp4s:
             # Use the most recently created MP4
             newest_file = max(new_mp4s, key=os.path.getctime)
-            video_files.append(newest_file)
-            print(f"Found new video file: {newest_file}")
+            # Copy to a consistently named file in the videos directory
+            scene_video = os.path.join(videos_dir, f"scene_{i}.mp4")
+            shutil.copy2(newest_file, scene_video)
+            video_files.append(scene_video)
+            print(f"Found new video file, copied to: {scene_video}")
         else:
             print(f"WARNING: No new video file detected for scene {i}")
         
     return video_files
 
-def create_timing_data(scenes: list[str], duration_minutes: int = 5) -> list[dict]:
+def create_timing_data(scenes: list[str], output_dirs: dict, duration_minutes: int = 5) -> list[dict]:
     """
     Create timing data for synchronizing scenes with audio.
     
     Args:
         scenes: List of scene descriptions
+        output_dirs: Dictionary with output directory paths
         duration_minutes: Total video duration in minutes
         
     Returns:
@@ -220,7 +299,8 @@ def create_timing_data(scenes: list[str], duration_minutes: int = 5) -> list[dic
         current_time += duration
     
     # Save timing data to file
-    with open("script_timing.json", "w") as f:
+    timing_file = os.path.join(output_dirs["data"], "script_timing.json")
+    with open(timing_file, "w") as f:
         json.dump(timing_data, f)
     
     # Print timing info for verification
@@ -231,15 +311,6 @@ def create_timing_data(scenes: list[str], duration_minutes: int = 5) -> list[dic
         print(f"Scene {i+1}: {start:.1f}s to {end:.1f}s (duration: {duration:.1f}s)")
         
     return timing_data
-
-def check_ffmpeg_installation():
-    """Check if FFmpeg is installed and available."""
-    try:
-        # Try to run FFmpeg with the -version flag
-        result = subprocess.run(["ffmpeg", "-version"], capture_output=True, text=True)
-        return result.returncode == 0
-    except Exception:
-        return False
 
 def extend_video_duration(video_path, target_duration, output_path):
     """
@@ -315,13 +386,14 @@ def extend_video_duration(video_path, target_duration, output_path):
         print(f"Error extending video: {e}")
         return None
 
-def merge_videos_with_audio(video_files, timing_data, audio_path="narration.mp3", duration_minutes=5):
+def merge_videos_with_audio(video_files, timing_data, output_dirs, audio_path=None, duration_minutes=5):
     """
     Merge scene videos and audio using FFmpeg.
     
     Args:
         video_files: List of video file paths
         timing_data: List of dictionaries with start and end times
+        output_dirs: Dictionary with output directory paths
         audio_path: Path to the narration audio file
         duration_minutes: Total desired duration of the video
         
@@ -334,80 +406,76 @@ def merge_videos_with_audio(video_files, timing_data, audio_path="narration.mp3"
         
     print(f"Merging {len(video_files)} video files using FFmpeg")
     
-    # Check if FFmpeg is installed
-    if not check_ffmpeg_installation():
-        print("FFmpeg is not installed or not working. Please install FFmpeg.")
-        return None
-    
     try:
-        # Create a temporary directory for our work
-        with tempfile.TemporaryDirectory() as temp_dir:
-            # Process each video - extend or trim as needed
-            processed_videos = []
+        # Use the temp directory for intermediate files
+        temp_dir = output_dirs["temp"]
+        
+        # Process each video - extend or trim as needed
+        processed_videos = []
+        
+        for i, (video_file, timing) in enumerate(zip(video_files, timing_data)):
+            # Calculate target duration for this scene
+            target_duration = timing["end_time"] - timing["start_time"]
+            print(f"Processing video {i+1}: {video_file} (target duration: {target_duration:.2f}s)")
             
-            for i, (video_file, timing) in enumerate(zip(video_files, timing_data)):
-                # Calculate target duration for this scene
-                target_duration = timing["end_time"] - timing["start_time"]
-                print(f"Processing video {i+1}: {video_file} (target duration: {target_duration:.2f}s)")
-                
-                # Output path for the processed video
-                processed_path = os.path.join(temp_dir, f"processed_{i}.mp4")
-                
-                # Extend or trim the video
-                extended_video = extend_video_duration(video_file, target_duration, processed_path)
-                if extended_video:
-                    processed_videos.append(extended_video)
-                else:
-                    print(f"Warning: Could not process video {i+1}. Using original.")
-                    processed_videos.append(video_file)
+            # Output path for the processed video
+            processed_path = os.path.join(temp_dir, f"processed_{i}.mp4")
             
-            # Create a file list for concatenation
-            concat_file_path = os.path.join(temp_dir, "concat.txt")
-            with open(concat_file_path, "w") as f:
-                for video in processed_videos:
-                    f.write(f"file '{os.path.abspath(video)}'\n")
-            
-            # Concatenate all videos
-            combined_video_path = os.path.join(temp_dir, "combined.mp4")
-            print("Concatenating videos...")
-            subprocess.run([
-                "ffmpeg", "-y", "-f", "concat", "-safe", "0",
-                "-i", concat_file_path, "-c", "copy", combined_video_path
-            ], check=True)
-            
-            # Check final video duration
-            result = subprocess.run(
-                ["ffprobe", "-v", "error", "-show_entries", "format=duration", 
-                "-of", "default=noprint_wrappers=1:nokey=1", combined_video_path],
-                capture_output=True, text=True
-            )
-            
-            if result.returncode == 0:
-                video_duration = float(result.stdout.strip())
-                print(f"Combined video duration: {video_duration:.2f}s")
-                expected_duration = duration_minutes * 60
-                if abs(video_duration - expected_duration) > 30:  # More than 30 seconds off
-                    print(f"WARNING: Video duration ({video_duration:.2f}s) differs significantly from expected ({expected_duration:.2f}s)")
-            
-            # Final output path
-            output_path = "final_math_lesson.mp4"
-            
-            # Add audio if it exists
-            if os.path.exists(audio_path):
-                print(f"Adding audio from {audio_path}")
-                # Add audio to the video
-                subprocess.run([
-                    "ffmpeg", "-y", "-i", combined_video_path, 
-                    "-i", audio_path, "-c:v", "copy", "-c:a", "aac",
-                    "-map", "0:v:0", "-map", "1:a:0", "-shortest",
-                    output_path
-                ], check=True)
+            # Extend or trim the video
+            extended_video = extend_video_duration(video_file, target_duration, processed_path)
+            if extended_video:
+                processed_videos.append(extended_video)
             else:
-                print("No audio file found. Creating video without audio.")
-                shutil.copy2(combined_video_path, output_path)
-            
-            print(f"Final video created successfully: {output_path}")
-            return output_path
+                print(f"Warning: Could not process video {i+1}. Using original.")
+                processed_videos.append(video_file)
+        
+        # Create a file list for concatenation
+        concat_file_path = os.path.join(temp_dir, "concat.txt")
+        with open(concat_file_path, "w") as f:
+            for video in processed_videos:
+                f.write(f"file '{os.path.abspath(video)}'\n")
+        
+        # Concatenate all videos
+        combined_video_path = os.path.join(temp_dir, "combined.mp4")
+        print("Concatenating videos...")
+        subprocess.run([
+            "ffmpeg", "-y", "-f", "concat", "-safe", "0",
+            "-i", concat_file_path, "-c", "copy", combined_video_path
+        ], check=True)
+        
+        # Check final video duration
+        result = subprocess.run(
+            ["ffprobe", "-v", "error", "-show_entries", "format=duration", 
+            "-of", "default=noprint_wrappers=1:nokey=1", combined_video_path],
+            capture_output=True, text=True
+        )
+        
+        if result.returncode == 0:
+            video_duration = float(result.stdout.strip())
+            print(f"Combined video duration: {video_duration:.2f}s")
+            expected_duration = duration_minutes * 60
+            if abs(video_duration - expected_duration) > 30:  # More than 30 seconds off
+                print(f"WARNING: Video duration ({video_duration:.2f}s) differs significantly from expected ({expected_duration:.2f}s)")
+        
+        # Final output path
+        output_path = os.path.join(output_dirs["project"], "final_math_lesson.mp4")
+        
+        # Add audio if it exists
+        if audio_path and os.path.exists(audio_path):
+            print(f"Adding audio from {audio_path}")
+            # Add audio to the video
+            subprocess.run([
+                "ffmpeg", "-y", "-i", combined_video_path, 
+                "-i", audio_path, "-c:v", "copy", "-c:a", "aac",
+                "-map", "0:v:0", "-map", "1:a:0", "-shortest",
+                output_path
+            ], check=True)
+        else:
+            print("No audio file found. Creating video without audio.")
+            shutil.copy2(combined_video_path, output_path)
+        
+        print(f"Final video created successfully: {output_path}")
+        return output_path
     except Exception as e:
         print(f"Error merging videos with FFmpeg: {e}")
         return None
@@ -426,27 +494,41 @@ def create_math_tutorial(topic, duration_minutes=5, sophistication_level=2):
     """
     print(f"Creating {duration_minutes}-minute math tutorial on: {topic} (Level {sophistication_level})")
     
+    # Setup directory structure
+    output_dirs = setup_directory_structure(f"{topic.replace(' ', '_')}")
+    
     # Step 1: Generate script with scene markers
     script = generate_script(topic, duration_minutes, sophistication_level)
+    
+    # Save the full script
+    script_path = os.path.join(output_dirs["data"], "full_script.txt")
+    with open(script_path, "w") as f:
+        f.write(script)
+    print(f"Full script saved to {script_path}")
     
     # Step 2: Extract scenes from script
     scenes = extract_scenes_from_script(script)
     print(f"Found {len(scenes)} scenes in script")
     
     # Step 3: Generate audio narration with controlled timing
-    audio_result = generate_audio_narration(script)
-    print(audio_result)
+    audio_path = generate_audio_narration(script, output_dirs["audio"])
     
     # Step 4: Create timing data for scene synchronization
-    timing_data = create_timing_data(scenes, duration_minutes)
+    timing_data = create_timing_data(scenes, output_dirs, duration_minutes)
     
     # Step 5: Render animations for each scene
-    video_files = render_manim_scenes(scenes)
+    video_files = render_manim_scenes(scenes, output_dirs)
     print(f"Generated {len(video_files)} scene videos")
     
     # Step 6: Merge everything into a final video
     if len(video_files) > 0:
-        final_video = merge_videos_with_audio(video_files, timing_data, "narration.mp3", duration_minutes)
+        final_video = merge_videos_with_audio(
+            video_files, 
+            timing_data, 
+            output_dirs,
+            audio_path, 
+            duration_minutes
+        )
         
         if final_video:
             print(f"Success! Final video saved to: {final_video}")
