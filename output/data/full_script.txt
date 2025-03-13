@@ -1,0 +1,31 @@
+[00:00] Welcome to our educational journey into the Pythagorean theorem, a fundamental principle in geometry that describes a special relationship between the sides of a right triangle.
+
+[SCENE]
+[00:05] Let’s start with a title screen displaying "Pythagorean theorem" in white serif font against a rich, royal-blue background. At 0:08, a subtitle appears: "The Geometry of Right Triangles." At 0:12, transition to a pristine white screen. At 0:14, a right triangle smoothly fades in, drawn with thick lines: the base in green, the height in red, and the hypotenuse in bright yellow. The triangle sits against a faint grid background for reference. At 0:20, label the sides a, b, and c respectively. At 0:22, illustrate the theorem with squares growing from each side, color-coordinated with the sides of the triangle. At 0:28, superimpose the Pythagorean equation "a squared plus b squared equals c squared" above the triangle. At 0:33, animate a flash of light for each term in the formula as it lights up in synchrony with its respective square. At 0:38, we show the calculation "a squared plus b squared equals c squared" transforming into "base squared plus height squared equals hypotenuse squared." At 0:43, fade in a small illustration of Pythagoras at the bottom corner, with the text "The theorem is named after the ancient Greek mathematician Pythagoras."
+[/SCENE]
+
+[00:50] The Pythagorean theorem is named after the ancient Greek mathematician Pythagoras, who is often credited with its discovery. This theorem states that in a right triangle, the square of the length of the hypotenuse equals the sum of the squares of the lengths of the other two sides.
+
+[SCENE]
+[01:00] Now, let's move to a practical example. Picture a baseball diamond. It's essentially a square, but if a player wants to run directly from first base to third base, he follows a diagonal. At 1:05, we overlay a right triangle on the diamond. The sides of the square serve as the base and height of the triangle, and the hypotenuse is the direct path from first to third base. At 1:10, we apply the Pythagorean theorem to find this distance. We label the sides of the square as 90 feet. At 1:15, the calculation unfolds: 90 squared plus 90 squared equals c squared. We solve for c, which equals about 127 feet. At 1:25, we demonstrate how the player saves distance by running the diagonal path instead of the perimeter.
+[/SCENE]
+
+[01:30] So in a practical sense, the Pythagorean theorem helps us determine the shortest distance between two points, not just in baseball, but in many real-world scenarios.
+
+[SCENE]
+[02:00] Let's look at another real-world example. Picture a construction site. At 2:05, we draw a ladder leaning against a wall, forming a right triangle with the ground. The wall is 15 feet high, the ladder is 20 feet long, and we need to find the distance from the wall to the base of the ladder. At 2:10, we overlay the Pythagorean theorem formula. We substitute the known values into the equation and solve for the unknown, which comes out to be approximately 13.4 feet. At 2:25, we display the solved distance on the screen, showing how the theorem can ensure safety on a construction site.
+[/SCENE]
+
+[02:30] The Pythagorean theorem is indispensable not only in construction but also in areas such as navigation, architecture, computer graphics, and even physics.
+
+[SCENE]
+[03:00] Now, let's visualize how the theorem works with different triangle sizes. At 3:05, we start with a small right triangle, and as we increase the size of the triangle, the squares on each side grow proportionally. At 3:15, we continue to validate the theorem for each size, showing that no matter how large or small the right triangle, the sum of the squares of the two smaller sides always equals the square of the largest side. At 3:25, we emphasize that this property only holds true for right triangles, not for any other type of triangle. At 3:35, we show a few non-right triangles, illustrating that the theorem doesn't hold for these cases.
+[/SCENE]
+
+[03:40] To summarize, the Pythagorean theorem is a fundamental principle in geometry that holds true for all right triangles, regardless of their size. It states that the square of the hypotenuse is equal to the sum of the squares of the other two sides.
+
+[04:00] The theorem is a powerful tool, used in a variety of fields, and helps us calculate distances, form accurate constructions, ensure safety, and even save time by determining the shortest routes.
+
+[04:20] Whether you're a student, a builder, a sportsman, or a scientist, understanding and applying the Pythagorean theorem can provide solutions to complex problems and reveal the hidden geometrical harmony in the world around us.
+
+[04:40] Thank you for joining us on this educational journey into the depths of the Pythagorean theorem. Keep exploring, and remember, mathematics is not just about numbers, it's also about understanding the relationships between them.

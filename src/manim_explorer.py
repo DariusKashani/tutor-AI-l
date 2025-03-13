@@ -236,10 +236,13 @@ def process_module(module_name, manim_info):
     
     manim_info['modules'][module_name] = module_info
 
-def explore_manim(output_file='manim_complete_reference.txt'):
+def explore_manim(output_file='stored_data/manim_complete_reference.txt'):
     """Explore Manim and save information to a file."""
     if not check_manim_installed():
         return None
+    
+    # Create directory if it doesn't exist
+    os.makedirs(os.path.dirname(output_file), exist_ok=True)
     
     # Create dictionary to store all information
     manim_info = {
@@ -462,8 +465,11 @@ def explore_key_classes():
     
     return manim_info
 
-def save_json(manim_info, output_file='manim_reference.json'):
+def save_json(manim_info, output_file='stored_data/manim_reference.json'):
     """Save the collected information as JSON for programmatic use."""
+    # Create directory if it doesn't exist
+    os.makedirs(os.path.dirname(output_file), exist_ok=True)
+    
     with open(output_file, 'w') as f:
         json.dump(manim_info, f, indent=2)
     print(f"JSON data saved to {output_file}")
@@ -472,10 +478,10 @@ if __name__ == "__main__":
     # Parse command line arguments
     import argparse
     parser = argparse.ArgumentParser(description="Extract and compile information about Manim.")
-    parser.add_argument('--output', '-o', default='manim_complete_reference.txt', 
-                        help='Output file for the text reference (default: manim_complete_reference.txt)')
-    parser.add_argument('--json', '-j', default='manim_reference.json', 
-                        help='Output file for the JSON data (default: manim_reference.json)')
+    parser.add_argument('--output', '-o', default='stored_data/manim_complete_reference.txt', 
+                        help='Output file for the text reference (default: stored_data/manim_complete_reference.txt)')
+    parser.add_argument('--json', '-j', default='stored_data/manim_reference.json', 
+                        help='Output file for the JSON data (default: stored_data/manim_reference.json)')
     parser.add_argument('--key-classes-only', '-k', action='store_true',
                         help='Only explore key classes (faster but less comprehensive)')
     args = parser.parse_args()

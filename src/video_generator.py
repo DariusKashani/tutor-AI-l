@@ -11,10 +11,23 @@ from pathlib import Path
 from openai import OpenAI
 
 # Import functions from script generator
-from src.script_generator import generate_script, extract_scenes_from_script, extract_timing_from_script, clean_script_for_narration
+from script_generator import generate_script, extract_scenes_from_script, extract_timing_from_script, clean_script_for_narration
 
 # Import functions from manim generator
-from src.manim_generator import generate_manim_code
+from manim_generator import generate_manim_code
+
+# Import centralized configuration
+from config import (
+    get_project_dirs, 
+    get_script_path, 
+    get_scene_path, 
+    get_narrator_script_path,
+    get_audio_path,
+    get_timing_data_path,
+    get_video_path,
+    get_processed_video_path,
+    get_final_video_path
+)
 
 # Load environment variables from the .env file
 load_dotenv()
@@ -22,50 +35,17 @@ load_dotenv()
 # Initialize OpenAI client
 openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# Directory structure setup
-def setup_directory_structure(project_name="math_tutorial"):
-    """
-    Create an organized directory structure for the project.
-    
-    Args:
-        project_name: Base name for the project folder
-        
-    Returns:
-        Dictionary with path information
-    """
-    # Create timestamped project folder
-    import time
-    timestamp = time.strftime("%Y%m%d_%H%M%S")
-    project_dir = f"{project_name}_{timestamp}"
-    
-    # Create main directory structure
-    paths = {
-        "project": project_dir,
-        "scenes": os.path.join(project_dir, "scenes"),
-        "videos": os.path.join(project_dir, "videos"),
-        "audio": os.path.join(project_dir, "audio"),
-        "data": os.path.join(project_dir, "data"),
-        "temp": os.path.join(project_dir, "temp")
-    }
-    
-    # Create directories
-    for dir_path in paths.values():
-        os.makedirs(dir_path, exist_ok=True)
-        
-    print(f"Created project directory structure in '{project_dir}'")
-    return paths
-
-def generate_audio_narration(script: str, output_dir: str, output_file="narration.mp3") -> str:
+def generate_audio_narration(script: str, output_dirs: dict, output_file="narration.mp3") -> str:
     """
     Generate audio narration from the script using ElevenLabs API.
     
     Args:
         script: The script text to convert to speech
-        output_dir: Directory to save outputs
+        output_dirs: Dictionary with output directory paths
         output_file: Filename to save the generated audio
         
     Returns:
-        A message indicating success or error
+        Path to the generated audio file
     """
     # Use the improved clean_script_for_narration function
     clean_text = clean_script_for_narration(script)
@@ -77,7 +57,7 @@ def generate_audio_narration(script: str, output_dir: str, output_file="narratio
     timing_info = extract_timing_from_script(script)
     
     # Save the cleaned text to a file for verification
-    narrator_script_path = os.path.join(output_dir, "narrator_script.txt")
+    narrator_script_path = get_narrator_script_path()
     with open(narrator_script_path, "w") as f:
         f.write(clean_text)
     print(f"Cleaned script saved to {narrator_script_path} for verification")
@@ -124,7 +104,7 @@ def generate_audio_narration(script: str, output_dir: str, output_file="narratio
         response = requests.post(url, json=data, headers=headers)
         
         if response.status_code == 200:
-            output_path = os.path.join(output_dir, output_file)
+            output_path = get_audio_path(output_file)
             with open(output_path, "wb") as f:
                 f.write(response.content)
             print(f"Audio saved successfully to {output_path}")
@@ -170,19 +150,18 @@ def render_manim_scenes(scenes: list[str], output_dirs: dict) -> list[str]:
         print(f"Scene description length: {len(scene)} characters")
         print(f"Scene preview: {scene[:100]}...")
         
-        # Generate the Manim code for this scene using the imported function
+        # Generate the Manim code for this scene
         scene_code = generate_manim_code(scene)
         
-        # Write the code to a scene file in the scenes directory
-        scene_file = os.path.join(scenes_dir, f"scene_{i}.py")
+        # Write the code to a scene file
+        scene_file = get_scene_path(i)
         with open(scene_file, "w") as f:
             f.write(scene_code)
             
-        # Render the scene using Manim with output to videos directory
+        # Render the scene using Manim
         print(f"Running Manim on {scene_file}...")
         
-        # Create a symbolic link to the videos directory for Manim output
-        # or use the -o flag to specify output directory
+        # Use the videos directory for output
         command = [
             "manim", 
             scene_file, 
@@ -238,7 +217,7 @@ def render_manim_scenes(scenes: list[str], output_dirs: dict) -> list[str]:
             # Use the most recently created MP4
             newest_file = max(new_mp4s, key=os.path.getctime)
             # Copy to a consistently named file in the videos directory
-            scene_video = os.path.join(videos_dir, f"scene_{i}.mp4")
+            scene_video = get_video_path(i)
             shutil.copy2(newest_file, scene_video)
             video_files.append(scene_video)
             print(f"Found new video file, copied to: {scene_video}")
@@ -299,7 +278,7 @@ def create_timing_data(scenes: list[str], output_dirs: dict, duration_minutes: i
         current_time += duration
     
     # Save timing data to file
-    timing_file = os.path.join(output_dirs["data"], "script_timing.json")
+    timing_file = get_timing_data_path()
     with open(timing_file, "w") as f:
         json.dump(timing_data, f)
     
@@ -407,9 +386,6 @@ def merge_videos_with_audio(video_files, timing_data, output_dirs, audio_path=No
     print(f"Merging {len(video_files)} video files using FFmpeg")
     
     try:
-        # Use the temp directory for intermediate files
-        temp_dir = output_dirs["temp"]
-        
         # Process each video - extend or trim as needed
         processed_videos = []
         
@@ -419,7 +395,7 @@ def merge_videos_with_audio(video_files, timing_data, output_dirs, audio_path=No
             print(f"Processing video {i+1}: {video_file} (target duration: {target_duration:.2f}s)")
             
             # Output path for the processed video
-            processed_path = os.path.join(temp_dir, f"processed_{i}.mp4")
+            processed_path = get_processed_video_path(i)
             
             # Extend or trim the video
             extended_video = extend_video_duration(video_file, target_duration, processed_path)
@@ -430,6 +406,7 @@ def merge_videos_with_audio(video_files, timing_data, output_dirs, audio_path=No
                 processed_videos.append(video_file)
         
         # Create a file list for concatenation
+        temp_dir = output_dirs["temp"]
         concat_file_path = os.path.join(temp_dir, "concat.txt")
         with open(concat_file_path, "w") as f:
             for video in processed_videos:
@@ -458,7 +435,7 @@ def merge_videos_with_audio(video_files, timing_data, output_dirs, audio_path=No
                 print(f"WARNING: Video duration ({video_duration:.2f}s) differs significantly from expected ({expected_duration:.2f}s)")
         
         # Final output path
-        output_path = os.path.join(output_dirs["project"], "final_math_lesson.mp4")
+        output_path = get_final_video_path()
         
         # Add audio if it exists
         if audio_path and os.path.exists(audio_path):
@@ -494,24 +471,18 @@ def create_math_tutorial(topic, duration_minutes=5, sophistication_level=2):
     """
     print(f"Creating {duration_minutes}-minute math tutorial on: {topic} (Level {sophistication_level})")
     
-    # Setup directory structure
-    output_dirs = setup_directory_structure(f"{topic.replace(' ', '_')}")
+    # Setup directory structure using the config
+    output_dirs = get_project_dirs()
     
     # Step 1: Generate script with scene markers
-    script = generate_script(topic, duration_minutes, sophistication_level)
-    
-    # Save the full script
-    script_path = os.path.join(output_dirs["data"], "full_script.txt")
-    with open(script_path, "w") as f:
-        f.write(script)
-    print(f"Full script saved to {script_path}")
+    script = generate_script(topic, duration_minutes, sophistication_level, output_dirs)
     
     # Step 2: Extract scenes from script
     scenes = extract_scenes_from_script(script)
     print(f"Found {len(scenes)} scenes in script")
     
     # Step 3: Generate audio narration with controlled timing
-    audio_path = generate_audio_narration(script, output_dirs["audio"])
+    audio_path = generate_audio_narration(script, output_dirs)
     
     # Step 4: Create timing data for scene synchronization
     timing_data = create_timing_data(scenes, output_dirs, duration_minutes)

@@ -8,16 +8,19 @@ import os
 import importlib.util
 from openai import OpenAI
 
+# Import centralized configuration
+from config import MANIM_KNOWLEDGE_PATH
+
 # Initialize OpenAI client
 openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Load Manim knowledge from the text file
 def load_manim_knowledge():
     try:
-        with open("manim_knowledge.txt", "r") as f:
+        with open(MANIM_KNOWLEDGE_PATH, "r") as f:
             return f.read()
     except FileNotFoundError:
-        print("Warning: manim_knowledge.txt not found. Using default knowledge base.")
+        print(f"Warning: Manim knowledge file not found at {MANIM_KNOWLEDGE_PATH}. Using default knowledge base.")
         return """
         Manim is a Python library for creating animations. 
         Key components: mobjects (Circle, Square, Text), scenes (Scene), and animations (Create, Transform).
@@ -349,14 +352,19 @@ def extract_scene_topic(scene_description):
 
 # For testing directly from this file
 if __name__ == "__main__":
+    from config import get_scene_path, output_dirs
+    
     test_description = """
     Let's start with a title screen that displays "Pythagorean Theorem" in large, blue text against a light background. At 0:03, animate the title moving to the top of the screen. At 0:05, draw a right-angled triangle in the center of the screen, with sides of lengths 3 and 4, and hypotenuse 5. Use bright colors: red for the vertical side (labeled 'a=3'), green for the horizontal side (labeled 'b=4'), and blue for the hypotenuse (labeled 'c=5'). At 0:10, highlight the right angle with a small square in the corner. At 0:15, draw three squares growing outward from each side of the triangle - a red square on side 'a', a green square on side 'b', and a blue square on side 'c'.
     """
     
     code = generate_manim_code(test_description)
     
-    # Save to a file for testing
-    with open("test_animation.py", "w") as f:
+    # Save to a file for testing using path from config
+    test_path = get_scene_path(0)
+    os.makedirs(os.path.dirname(test_path), exist_ok=True)
+    
+    with open(test_path, "w") as f:
         f.write(code)
     
-    print("Test animation code saved to test_animation.py")
+    print(f"Test animation code saved to {test_path}")

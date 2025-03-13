@@ -3,13 +3,16 @@ import os
 import re
 from openai import OpenAI
 
+# Import centralized configuration
+from config import get_script_path
+
 # Load environment variables from the .env file
 load_dotenv()
 
 # Initialize OpenAI client
 openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-def generate_script(topic: str, duration_minutes: int = 5, sophistication_level: int = 2, output_dir: str = None) -> str:
+def generate_script(topic: str, duration_minutes: int = 5, sophistication_level: int = 2, output_dirs: dict = None) -> str:
     """
     Generate an educational script with scene markers for a math topic.
     
@@ -17,7 +20,7 @@ def generate_script(topic: str, duration_minutes: int = 5, sophistication_level:
         topic: The mathematical topic to create a script for
         duration_minutes: The desired length of the video in minutes (default: 5)
         sophistication_level: The level of sophistication (1-3) (default: 2)
-        output_dir: Directory to save script and related files (default: None)
+        output_dirs: Dictionary with output directory paths (default: None)
         
     Returns:
         A formatted script with time codes and scene markers
@@ -145,12 +148,13 @@ You are an expert math professor capable of teaching any concept with clarity an
             result += warning
             print(warning)
     
-    # Save script to a text file for review if output_dir is provided
-    if output_dir:
-        script_path = os.path.join(output_dir, "math_script.txt")
+    # Save script to a text file for review if output_dirs is provided
+    if output_dirs:
+        script_path = get_script_path()
+        os.makedirs(os.path.dirname(script_path), exist_ok=True)
         with open(script_path, "w") as f:
             f.write(result)
-        print(f"Script saved to {script_path}")
+        print(f"Full script saved to {script_path}")
         
     return result
 
@@ -267,6 +271,9 @@ def clean_script_for_narration(script: str) -> str:
 
 # Test code (will only run if this script is executed directly)
 if __name__ == "__main__":
+    # Import the configuration here to avoid circular imports
+    from config import get_project_dirs
+    
     # Simple test of the script generator
     topic = input("Enter a math topic for testing: ")
     
@@ -292,26 +299,25 @@ if __name__ == "__main__":
         except ValueError:
             print("Please enter a valid number.")
     
-    # Create a simple output directory for testing
-    import tempfile
-    with tempfile.TemporaryDirectory() as temp_dir:
-        print(f"Using temporary directory: {temp_dir}")
-        
-        # Generate and test
-        script = generate_script(topic, duration_minutes, sophistication_level, temp_dir)
-        
-        # Extract and display scene count
-        scenes = extract_scenes_from_script(script)
-        print(f"Generated script with {len(scenes)} scenes")
-        
-        # Extract and display timing info
-        timing = extract_timing_from_script(script)
-        print(f"Script has {timing['total_words']} words with {timing['words_per_minute']:.1f} words per minute")
-        print(f"Script duration: {timing['total_duration'] // 60} minutes and {timing['total_duration'] % 60} seconds")
-        
-        # Test narrator script
-        clean_text = clean_script_for_narration(script)
-        cleaned_script_path = os.path.join(temp_dir, "test_narrator_script.txt")
-        with open(cleaned_script_path, "w") as f:
-            f.write(clean_text)
-        print(f"Test narration script saved to {cleaned_script_path}")
+    # Create output directories
+    output_dirs = get_project_dirs()
+    
+    # Generate and test
+    script = generate_script(topic, duration_minutes, sophistication_level, output_dirs)
+    
+    # Extract and display scene count
+    scenes = extract_scenes_from_script(script)
+    print(f"Generated script with {len(scenes)} scenes")
+    
+    # Extract and display timing info
+    timing = extract_timing_from_script(script)
+    print(f"Script has {timing['total_words']} words with {timing['words_per_minute']:.1f} words per minute")
+    print(f"Script duration: {timing['total_duration'] // 60} minutes and {timing['total_duration'] % 60} seconds")
+    
+    # Test narrator script
+    clean_text = clean_script_for_narration(script)
+    from config import get_narrator_script_path
+    cleaned_script_path = get_narrator_script_path()
+    with open(cleaned_script_path, "w") as f:
+        f.write(clean_text)
+    print(f"Test narration script saved to {cleaned_script_path}")
