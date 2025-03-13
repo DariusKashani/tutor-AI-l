@@ -12,6 +12,9 @@ from openai import OpenAI
 # Import functions from script generator
 from script_generator import generate_script, extract_scenes_from_script, extract_timing_from_script, clean_script_for_narration
 
+# Import functions from manim generator
+from manim_generator import generate_manim_code
+
 # Load environment variables from the .env file
 load_dotenv()
 
@@ -98,48 +101,6 @@ def generate_audio_narration(script: str, output_file="narration.mp3") -> str:
         print(f"Error generating audio: {str(e)}")
         return f"Error: {e}"
 
-def generate_manim_scene_code(scene_description: str) -> str:
-    """
-    Generate Manim animation code for a scene description.
-    
-    Args:
-        scene_description: Description of what to animate
-        
-    Returns:
-        Python code for a Manim animation
-    """
-    system_content = (
-        "You are an expert in Python and the Manim animation library. Your task is to generate a complete, self-contained Python code snippet that creates a Manim animation based on a user-provided description. The code MUST follow these strict requirements:\n\n"
-        "1. Import all necessary modules from Manim.\n"
-        "2. Define a scene class named \"UserAnimationScene\" inheriting from Scene.\n"
-        "3. Use ONLY built-in Manim objects and shapes (Circle, Square, Rectangle, Arrow, Line, etc.).\n"
-        "4. DO NOT use SVGMobject, ImageMobject, or try to load any external files.\n"
-        "5. For text, use ONLY Text() objects, NOT Tex() or MathTex().\n"
-        "6. Use Manim's built-in methods (like Create, Transform, FadeOut, etc.) to animate the objects.\n"
-        "7. Follow all timing instructions (At 0:05, At 0:10, etc.) accurately with appropriate self.wait() calls.\n"
-        "8. Pay close attention to colors, positions, and animation details in the description.\n"
-        "9. Make the animation visually clear and educational.\n\n"
-        "Please provide only Python code without any additional explanation."
-    )
-
-    response = openai_client.chat.completions.create(
-        model="gpt-4",
-        messages=[
-            {"role": "system", "content": system_content},
-            {"role": "user", "content": scene_description}
-        ],
-        max_tokens=2000,
-        temperature=0
-    )
-
-    response_text = response.choices[0].message.content
-    
-    # Clean up the code - extract from code blocks if present
-    match = re.search(r'```python\n(.*?)\n```', response_text, re.DOTALL)
-    if match:
-        return match.group(1)  # Return only the code inside the block
-    return response_text  # Fallback to full response if no code block is found
-
 def render_manim_scenes(scenes: list[str]) -> list[str]:
     """
     Render a list of scenes into multiple video files.
@@ -168,8 +129,8 @@ def render_manim_scenes(scenes: list[str]) -> list[str]:
         print(f"Scene description length: {len(scene)} characters")
         print(f"Scene preview: {scene[:100]}...")
         
-        # Generate the Manim code for this scene
-        scene_code = generate_manim_scene_code(scene)
+        # Generate the Manim code for this scene using the imported function
+        scene_code = generate_manim_code(scene)
         
         # Write the code to a temporary file
         scene_file = f"scene_{i}.py"

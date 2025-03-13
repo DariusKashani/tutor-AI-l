@@ -1,0 +1,49 @@
+# Manim Complete Reference
+
+This document contains a complete reference of the Manim library, extracted programmatically.
+
+## Modules
+
+## Common Patterns
+
+### Creating a basic scene
+
+Every Manim animation is a Scene subclass with a construct method.
+
+```python
+
+class MyScene(Scene):
+    def construct(self):
+        # Create objects
+        circle = Circle()
+        # Add objects to the scene
+        self.add(circle)
+        # Animate objects
+        self.play(Create(circle))
+```
+
+### Animating objects
+
+Animations are played using the self.play method.
+
+```python
+
+# Animation basics
+self.play(Create(circle))  # Create animation
+self.play(FadeOut(circle))  # Fade out animation
+self.play(Transform(object1, object2))  # Transform one object into another
+```
+
+### Positioning objects
+
+Objects can be positioned absolutely or relative to other objects.
+
+```python
+
+# Absolute positioning
+circle.move_to([1, 2, 0])  # Move to coordinates
+# Relative positioning
+square.next_to(circle, RIGHT)  # Position relative to another object
+triangle.align_to(square, UP)  # Align with another object
+```
+
