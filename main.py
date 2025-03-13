@@ -1,13 +1,16 @@
 from dotenv import load_dotenv
 import os
-import re
 import json
 import subprocess
-import glob
 import requests
 import shutil
 import tempfile
+import sys
+import re
 from openai import OpenAI
+
+# Import functions from script generator
+from script_generator import generate_script, extract_scenes_from_script, extract_timing_from_script, clean_script_for_narration
 
 # Load environment variables from the .env file
 load_dotenv()
@@ -15,279 +18,45 @@ load_dotenv()
 # Initialize OpenAI client
 openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-def gpt_generates_script(user_description: str) -> str:
-    """
-    Generate an educational script with scene markers for a math topic.
-    Improved to create fewer, more meaningful scenes.
-    
-    Args:
-        user_description: The mathematical topic to create a script for
-        
-    Returns:
-        A formatted script with time codes and scene markers
-    """
-    system_content = (
-        """
-You are an expert math professor capable of teaching any concept with clarity and precision. Your task is to generate a highly structured, 5-minute educational script on a given mathematical topic. 
-
-### **Formatting and Structure Rules:**
-1. **Time Codes:**  
-   - Every single sentence must be preceded by a time code in the format `[mm:ss] {sentence}`.  
-   - The time code must reflect a speaking pace of **exactly 100 words per minute (WPM)**.  
-   - Time must increment appropriately so that the total script length is **5 minutes (300 seconds, ~500 words).**  
-
-2. **Mathematical Notation:**  
-   - **Mathematical expressions must be written out in words, not symbols.**  
-   - **Do not use** `x^2`, `f'(x)`, `sin(x)`, etc.  
-   - **Instead, write:** `"x squared"`, `"the derivative of f of x"`, `"sine of x"`, etc.  
-
-3. **Lesson Structure:**  
-   - **Do not include section headers** in the final script.  
-   - The script must follow this structure but flow naturally as if spoken by a professor:  
-     - **Hook (First 30 seconds):** Start with an engaging analogy, puzzle, or real-world connection.  
-     - **Introduction (Next 30 seconds):** Recall prior knowledge, introduce key terms, and state the lesson objective.  
-     - **Main Explanation (3 minutes):** Provide step-by-step explanations, examples, and intuitive insights.  
-     - **Practice Problem (30 seconds):** Present a problem, prompt the audience to think, then reveal the answer.  
-     - **Conclusion (Final 30 seconds):** Summarize key takeaways and encourage further exploration.  
-
-4. **Scene Management:**
-    - Include exactly 5 meaningful scenes in your script, each corresponding to the 5 sections above.
-    - Each scene MUST start with "[SCENE]" and end with "[/SCENE]".
-    - Between these tags, provide a clear, detailed description of what to animate that directly supports the content.
-    - Format example:
-      [SCENE]
-      Show a right triangle being drawn with sides labeled a, b, and c, where c is the hypotenuse. Highlight how the sides relate to the theorem.
-      [/SCENE]
-    - Place scene markers at logical transitions in your script, not randomly or too frequently.
-    - Make each scene description specific and purposeful - it should directly illustrate the concepts being discussed.
-
-5. **Common Mistakes:**  
-   - **Only include common mistakes if they are critical to understanding the concept.**  
-
-### **Final Instructions:**  
-- **Ensure every sentence follows the exact `[mm:ss] {sentence}` format.**  
-- **Ensure all time codes increase precisely according to 100 WPM pacing.**  
-- **Ensure all math notation is fully written out in words.**  
-- **Ensure the script feels natural and engaging, as if a professor is speaking.**  
-- **Include EXACTLY 5 [SCENE][/SCENE] TAGS with purposeful animation descriptions that align with the 5 script sections.**
-- **Generate a 5-minute script on topic the user gives you.**
-"""
-    )
-
-    response = openai_client.chat.completions.create(
-        model="gpt-4",
-        messages=[
-            {"role": "system", "content": system_content},
-            {"role": "user", "content": f"Create a detailed educational script about {user_description}. Include exactly 5 scene markers with specific, purposeful animation instructions that align with each section of the script."}
-        ],
-        max_tokens=2000,
-        temperature=0.7
-    )
-
-    result = response.choices[0].message.content
-    
-    # Debug the script to see if it contains scene markers
-    print("\n--- Script Preview (first 300 chars) ---")
-    print(result[:300] + "...")
-    if "[SCENE]" in result:
-        print(f"Found [SCENE] tags in script")
-        # Count how many scenes
-        scene_count = result.count("[SCENE]")
-        print(f"Detected {scene_count} scenes in the script")
-    else:
-        print("WARNING: No [SCENE] tags found! Adding default scenes...")
-        # Add default scenes - one for each section
-        result = add_default_scenes(result, user_description)
-        
-    return result
-
-def add_default_scenes(script, topic):
-    """
-    Add default scene markers if none were generated by the AI.
-    Improved to create exactly 5 meaningful scenes aligned with script sections.
-    
-    Args:
-        script: The original script without scene markers
-        topic: The mathematical topic to create default scenes for
-    
-    Returns:
-        Updated script with default scene markers added
-    """
-    # Create scene prompts for each section of the script
-    scene_prompts = [
-        f"Create a hook/introduction scene for {topic} that captures attention",
-        f"Create a scene showing key terms and concepts for {topic}",
-        f"Create a main explanation scene for {topic} showing step-by-step visualization",
-        f"Create a practice problem scene for {topic} showing a specific example",
-        f"Create a conclusion scene for {topic} summarizing key points"
-    ]
-    
-    # Find approximate sections based on timing
-    timing_pattern = r'\[(\d+):(\d+)\]'
-    times = [(int(m.group(1))*60 + int(m.group(2))) for m in re.finditer(timing_pattern, script)]
-    
-    if len(times) < 10:  # Not enough timestamps to segment
-        # Simplified approach - split evenly
-        section_points = [0, 60, 120, 240, 270, 300]
-    else:
-        # More intelligent sectioning based on timing
-        section_points = [0, 30, 60, 240, 270, 300]
-    
-    # Generate scene descriptions
-    updated_script = script
-    scene_sections = []
-    
-    for i in range(5):
-        # Find closest time code to the section start
-        section_start = section_points[i]
-        section_end = section_points[i+1]
-        
-        # Generate scene description
-        scene_response = openai_client.chat.completions.create(
-            model="gpt-4",
-            messages=[
-                {
-                    "role": "system", 
-                    "content": "You are an animation director for educational math videos. Create a detailed, purposeful scene description that visually illustrates the mathematical concept at this point in the script."
-                },
-                {
-                    "role": "user", 
-                    "content": scene_prompts[i]
-                }
-            ],
-            max_tokens=200,
-            temperature=0.7
-        )
-        
-        scene_desc = scene_response.choices[0].message.content.strip()
-        # Clean up the scene description (remove any "Scene X:" prefix)
-        if scene_desc.lower().startswith("scene"):
-            scene_desc = re.sub(r'^scene\s*\d*\s*:*\s*', '', scene_desc, flags=re.IGNORECASE).strip()
-            
-        scene_sections.append((section_start, scene_desc))
-    
-    # Now insert scenes at appropriate points in the script
-    for section_time, scene_desc in reversed(scene_sections):
-        # Find the nearest timestamp
-        time_matches = list(re.finditer(timing_pattern, script))
-        nearest_idx = 0
-        nearest_diff = 300  # Initialize with maximum possible difference
-        
-        for idx, match in enumerate(time_matches):
-            minutes = int(match.group(1))
-            seconds = int(match.group(2))
-            timestamp = minutes * 60 + seconds
-            diff = abs(timestamp - section_time)
-            
-            if diff < nearest_diff:
-                nearest_diff = diff
-                nearest_idx = idx
-        
-        if len(time_matches) > nearest_idx:
-            # Insert before this timestamp
-            match = time_matches[nearest_idx]
-            script_prefix = script[:match.start()]
-            script_suffix = script[match.start():]
-            
-            # Add the scene marker
-            updated_script = f"{script_prefix}\n\n[SCENE]\n{scene_desc}\n[/SCENE]\n\n{script_suffix}"
-    
-    return updated_script
-
-def gpt_splits_script_into_scenes(script: str) -> list[str]:
-    """
-    Split a script into scenes based on [SCENE] markers.
-    
-    Args:
-        script: The complete script with scene markers
-        
-    Returns:
-        A list of scene descriptions
-    """
-    scenes = []
-    scene_pattern = r'\[SCENE\](.*?)\[/SCENE\]'
-    matches = re.finditer(scene_pattern, script, re.DOTALL)
-    
-    for match in matches:
-        scene_desc = match.group(1).strip()
-        scenes.append(scene_desc)
-        
-    return scenes
-
-def extract_timing_from_script(script: str) -> dict:
-    """
-    Extract timing information from the script to help control speech pace.
-    
-    Args:
-        script: The complete script with time codes
-        
-    Returns:
-        Dictionary with extracted timing information
-    """
-    # Extract time codes and text
-    pattern = r'\[(\d+):(\d+)\]\s*\{([^}]+)\}'
-    matches = re.findall(pattern, script)
-    
-    timing_data = []
-    total_words = 0
-    
-    for minutes, seconds, text in matches:
-        time_seconds = int(minutes) * 60 + int(seconds)
-        word_count = len(text.split())
-        total_words += word_count
-        
-        timing_data.append({
-            "time": time_seconds,
-            "text": text.strip(),
-            "word_count": word_count
-        })
-    
-    # Calculate the total script duration and words per minute
-    if timing_data:
-        total_duration = timing_data[-1]["time"]
-        words_per_minute = (total_words / total_duration) * 60 if total_duration > 0 else 100
-    else:
-        total_duration = 300  # Default 5 minutes
-        words_per_minute = 100  # Default WPM
-    
-    return {
-        "timing_data": timing_data,
-        "total_words": total_words,
-        "total_duration": total_duration,
-        "words_per_minute": words_per_minute
-    }
-
-def elevenlabs_generates_audio(text, output_file="narration.mp3"):
+def generate_audio_narration(script: str, output_file="narration.mp3") -> str:
     """
     Generate audio narration from the script using ElevenLabs API.
-    Improved to control speech pace and timing.
     
     Args:
-        text: The script text to convert to speech
+        script: The script text to convert to speech
         output_file: Filename to save the generated audio
         
     Returns:
         A message indicating success or error
     """
-    # Extract just the script content without scene markers for audio generation
-    clean_text = re.sub(r'\[SCENE\].*?\[/SCENE\]', '', text, flags=re.DOTALL)
+    # Use the improved clean_script_for_narration function
+    clean_text = clean_script_for_narration(script)
     
-    # Also remove the time codes while keeping the sentences
-    clean_text = re.sub(r'\[\d+:\d+\]\s*\{', '', clean_text)
-    clean_text = clean_text.replace('}', '')
+    # Double-check for any remaining formatting characters
+    clean_text = re.sub(r'[\[\]\{\}]', '', clean_text)  # Remove any remaining brackets or braces
     
     # Extract timing information to adjust speech pace
-    timing_info = extract_timing_from_script(text)
+    timing_info = extract_timing_from_script(script)
+    
+    # Save the cleaned text to a file for verification
+    with open("narrator_script.txt", "w") as f:
+        f.write(clean_text)
+    print("Cleaned script saved to narrator_script.txt for verification")
+    
+    # Verify the script is clean by checking for bracket-like characters
+    bracket_check = re.findall(r'[\[\]\{\}]', clean_text)
+    if bracket_check:
+        print(f"WARNING: Narrator script still contains {len(bracket_check)} brackets or braces")
+        print(f"Examples: {bracket_check[:5]}")
     
     try:
-        print("Using ElevenLabs REST API to generate audio with controlled timing...")
+        print("Using ElevenLabs API to generate audio with controlled timing...")
         print(f"Script has {timing_info['total_words']} words with target pace of {timing_info['words_per_minute']:.1f} WPM")
         
         # Calculate ideal stability and speaking rate based on script analysis
         target_wpm = timing_info['words_per_minute']
         
         # Normalize speaking rate (1.0 is roughly 150 WPM for ElevenLabs)
-        # So if our target is 100 WPM, we'd use 100/150 = 0.67
         speaking_rate = target_wpm / 150  
         
         # Use the REST API directly
@@ -312,12 +81,10 @@ def elevenlabs_generates_audio(text, output_file="narration.mp3"):
         }
         
         print(f"Speech settings: stability=0.4, similarity_boost=0.75, speaking_rate={speaking_rate:.2f}")
-        print("Sending request to ElevenLabs API...")
         
         response = requests.post(url, json=data, headers=headers)
         
         if response.status_code == 200:
-            print(f"API request successful, saving audio...")
             with open(output_file, "wb") as f:
                 f.write(response.content)
             print(f"Audio saved successfully to {output_file}")
@@ -331,12 +98,12 @@ def elevenlabs_generates_audio(text, output_file="narration.mp3"):
         print(f"Error generating audio: {str(e)}")
         return f"Error: {e}"
 
-def gpt_codes_single_scene(user_description: str) -> str:
+def generate_manim_scene_code(scene_description: str) -> str:
     """
     Generate Manim animation code for a scene description.
     
     Args:
-        user_description: Description of what to animate
+        scene_description: Description of what to animate
         
     Returns:
         Python code for a Manim animation
@@ -349,7 +116,9 @@ def gpt_codes_single_scene(user_description: str) -> str:
         "4. DO NOT use SVGMobject, ImageMobject, or try to load any external files.\n"
         "5. For text, use ONLY Text() objects, NOT Tex() or MathTex().\n"
         "6. Use Manim's built-in methods (like Create, Transform, FadeOut, etc.) to animate the objects.\n"
-        "7. Keep the code simple, focused, and error-free.\n\n"
+        "7. Follow all timing instructions (At 0:05, At 0:10, etc.) accurately with appropriate self.wait() calls.\n"
+        "8. Pay close attention to colors, positions, and animation details in the description.\n"
+        "9. Make the animation visually clear and educational.\n\n"
         "Please provide only Python code without any additional explanation."
     )
 
@@ -357,9 +126,9 @@ def gpt_codes_single_scene(user_description: str) -> str:
         model="gpt-4",
         messages=[
             {"role": "system", "content": system_content},
-            {"role": "user", "content": user_description}
+            {"role": "user", "content": scene_description}
         ],
-        max_tokens=1000,
+        max_tokens=2000,
         temperature=0
     )
 
@@ -371,9 +140,9 @@ def gpt_codes_single_scene(user_description: str) -> str:
         return match.group(1)  # Return only the code inside the block
     return response_text  # Fallback to full response if no code block is found
 
-def gpt_renders_multiple_scenes(scenes: list[str]) -> list[str]:
+def render_manim_scenes(scenes: list[str]) -> list[str]:
     """
-    Render a list of scenes into multiple video files with improved file detection.
+    Render a list of scenes into multiple video files.
     
     Args:
         scenes: List of scene descriptions
@@ -396,10 +165,11 @@ def gpt_renders_multiple_scenes(scenes: list[str]) -> list[str]:
     
     for i, scene in enumerate(scenes):
         print(f"\nRendering scene {i+1}/{len(scenes)}...")
-        print(f"Scene description: {scene[:100]}...")
+        print(f"Scene description length: {len(scene)} characters")
+        print(f"Scene preview: {scene[:100]}...")
         
         # Generate the Manim code for this scene
-        scene_code = gpt_codes_single_scene(scene)
+        scene_code = generate_manim_scene_code(scene)
         
         # Write the code to a temporary file
         scene_file = f"scene_{i}.py"
@@ -436,61 +206,68 @@ def gpt_renders_multiple_scenes(scenes: list[str]) -> list[str]:
         else:
             print(f"WARNING: No new video file detected for scene {i}")
         
-        print(f"Scene {i+1} rendering complete")
-        
     return video_files
 
-def create_timing_data(scenes: list[str], duration: int = 300) -> list[dict]:
+def create_timing_data(scenes: list[str], duration_minutes: int = 5) -> list[dict]:
     """
     Create timing data for synchronizing scenes with audio.
-    Distributes time more intelligently based on script structure.
     
     Args:
         scenes: List of scene descriptions
-        duration: Total video duration in seconds (default: 5 minutes)
+        duration_minutes: Total video duration in minutes
         
     Returns:
         List of timing data dictionaries
     """
+    # Convert minutes to seconds
+    duration = duration_minutes * 60
+    
     scene_count = len(scenes)
     if scene_count == 0:
         return []
-        
-    # Distribute time based on script structure (based on 5-minute standard format)
-    # Hook - 30s, Intro - 30s, Main - 180s, Practice - 30s, Conclusion - 30s
-    section_durations = [30, 30, 180, 30, 30]
     
-    # Adjust if we have fewer than 5 scenes
-    if scene_count < 5:
-        # Distribute remaining time proportionately
-        total_allocated = sum(section_durations[:scene_count])
-        remaining = duration - total_allocated
-        
-        # Distribute remaining time proportionally
-        for i in range(scene_count):
-            section_durations[i] += (section_durations[i] / total_allocated) * remaining
-    
-    # If we have more than 5 scenes, distribute time evenly
-    if scene_count > 5:
+    # Calculate section durations based on script structure
+    # Allocate more time to middle scenes, less to intro/conclusion
+    if scene_count <= 3:
+        # For 3 or fewer scenes, simple even distribution
         section_durations = [duration / scene_count] * scene_count
+    else:
+        # For more scenes, weight middle sections slightly heavier
+        # First scene: 15% of total time
+        # Last scene: 15% of total time
+        # Middle scenes: remainder distributed evenly
+        first_section = duration * 0.15
+        last_section = duration * 0.15
+        middle_total = duration - first_section - last_section
+        middle_section = middle_total / (scene_count - 2)
+        
+        section_durations = [first_section]
+        for _ in range(scene_count - 2):
+            section_durations.append(middle_section)
+        section_durations.append(last_section)
     
     # Create timing data
     timing_data = []
     current_time = 0
     
-    for i in range(scene_count):
-        scene_duration = section_durations[i] if i < len(section_durations) else duration / scene_count
-        
+    for i, duration in enumerate(section_durations):
         timing_data.append({
             "start_time": current_time,
-            "end_time": current_time + scene_duration
+            "end_time": current_time + duration
         })
         
-        current_time += scene_duration
+        current_time += duration
     
     # Save timing data to file
     with open("script_timing.json", "w") as f:
         json.dump(timing_data, f)
+    
+    # Print timing info for verification
+    for i, timing in enumerate(timing_data):
+        start = timing["start_time"]
+        end = timing["end_time"]
+        duration = end - start
+        print(f"Scene {i+1}: {start:.1f}s to {end:.1f}s (duration: {duration:.1f}s)")
         
     return timing_data
 
@@ -499,20 +276,13 @@ def check_ffmpeg_installation():
     try:
         # Try to run FFmpeg with the -version flag
         result = subprocess.run(["ffmpeg", "-version"], capture_output=True, text=True)
-        if result.returncode == 0:
-            print("FFmpeg is installed and working.")
-            return True
-        else:
-            print("FFmpeg command returned an error code.")
-            return False
-    except Exception as e:
-        print(f"Error checking FFmpeg: {e}")
+        return result.returncode == 0
+    except Exception:
         return False
 
-def extend_video_with_ffmpeg(video_path, target_duration, output_path):
+def extend_video_duration(video_path, target_duration, output_path):
     """
     Extend a video to the target duration by freezing the last frame.
-    Uses FFmpeg directly for reliable processing.
     
     Args:
         video_path: Path to the input video
@@ -584,15 +354,15 @@ def extend_video_with_ffmpeg(video_path, target_duration, output_path):
         print(f"Error extending video: {e}")
         return None
 
-def merge_scenes_with_ffmpeg(video_files, scenes, audio_path="narration.mp3"):
+def merge_videos_with_audio(video_files, timing_data, audio_path="narration.mp3", duration_minutes=5):
     """
-    Merge scene videos and audio using FFmpeg directly.
-    This avoids the problems with MoviePy.
+    Merge scene videos and audio using FFmpeg.
     
     Args:
         video_files: List of video file paths
-        scenes: List of scene descriptions
+        timing_data: List of dictionaries with start and end times
         audio_path: Path to the narration audio file
+        duration_minutes: Total desired duration of the video
         
     Returns:
         Path to the final video file
@@ -601,34 +371,12 @@ def merge_scenes_with_ffmpeg(video_files, scenes, audio_path="narration.mp3"):
         print("No video files to merge")
         return None
         
-    print(f"Merging {len(video_files)} video files using FFmpeg:")
-    for i, vf in enumerate(video_files):
-        print(f"  {i+1}. {vf}")
+    print(f"Merging {len(video_files)} video files using FFmpeg")
     
     # Check if FFmpeg is installed
     if not check_ffmpeg_installation():
         print("FFmpeg is not installed or not working. Please install FFmpeg.")
         return None
-    
-    # Create timing data if it doesn't exist
-    timing_data_path = "script_timing.json"
-    if not os.path.exists(timing_data_path):
-        timing_data = create_timing_data(scenes)
-    else:
-        with open(timing_data_path, "r") as f:
-            timing_data = json.load(f)
-    
-    # Make sure we have timing data for all videos
-    if len(timing_data) < len(video_files):
-        print("Warning: Not enough timing data. Adjusting...")
-        scene_duration = 300 / len(video_files)  # 5 minutes divided evenly
-        for i in range(len(timing_data), len(video_files)):
-            timing_data.append({
-                "start_time": i * scene_duration,
-                "end_time": (i + 1) * scene_duration
-            })
-        with open(timing_data_path, "w") as f:
-            json.dump(timing_data, f)
     
     try:
         # Create a temporary directory for our work
@@ -645,7 +393,7 @@ def merge_scenes_with_ffmpeg(video_files, scenes, audio_path="narration.mp3"):
                 processed_path = os.path.join(temp_dir, f"processed_{i}.mp4")
                 
                 # Extend or trim the video
-                extended_video = extend_video_with_ffmpeg(video_file, target_duration, processed_path)
+                extended_video = extend_video_duration(video_file, target_duration, processed_path)
                 if extended_video:
                     processed_videos.append(extended_video)
                 else:
@@ -665,6 +413,20 @@ def merge_scenes_with_ffmpeg(video_files, scenes, audio_path="narration.mp3"):
                 "ffmpeg", "-y", "-f", "concat", "-safe", "0",
                 "-i", concat_file_path, "-c", "copy", combined_video_path
             ], check=True)
+            
+            # Check final video duration
+            result = subprocess.run(
+                ["ffprobe", "-v", "error", "-show_entries", "format=duration", 
+                "-of", "default=noprint_wrappers=1:nokey=1", combined_video_path],
+                capture_output=True, text=True
+            )
+            
+            if result.returncode == 0:
+                video_duration = float(result.stdout.strip())
+                print(f"Combined video duration: {video_duration:.2f}s")
+                expected_duration = duration_minutes * 60
+                if abs(video_duration - expected_duration) > 30:  # More than 30 seconds off
+                    print(f"WARNING: Video duration ({video_duration:.2f}s) differs significantly from expected ({expected_duration:.2f}s)")
             
             # Final output path
             output_path = "final_math_lesson.mp4"
@@ -687,74 +449,81 @@ def merge_scenes_with_ffmpeg(video_files, scenes, audio_path="narration.mp3"):
             return output_path
     except Exception as e:
         print(f"Error merging videos with FFmpeg: {e}")
-        
-        # Simple fallback - just use the first video if available
-        try:
-            if video_files:
-                print("Falling back to using just the first video...")
-                output_path = "simple_math_lesson.mp4"
-                
-                # If we have audio, try to add it
-                if os.path.exists(audio_path):
-                    subprocess.run([
-                        "ffmpeg", "-y", "-i", video_files[0], 
-                        "-i", audio_path, "-c:v", "copy", "-c:a", "aac",
-                        "-map", "0:v:0", "-map", "1:a:0", "-shortest",
-                        output_path
-                    ], check=True)
-                else:
-                    shutil.copy2(video_files[0], output_path)
-                    
-                print(f"Created simple video from first scene: {output_path}")
-                return output_path
-        except Exception as simple_e:
-            print(f"Simple fallback also failed: {simple_e}")
-            
         return None
 
-def main(topic):
+def create_math_tutorial(topic, duration_minutes=5, sophistication_level=2):
     """
-    Main function to create a complete math tutorial video.
+    Create a complete math tutorial video.
     
     Args:
         topic: Mathematical topic to create a video about
+        duration_minutes: The desired length of the video in minutes
+        sophistication_level: The level of sophistication (1-3)
         
     Returns:
         Path to the final video
     """
-    print(f"Creating math tutorial on: {topic}")
+    print(f"Creating {duration_minutes}-minute math tutorial on: {topic} (Level {sophistication_level})")
     
-    # Step 1: Generate script with scene markers - aim for 5 meaningful scenes
-    script = gpt_generates_script(topic)
+    # Step 1: Generate script with scene markers
+    script = generate_script(topic, duration_minutes, sophistication_level)
     
     # Step 2: Extract scenes from script
-    scenes = gpt_splits_script_into_scenes(script)
+    scenes = extract_scenes_from_script(script)
     print(f"Found {len(scenes)} scenes in script")
     
     # Step 3: Generate audio narration with controlled timing
-    audio_result = elevenlabs_generates_audio(script)
+    audio_result = generate_audio_narration(script)
     print(audio_result)
     
-    # Step 4: Render animations for each scene
-    video_files = gpt_renders_multiple_scenes(scenes)
+    # Step 4: Create timing data for scene synchronization
+    timing_data = create_timing_data(scenes, duration_minutes)
+    
+    # Step 5: Render animations for each scene
+    video_files = render_manim_scenes(scenes)
     print(f"Generated {len(video_files)} scene videos")
     
-    # Step 5: Merge everything into a final video using FFmpeg
-    final_video = merge_scenes_with_ffmpeg(video_files, scenes)
-    
-    if final_video:
-        print(f"Success! Final video saved to: {final_video}")
-        return final_video
+    # Step 6: Merge everything into a final video
+    if len(video_files) > 0:
+        final_video = merge_videos_with_audio(video_files, timing_data, "narration.mp3", duration_minutes)
+        
+        if final_video:
+            print(f"Success! Final video saved to: {final_video}")
+            return final_video
+        else:
+            print("Failed to create final video")
+            return None
     else:
-        print("Failed to create final video")
+        print("No video files were generated")
         return None
 
-if __name__ == "__main__":
-    import sys
-    
+if __name__ == "__main__":    
+    # Get the topic from command line or prompt
     if len(sys.argv) > 1:
         topic = sys.argv[1]
     else:
         topic = input("Enter a mathematical topic: ")
     
-    main(topic)
+    # Ask for video length preference
+    while True:
+        try:
+            duration_minutes = int(input("Enter desired video length in minutes (2-10): "))
+            if 2 <= duration_minutes <= 10:
+                break
+            else:
+                print("Please enter a number between 2 and 10.")
+        except ValueError:
+            print("Please enter a valid number.")
+    
+    # Ask for sophistication level
+    while True:
+        try:
+            sophistication_level = int(input("Enter sophistication level (1=Beginner, 2=Intermediate, 3=Advanced): "))
+            if 1 <= sophistication_level <= 3:
+                break
+            else:
+                print("Please enter a number between 1 and 3.")
+        except ValueError:
+            print("Please enter a valid number.")
+    
+    create_math_tutorial(topic, duration_minutes, sophistication_level)
