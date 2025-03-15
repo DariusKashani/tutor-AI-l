@@ -376,3 +376,107 @@
 2025-03-14 18:04:58,280 - src.backend.manim_generator - INFO - Scene file cleaned successfully: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
 2025-03-14 18:04:59,176 - src.backend.manim_generator - INFO - Cleaning scene file: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
 2025-03-14 18:04:59,176 - src.backend.manim_generator - INFO - Scene file cleaned successfully: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 22:04:45,017 - src.backend.manim_generator - INFO - Loading Manim knowledge from: /Users/dariuskashani/CodeProjects/ai_tutor/stored_data/manim_knowledge.txt
+2025-03-14 22:04:45,017 - src.backend.manim_generator - INFO - Loaded 728 bytes of knowledge
+2025-03-14 22:11:53,565 - src.backend.manim_generator - INFO - Loading Manim knowledge from: /Users/dariuskashani/CodeProjects/ai_tutor/stored_data/manim_knowledge.txt
+2025-03-14 22:11:53,565 - src.backend.manim_generator - INFO - Loaded 728 bytes of knowledge
+2025-03-14 22:12:38,732 - src.backend.manim_generator - INFO - Loading Manim knowledge from: /Users/dariuskashani/CodeProjects/ai_tutor/stored_data/manim_knowledge.txt
+2025-03-14 22:12:38,732 - src.backend.manim_generator - INFO - Loaded 728 bytes of knowledge
+2025-03-14 22:13:12,016 - src.backend.manim_generator - INFO - Loading Manim knowledge from: /Users/dariuskashani/CodeProjects/ai_tutor/stored_data/manim_knowledge.txt
+2025-03-14 22:13:12,016 - src.backend.manim_generator - INFO - Loaded 728 bytes of knowledge
+2025-03-14 22:14:09,180 - src.backend.manim_generator - INFO - Generating Manim code for scene 0: [00:06] Let’s start with a simple animation. A whi...
+2025-03-14 22:14:09,180 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 22:14:22,500 - src.backend.manim_generator - INFO - Generating Manim code for scene 1: [01:06] The screen splits into two sections. On th...
+2025-03-14 22:14:22,500 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 22:14:36,710 - src.backend.manim_generator - INFO - Generating Manim code for scene 2: [02:06] A cartoon cityscape appears on the screen....
+2025-03-14 22:14:36,710 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 22:14:57,376 - src.backend.manim_generator - INFO - Manim import successful
+2025-03-14 22:14:57,376 - src.backend.manim_generator - INFO - Cleaning scene file: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 22:14:57,377 - src.backend.manim_generator - INFO - Scene file cleaned successfully: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 22:22:26,327 - src.backend.manim_generator - INFO - Generating Manim code for scene 0: Start with a title screen showing "Simple Triangle...
+2025-03-14 22:22:26,327 - src.backend.manim_generator - INFO - Dry run mode - returning fallback code
+2025-03-14 22:22:26,327 - src.backend.manim_generator - INFO - Using fallback code generation due to API error
+2025-03-14 22:22:26,329 - src.backend.manim_generator - INFO - Generating Manim code for scene 1: Show a detailed diagram and explanation of the con...
+2025-03-14 22:22:26,329 - src.backend.manim_generator - INFO - Dry run mode - returning fallback code
+2025-03-14 22:22:26,329 - src.backend.manim_generator - INFO - Using fallback code generation due to API error
+2025-03-14 22:22:27,010 - src.backend.manim_generator - INFO - Manim import successful
+2025-03-14 22:22:27,010 - src.backend.manim_generator - INFO - Cleaning scene file: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 22:22:27,011 - src.backend.manim_generator - INFO - Scene file cleaned successfully: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 22:22:50,062 - src.backend.manim_generator - INFO - Cleaning scene file: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 22:22:50,063 - src.backend.manim_generator - INFO - Scene file cleaned successfully: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 22:27:30,415 - src.backend.manim_generator - INFO - Loading Manim knowledge from: /Users/dariuskashani/CodeProjects/ai_tutor/stored_data/manim_knowledge.txt
+2025-03-14 22:27:30,416 - src.backend.manim_generator - INFO - Loaded 728 bytes of knowledge
+2025-03-14 22:28:45,833 - src.backend.manim_generator - INFO - Loading Manim knowledge from: /Users/dariuskashani/CodeProjects/ai_tutor/stored_data/manim_knowledge.txt
+2025-03-14 22:28:45,833 - src.backend.manim_generator - INFO - Loaded 728 bytes of knowledge
+2025-03-14 22:31:13,873 - src.backend.manim_generator - INFO - Generating Manim code for scene 0: [0:03] The screen opens with a title "Pyramid Geom...
+2025-03-14 22:31:13,873 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 22:31:28,532 - src.backend.manim_generator - INFO - Validating and fixing Manim code
+2025-03-14 22:31:28,533 - src.backend.manim_generator - INFO - Generating Manim code for scene 1: [0:44] Display an animation of the Great Pyramid o...
+2025-03-14 22:31:28,533 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 22:31:37,241 - src.backend.manim_generator - INFO - Validating and fixing Manim code
+2025-03-14 22:31:37,243 - src.backend.manim_generator - INFO - Generating Manim code for scene 2: [1:00] End with a screen displaying "Pyramid Geome...
+2025-03-14 22:31:37,243 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 22:31:42,414 - src.backend.manim_generator - INFO - Validating and fixing Manim code
+2025-03-14 22:31:43,176 - src.backend.manim_generator - INFO - Manim import successful
+2025-03-14 22:31:43,176 - src.backend.manim_generator - INFO - Cleaning scene file: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 22:31:43,177 - src.backend.manim_generator - INFO - Scene file cleaned successfully: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 22:31:43,177 - src.backend.manim_generator - INFO - Cleaning scene file: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 22:31:43,177 - src.backend.manim_generator - INFO - Scene file cleaned successfully: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 22:31:43,177 - src.backend.manim_generator - INFO - Cleaning scene file: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 22:31:43,177 - src.backend.manim_generator - INFO - Scene file cleaned successfully: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 22:50:15,445 - src.backend.manim_generator - INFO - Loading Manim knowledge from: /Users/dariuskashani/CodeProjects/ai_tutor/stored_data/manim_knowledge.txt
+2025-03-14 22:50:15,445 - src.backend.manim_generator - INFO - Loaded 728 bytes of knowledge
+2025-03-14 22:51:51,845 - src.backend.manim_generator - INFO - Generating Manim code for scene 0: [00:03] Open with a simple title card displaying "...
+2025-03-14 22:51:51,845 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 22:52:05,702 - src.backend.manim_generator - INFO - Validating and fixing Manim code
+2025-03-14 22:52:05,702 - src.backend.manim_generator - INFO - Fixed: Added missing import for Polygon
+2025-03-14 22:52:05,704 - src.backend.manim_generator - INFO - Generating Manim code for scene 1: [01:00] Transition to a new scene with a blank gri...
+2025-03-14 22:52:05,704 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 22:52:20,585 - src.backend.manim_generator - INFO - Validating and fixing Manim code
+2025-03-14 22:52:20,586 - src.backend.manim_generator - INFO - Fixed: Added missing import for Polygon
+2025-03-14 22:52:20,587 - src.backend.manim_generator - INFO - Generating Manim code for scene 2: [02:15] Display a ladder leaning against a wall, f...
+2025-03-14 22:52:20,587 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 22:52:33,753 - src.backend.manim_generator - INFO - Validating and fixing Manim code
+2025-03-14 22:52:33,756 - src.backend.manim_generator - INFO - Generating Manim code for scene 3: [03:30] Display a scene showing the use of the Pyt...
+2025-03-14 22:52:33,756 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 22:52:51,700 - src.backend.manim_generator - INFO - Validating and fixing Manim code
+2025-03-14 22:52:52,350 - src.backend.manim_generator - INFO - Manim import successful
+2025-03-14 22:52:52,350 - src.backend.manim_generator - INFO - Cleaning scene file: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 22:52:52,353 - src.backend.manim_generator - INFO - Scene file cleaned successfully: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 22:52:52,353 - src.backend.manim_generator - INFO - Cleaning scene file: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 22:52:52,353 - src.backend.manim_generator - INFO - Scene file cleaned successfully: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 22:52:52,353 - src.backend.manim_generator - INFO - Cleaning scene file: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 22:52:52,353 - src.backend.manim_generator - INFO - Scene file cleaned successfully: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 22:52:52,354 - src.backend.manim_generator - INFO - Cleaning scene file: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_3.py
+2025-03-14 22:52:52,354 - src.backend.manim_generator - INFO - Scene file cleaned successfully: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_3.py
+2025-03-14 23:43:07,130 - src.backend.manim_generator - INFO - Loading Manim knowledge from: /Users/dariuskashani/CodeProjects/ai_tutor/stored_data/manim_knowledge.txt
+2025-03-14 23:43:07,131 - src.backend.manim_generator - INFO - Loaded 728 bytes of knowledge
+2025-03-14 23:44:22,161 - src.backend.manim_generator - INFO - Loading Manim knowledge from: /Users/dariuskashani/CodeProjects/ai_tutor/stored_data/manim_knowledge.txt
+2025-03-14 23:44:22,162 - src.backend.manim_generator - INFO - Loaded 728 bytes of knowledge
+2025-03-14 23:45:14,000 - src.backend.manim_generator - INFO - Loading Manim knowledge from: /Users/dariuskashani/CodeProjects/ai_tutor/stored_data/manim_knowledge.txt
+2025-03-14 23:45:14,000 - src.backend.manim_generator - INFO - Loaded 728 bytes of knowledge
+2025-03-14 23:45:58,902 - src.backend.manim_generator - INFO - Generating Manim code for scene 0: [00:05] Open with a title card displaying “Pythago...
+2025-03-14 23:45:58,902 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 23:46:18,214 - src.backend.manim_generator - INFO - Validating and fixing Manim code
+2025-03-14 23:46:18,215 - src.backend.manim_generator - INFO - Fixed: Added missing import for Polygon
+2025-03-14 23:46:18,218 - src.backend.manim_generator - INFO - Generating Manim code for scene 1: [01:05] Display a new right triangle with side len...
+2025-03-14 23:46:18,218 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 23:46:33,241 - src.backend.manim_generator - INFO - Validating and fixing Manim code
+2025-03-14 23:46:33,242 - src.backend.manim_generator - INFO - Fixed: Added missing import for Polygon
+2025-03-14 23:46:33,244 - src.backend.manim_generator - INFO - Generating Manim code for scene 2: [02:05] Show a ladder leaning against a wall formi...
+2025-03-14 23:46:33,244 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 23:46:45,461 - src.backend.manim_generator - INFO - Validating and fixing Manim code
+2025-03-14 23:46:45,461 - src.backend.manim_generator - INFO - Fixed: Replaced ShowCreation with Create
+2025-03-14 23:46:45,464 - src.backend.manim_generator - INFO - Generating Manim code for scene 3: [03:35] Transition to an animated Einstein at a ch...
+2025-03-14 23:46:45,464 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 23:47:04,895 - src.backend.manim_generator - INFO - Validating and fixing Manim code
+2025-03-14 23:47:04,895 - src.backend.manim_generator - INFO - Fixed: Added missing import for Polygon
+2025-03-14 23:47:05,578 - src.backend.manim_generator - INFO - Manim import successful
+2025-03-14 23:47:05,579 - src.backend.manim_generator - INFO - Cleaning scene file: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 23:47:05,580 - src.backend.manim_generator - INFO - Scene file cleaned successfully: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 23:47:05,580 - src.backend.manim_generator - INFO - Cleaning scene file: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 23:47:05,580 - src.backend.manim_generator - INFO - Scene file cleaned successfully: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 23:47:05,581 - src.backend.manim_generator - INFO - Cleaning scene file: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 23:47:05,581 - src.backend.manim_generator - INFO - Scene file cleaned successfully: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 23:47:05,582 - src.backend.manim_generator - INFO - Cleaning scene file: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_3.py
+2025-03-14 23:47:05,582 - src.backend.manim_generator - INFO - Scene file cleaned successfully: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_3.py

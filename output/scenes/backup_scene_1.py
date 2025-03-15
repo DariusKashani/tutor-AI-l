@@ -1,39 +1,53 @@
 from manim import *
+# Added import
+from manim import Polygon
 
 class UserAnimationScene(Scene):
     def construct(self):
-        # Create a pyramid with four triangular faces
-        pyramid = Pyramid(base_side_length=2, height=3, color=BLUE)
-        pyramid.set_fill(BLUE, opacity=0.5)
-        self.play(Create(pyramid), run_time=3)
-        self.wait(0.5)
+        # First triangle setup
+        triangle1 = Polygon([0, 0, 0], [5, 0, 0], [5, 12, 0], color=BLUE)
+        triangle1.shift(LEFT * 3)
+        side_a1 = Text("5", color=WHITE).next_to(triangle1, DOWN, buff=0.1)
+        side_b1 = Text("12", color=WHITE).next_to(triangle1, RIGHT, buff=0.1)
+        side_c1 = Text("13", color=WHITE).next_to(triangle1, UP, buff=0.1)
 
-        # Zoom in on one face of the pyramid
-        face = pyramid.copy().set_fill(YELLOW, opacity=0.8)
-        self.play(Transform(pyramid, face), run_time=2)
-        self.wait(0.5)
+        # First Pythagorean theorem demonstration
+        equation1 = Text("5² + 12² = 13²", color=YELLOW)
+        equation1.shift(UP * 3)
+        calc1 = Text("25 + 144 = 169", color=GREEN)
+        calc1.next_to(equation1, DOWN)
 
-        # Label the base and height of the triangle
-        base_label = Text("b", color=RED).next_to(pyramid, DOWN)
-        height_label = Text("h", color=GREEN).next_to(pyramid, UP)
-        self.play(Write(base_label), Write(height_label), run_time=2)
-        self.wait(0.5)
+        # Second triangle setup
+        triangle2 = Polygon([0, 0, 0], [7, 0, 0], [7, 24, 0], color=RED)
+        triangle2.shift(RIGHT * 3)
+        side_a2 = Text("7", color=WHITE).next_to(triangle2, DOWN, buff=0.1)
+        side_b2 = Text("24", color=WHITE).next_to(triangle2, RIGHT, buff=0.1)
+        side_c2 = Text("25", color=WHITE).next_to(triangle2, UP, buff=0.1)
 
-        # Display the formula for the area of a triangle
-        area_formula = Text("Area = 1/2 * b * h", color=WHITE).to_edge(DOWN)
-        self.play(Write(area_formula), run_time=2)
-        self.wait(0.5)
+        # Second Pythagorean theorem demonstration
+        equation2 = Text("7² + 24² = 25²", color=YELLOW)
+        equation2.next_to(triangle2, UP, buff=0.5)
+        calc2 = Text("49 + 576 = 625", color=GREEN)
+        calc2.next_to(equation2, DOWN)
 
-        # Animate a calculation showing the area of the triangular face
-        area_calculation = Text("Area = 1/2 * 2 * 3 = 3", color=WHITE).next_to(area_formula, DOWN)
-        self.play(Write(area_calculation), run_time=2)
-        self.wait(0.5)
+        # Checkmark creation
+        checkmark = VMobject()
+        checkmark.set_points_as_corners([[0, 0, 0], [0.5, -0.5, 0], [1.5, 1, 0]])
+        checkmark.set_color(GREEN)
+        checkmark.scale(0.5)
+        checkmark1 = checkmark.copy().next_to(triangle1, LEFT)
+        checkmark2 = checkmark.copy().next_to(triangle2, RIGHT)
 
-        # Zoom out to show the whole pyramid again
-        self.play(Transform(pyramid, Pyramid(base_side_length=2, height=3, color=BLUE).set_fill(BLUE, opacity=0.5)), run_time=2)
-        self.wait(0.5)
-
-        # Highlight the importance of triangles in architecture
-        architecture_text = Text("Triangles in Architecture", color=PURPLE).to_edge(UP)
-        self.play(Write(architecture_text), run_time=2)
-        self.wait(1)
+        # Animations
+        self.play(Create(triangle1), Write(side_a1), Write(side_b1), Write(side_c1))
+        self.play(Write(equation1))
+        self.wait(5)
+        self.play(Write(calc1))
+        self.wait(5)
+        self.play(Transform(triangle1, triangle2), Transform(side_a1, side_a2), Transform(side_b1, side_b2), Transform(side_c1, side_c2))
+        self.play(Write(equation2))
+        self.wait(5)
+        self.play(Write(calc2))
+        self.wait(5)
+        self.play(Create(checkmark1), Create(checkmark2))
+        self.wait(10)

@@ -278,11 +278,20 @@ Show a simple diagram illustrating the basic concept.
 def generate_math_tutorial_script(topic, level="beginner", duration=3, dry_run=False):
     """Wrapper to generate a math tutorial script based on difficulty level."""
     logger.info(f"Generating math tutorial script for '{topic}' at '{level}' level")
+    
+    # Convert string level to numeric sophistication level if needed
     sophistication_level = 1
-    if level.lower() in ["intermediate", "medium"]:
-        sophistication_level = 2
-    elif level.lower() in ["advanced", "expert"]:
-        sophistication_level = 3
+    if isinstance(level, int) and 1 <= level <= 3:
+        sophistication_level = level
+    elif isinstance(level, str):
+        if level.lower() in ["1", "beginner", "basic"]:
+            sophistication_level = 1
+        elif level.lower() in ["2", "intermediate", "medium"]:
+            sophistication_level = 2
+        elif level.lower() in ["3", "advanced", "expert"]:
+            sophistication_level = 3
+    
+    logger.info(f"Using sophistication level: {sophistication_level}")
     return generate_script(topic=topic, duration_minutes=duration, sophistication_level=sophistication_level, dry_run=dry_run)
 
 # ---------------------------

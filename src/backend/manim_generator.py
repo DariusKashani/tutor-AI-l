@@ -256,32 +256,118 @@ def fix_common_code_issues(code: str) -> str:
             code = code.rstrip() + '\n        self.wait(2)\n'
     return code
 
-def clean_api_response_code(api_response: str) -> str:
-    """Clean the API response to extract only Python code."""
+def add_compatibility_imports() -> str:
+    """Generate compatibility imports for common Manim errors."""
+    return """
+# Compatibility imports for different Manim versions
+if 'ShowCreation' not in globals():
+    ShowCreation = Create  # Updated name in newer Manim versions
+
+if 'FRAME_WIDTH' not in globals():
+    FRAME_WIDTH = config.frame_width  # Updated in newer Manim versions
+    FRAME_HEIGHT = config.frame_height
+
+# Add missing shapes/objects that might be referenced
+if 'Checkmark' not in globals():
+    class Checkmark(VMobject):
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
+            self.set_points_as_corners([
+                UP + LEFT, DOWN, RIGHT + UP,
+            ])
+            self.scale(0.5)
+
+if 'Pyramid' not in globals():
+    class Pyramid(ThreeDObject):
+        def __init__(self, base_side_length=2, height=3, color=BLUE, **kwargs):
+            super().__init__(**kwargs)
+            self.base_side_length = base_side_length
+            self.height = height
+            self.set_color(color)
+            self.create_pyramid()
+            
+        def create_pyramid(self):
+            # Create square base
+            base = Square(side_length=self.base_side_length)
+            base.rotate(PI/4, axis=UP)  # Rotate to diamond shape
+            
+            # Create apex point
+            apex = Dot3D(point=OUT * self.height)
+            
+            # Create triangular faces
+            square_vertices = base.get_vertices()
+            self.add(base)
+            
+            for i in range(4):
+                face = Polygon(
+                    square_vertices[i],
+                    square_vertices[(i+1) % 4],
+                    apex.get_center(),
+                    color=self.color,
+                    fill_opacity=0.7
+                )
+                self.add(face)
+"""
+
+def clean_api_response_code(raw_code: str) -> str:
+    """
+    Extract clean Python code from API response.
+    
+    Args:
+        raw_code: Raw code text from API.
+        
+    Returns:
+        Cleaned code string.
+    """
     logger.info("Cleaning API response code")
-    if not api_response or not api_response.strip():
+    if not raw_code or not raw_code.strip():
         logger.warning("Empty API response")
         return ""
-    if api_response.strip().startswith('{') and api_response.strip().endswith('}'):
+    if raw_code.strip().startswith('{') and raw_code.strip().endswith('}'):
         try:
-            response_json = json.loads(api_response)
+            response_json = json.loads(raw_code)
             if 'code' in response_json:
-                api_response = response_json['code']
+                raw_code = response_json['code']
                 logger.info("Extracted code from JSON response")
         except json.JSONDecodeError:
             pass
     code_regex = r"```(?:python)?(.*?)```"
-    code_matches = re.findall(code_regex, api_response, re.DOTALL)
+    code_matches = re.findall(code_regex, raw_code, re.DOTALL)
     if code_matches:
         logger.info("Found code blocks in API response")
-        for code in code_matches:
-            if "class" in code and "Scene" in code:
-                return code.strip()
-        return code_matches[0].strip()
-    if "class" in api_response and "Scene" in api_response:
-        return api_response.strip()
+        code = ""
+        for match in code_matches:
+            if "class" in match and "Scene" in match:
+                code = match
+                break
+        if not code:
+            code = code_matches[0]
+        
+        # Add compatibility imports to the code
+        compatibility_imports = add_compatibility_imports()
+        if "from manim import *" in code:
+            code = code.replace("from manim import *", f"from manim import *\n{compatibility_imports}")
+        else:
+            # If for some reason the import line is missing, add it at the beginning
+            code = f"from manim import *\n{compatibility_imports}\n{code}"
+            
+        return code.strip()
+    
+    if "class" in raw_code and "Scene" in raw_code:
+        code = raw_code.strip()
+        
+        # Add compatibility imports to the code
+        compatibility_imports = add_compatibility_imports()
+        if "from manim import *" in code:
+            code = code.replace("from manim import *", f"from manim import *\n{compatibility_imports}")
+        else:
+            # If for some reason the import line is missing, add it at the beginning
+            code = f"from manim import *\n{compatibility_imports}\n{code}"
+            
+        return code
+        
     logger.warning("Could not extract valid code from API response")
-    return api_response.strip()
+    return raw_code.strip()
 
 def extract_scene_topic(scene_description: str) -> str:
     """Extract a concise topic from the scene description."""
@@ -408,6 +494,124 @@ def render_scene(scene_file_path: str, output_file_path: str = None) -> str:
         return None
 
 # ---------------------------
+# Code Validation and Fixing
+# ---------------------------
+def validate_and_fix_manim_code(code: str) -> str:
+    """
+    Validate Manim code for common errors and fix them.
+    
+    Args:
+        code: The Manim code to validate and fix.
+        
+    Returns:
+        Fixed Manim code.
+    """
+    logger.info("Validating and fixing Manim code")
+    fixed_code = code
+    
+    # Fix 1: Replace ShowCreation() with Create()
+    if "ShowCreation" in fixed_code and "ShowCreation = Create" not in fixed_code:
+        fixed_code = fixed_code.replace("ShowCreation(", "Create(")
+        logger.info("Fixed: Replaced ShowCreation with Create")
+    
+    # Fix 2: Replace FRAME_WIDTH with config.frame_width
+    if "FRAME_WIDTH" in fixed_code and "FRAME_WIDTH = config.frame_width" not in fixed_code:
+        fixed_code = fixed_code.replace("FRAME_WIDTH", "config.frame_width")
+        logger.info("Fixed: Replaced FRAME_WIDTH with config.frame_width")
+    
+    # Fix 3: Check for ThreeDScene but using 3D objects
+    if "ThreeDObject" in fixed_code and "class UserAnimationScene(Scene)" in fixed_code:
+        fixed_code = fixed_code.replace("class UserAnimationScene(Scene)", "class UserAnimationScene(ThreeDScene)")
+        logger.info("Fixed: Changed Scene to ThreeDScene for 3D objects")
+    
+    # Fix 4: Check for physics objects
+    physics_classes = ["GravityForce", "Pendulum", "Spring", "Pyramid", "Wave", "ArrowVectorField"]
+    if any(cls in fixed_code for cls in physics_classes) and "class UserAnimationScene(Scene)" in fixed_code:
+        fixed_code = fixed_code.replace("class UserAnimationScene(Scene)", "class UserAnimationScene(ThreeDScene)")
+        logger.info("Fixed: Changed Scene to ThreeDScene for physics simulation")
+        
+        # Add imports for missing physics classes
+        physics_imports = """
+# Physics compatibility imports
+from manim import VGroup, Dot, Line, Circle, Arrow, VMobject, ThreeDObject, Polygon, ThreeDScene
+
+# Define missing physics classes
+if 'Pendulum' not in globals():
+    class Pendulum(VGroup):
+        def __init__(self, length=3, angle=PI/4, weight_diameter=0.5, **kwargs):
+            super().__init__(**kwargs)
+            self.length = length
+            self.angle = angle
+            self.weight_diameter = weight_diameter
+            self.pivot = Dot(ORIGIN, color=WHITE)
+            self.rod = Line(ORIGIN, length * RIGHT, color=GRAY)
+            self.rod.rotate(angle, about_point=ORIGIN)
+            self.bob = Circle(radius=weight_diameter/2, color=BLUE, fill_opacity=1)
+            self.bob.move_to(self.rod.get_end())
+            self.add(self.pivot, self.rod, self.bob)
+            
+        def get_angle(self):
+            return self.angle
+
+if 'GravityForce' not in globals():
+    class GravityForce(Arrow):
+        def __init__(self, obj, length=1, **kwargs):
+            super().__init__(obj.get_center(), obj.get_center() + DOWN * length, **kwargs)
+            self.add_updater(lambda m: m.put_start_and_end_on(obj.get_center(), obj.get_center() + DOWN * length))
+
+if 'Spring' not in globals():
+    class Spring(VMobject):
+        def __init__(self, start=ORIGIN, end=RIGHT*3, num_coils=5, radius=0.2, **kwargs):
+            super().__init__(**kwargs)
+            self.start = start
+            self.end = end
+            self.num_coils = num_coils
+            self.radius = radius
+            self.create_spring()
+            
+        def create_spring(self):
+            points = []
+            length = np.linalg.norm(self.end - self.start)
+            direction = (self.end - self.start) / length
+            normal = np.array([-direction[1], direction[0], 0])
+            
+            # Create coils
+            segment_length = length / (2 * self.num_coils + 2)
+            points.append(self.start)
+            points.append(self.start + direction * segment_length)
+            
+            for i in range(self.num_coils):
+                points.append(self.start + direction * ((2*i+1) * segment_length) + normal * self.radius)
+                points.append(self.start + direction * ((2*i+2) * segment_length) - normal * self.radius)
+            
+            points.append(self.end - direction * segment_length)
+            points.append(self.end)
+            
+            self.set_points_as_corners(points)
+"""
+        if "from manim import *" in fixed_code and "# Physics compatibility imports" not in fixed_code:
+            fixed_code = fixed_code.replace("from manim import *", f"from manim import *\n{physics_imports}")
+            logger.info("Fixed: Added physics compatibility classes")
+    
+    # Fix 5: Check for imports
+    required_imports = {
+        "Polygon": "from manim import Polygon",
+        "ThreeDObject": "from manim import ThreeDObject",
+        "ThreeDScene": "from manim import ThreeDScene"
+    }
+    
+    for symbol, import_statement in required_imports.items():
+        if symbol in fixed_code and import_statement not in fixed_code and f"from manim import {symbol}" not in fixed_code:
+            # Add the import after the main manim import
+            if "from manim import *" in fixed_code:
+                fixed_code = fixed_code.replace("from manim import *", f"from manim import *\n# Added import\n{import_statement}")
+            else:
+                fixed_code = f"{import_statement}\n{fixed_code}"
+            logger.info(f"Fixed: Added missing import for {symbol}")
+    
+    return fixed_code
+
+# ---------------------------
 # Function: Generate Manim Code
 # ---------------------------
 def generate_manim_code(scene_description: str, scene_index: int = 0, output_dirs: dict = None, dry_run: bool = False) -> str:
@@ -432,7 +636,9 @@ def generate_manim_code(scene_description: str, scene_index: int = 0, output_dir
     # Use generative-manim approach if available
     if generative_manim_available:
         logger.info("Using generative-manim approach for code generation")
-        return generate_manim_code_with_generative_manim(scene_description, scene_index)
+        generated_code = generate_manim_code_with_generative_manim(scene_description, scene_index)
+        # Apply validation and fixes to the generated code
+        return validate_and_fix_manim_code(generated_code)
     
     # Fall back to original approach if generative-manim is not available
     try:
@@ -463,8 +669,11 @@ def generate_manim_code(scene_description: str, scene_index: int = 0, output_dir
         if not cleaned_code:
             logger.error("Failed to extract clean code; using fallback code")
             return create_fallback_code(scene_description)
-        logger.info(f"Generated Manim code successfully ({len(cleaned_code)} characters)")
-        return cleaned_code
+            
+        # Apply validation and fixes to the cleaned code
+        fixed_code = validate_and_fix_manim_code(cleaned_code)
+        logger.info(f"Generated and fixed Manim code successfully ({len(fixed_code)} characters)")
+        return fixed_code
     except Exception as e:
         logger.error(f"Error generating Manim code via API: {e}")
         return create_fallback_code(scene_description)

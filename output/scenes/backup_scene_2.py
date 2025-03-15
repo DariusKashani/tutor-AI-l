@@ -2,39 +2,44 @@ from manim import *
 
 class UserAnimationScene(Scene):
     def construct(self):
-        # Create a map background
-        map_background = Rectangle(width=config.frame_width, height=config.frame_height, color=BLUE_B)
-        map_background.set_fill(BLUE_D, opacity=1)
-        self.play(Create(map_background))
+        # Create the wall, ladder, and ground
+        wall = Line(ORIGIN, 3 * UP, color=BLUE)
+        ground = Line(ORIGIN, 5 * RIGHT, color=GREEN)
+        ladder = Line(ORIGIN, 5 * RIGHT + 3 * UP, color=RED)
 
-        # Define points for the triangle
-        p1, p2, p3 = [-4, 1, 0], [3, 2, 0], [-1, -2, 0]
+        # Labels for the wall and ladder
+        wall_label = Text("10 feet", color=BLUE).next_to(wall, LEFT)
+        ladder_label = Text("26 feet", color=RED).next_to(ladder.get_center(), RIGHT, buff=0.1)
+        ground_label = Text("x feet", color=GREEN).next_to(ground, DOWN)
 
-        # Create the triangle
-        triangle = Polygon(p1, p2, p3, color=WHITE)
-        triangle.set_fill(YELLOW, opacity=0.5)
-        self.play(Create(triangle), run_time=3)
+        # Right angle indication
+        right_angle = RightAngle(ground, wall, length=0.5, color=WHITE)
 
-        # Label sides and angles
-        labels = VGroup(
-            Text("A").move_to(p1),
-            Text("B").move_to(p2),
-            Text("C").move_to(p3)
-        )
-        self.play(Write(labels), run_time=2)
+        # Create and position the formula text
+        formula = Text("a² + b² = c²").to_edge(UP)
+        substituted_formula = Text("10² + x² = 26²").next_to(formula, DOWN)
 
-        # Display text about triangles in navigation
-        text = Text("Triangles can help us calculate distances and areas in navigation and geography.", font_size=24)
-        text.to_edge(DOWN)
-        self.play(Write(text), run_time=2)
-        self.wait(2)
+        # Safety warning text
+        safety_warning = Text("Ensure correct ladder angle for safety!", color=YELLOW).to_edge(DOWN)
 
-        # Animate a plane flying along the triangle
-        plane = Triangle().scale(0.2).set_fill(RED, opacity=1)
-        plane.move_to(p1)
-        path = VMobject()
-        path.set_points_as_corners([p1, p2, p3, p1])
-        self.play(MoveAlongPath(plane, path), run_time=3)
+        # Montage text
+        montage_text = Text("Applications: Construction, Navigation, Computer Graphics", color=PURPLE).to_edge(DOWN)
 
-        # Final wait
-        self.wait(2)
+        # Animations
+        self.play(Create(wall), Create(ground), Create(ladder))
+        self.play(Write(wall_label), Write(ground_label), Write(ladder_label))
+        self.play(Create(right_angle))
+        self.wait(10)  # Wait until 2:15
+
+        self.play(Write(formula))
+        self.wait(5)  # Wait until 2:20
+
+        self.play(Transform(ground_label, Text("24 feet", color=GREEN).next_to(ground, DOWN)))
+        self.play(ReplacementTransform(formula, substituted_formula))
+        self.wait(30)  # Wait until 2:50
+
+        self.play(Write(safety_warning))
+        self.wait(10)  # Wait until 3:00
+
+        self.play(ReplacementTransform(safety_warning, montage_text))
+        self.wait(10)  # Hold final scene

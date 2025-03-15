@@ -58,11 +58,55 @@ except ImportError:
 # ---------------------------
 from config import (
     get_timing_data_path,
-    get_subtitle_path
+    get_subtitle_path,
+    get_scene_path,
+    get_project_dirs
+)
+
+# Import the script generator module
+from src.backend import script_generator
+from src.backend import manim_generator
+from src.backend.manim_generator import (
+    verify_manim_installation, 
+    clean_existing_scene_file,
 )
 
 # Define the path to ffmpeg
 FFMPEG_PATH = os.path.expanduser("~/bin/ffmpeg")
+# If ffmpeg not found in user bin, try to find it in system
+if not os.path.exists(FFMPEG_PATH):
+    try:
+        # First try the bundled ffmpeg that's already in the virtual environment
+        bundled_ffmpeg = os.path.join(
+            os.path.dirname(sys.executable),
+            "../lib/python3.13/site-packages/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1"
+        )
+        if os.path.exists(bundled_ffmpeg):
+            FFMPEG_PATH = bundled_ffmpeg
+            logger.info(f"Using bundled ffmpeg from imageio: {FFMPEG_PATH}")
+        else:
+            # Try to find ffmpeg in PATH
+            ffmpeg_result = subprocess.run(["which", "ffmpeg"], capture_output=True, text=True)
+            if ffmpeg_result.returncode == 0:
+                FFMPEG_PATH = ffmpeg_result.stdout.strip()
+                logger.info(f"Using ffmpeg from PATH: {FFMPEG_PATH}")
+            else:
+                # Check some common locations
+                common_locations = [
+                    "/usr/bin/ffmpeg",
+                    "/usr/local/bin/ffmpeg",
+                    "/opt/homebrew/bin/ffmpeg",
+                    "/opt/local/bin/ffmpeg"
+                ]
+                for loc in common_locations:
+                    if os.path.exists(loc):
+                        FFMPEG_PATH = loc
+                        logger.info(f"Using ffmpeg from {FFMPEG_PATH}")
+                        break
+                if not os.path.exists(FFMPEG_PATH):
+                    logger.warning(f"ffmpeg not found at {FFMPEG_PATH}. Video generation may fail.")
+    except Exception as e:
+        logger.warning(f"Error finding ffmpeg: {e}. Using default path: {FFMPEG_PATH}")
 
 from src.backend.manim_generator import (
     verify_manim_installation, 
@@ -88,23 +132,74 @@ def generate_subtitle_file(script: str, output_dirs: dict) -> Path:
     matches = re.findall(pattern, script)
     
     subtitle_entries = []
+    
+    # Process subtitles with improved timing
     for idx, match in enumerate(matches, 1):
         minutes, seconds = int(match[0]), int(match[1])
         text = (match[2] or match[3]).strip()
         if not text:
             continue
 
+        # Calculate start and end times
         start_sec = minutes * 60 + seconds
-        if idx < len(matches):
-            next_min, next_sec = int(matches[idx][0]), int(matches[idx][1])
-            next_sec_total = next_min * 60 + next_sec
-            end_sec = min(start_sec + 5, next_sec_total)
+        
+        # Determine how long this subtitle should stay on screen
+        # Split text into chunks for better readability (approx 10-12 words per subtitle)
+        words = text.split()
+        
+        # Calculate a reasonable display time based on word count
+        # Average reading speed is about 2-3 words per second
+        # We'll use 2.2 words per second for comfortable reading
+        display_duration = max(len(words) / 2.2, 3)  # At least 3 seconds
+        
+        # For long text, split into multiple subtitle entries
+        if len(words) > 15:
+            chunks = []
+            current_chunk = []
+            current_length = 0
+            
+            for word in words:
+                current_length += len(word) + 1
+                current_chunk.append(word)
+                
+                # Split at natural sentence boundaries if possible, or after ~12 words
+                if (word.endswith('.') or word.endswith('!') or word.endswith('?')) and len(current_chunk) >= 5:
+                    chunks.append(' '.join(current_chunk))
+                    current_chunk = []
+                    current_length = 0
+                elif current_length > 70 or len(current_chunk) >= 12:
+                    chunks.append(' '.join(current_chunk))
+                    current_chunk = []
+                    current_length = 0
+            
+            # Add any remaining words
+            if current_chunk:
+                chunks.append(' '.join(current_chunk))
+                
+            # Create subtitles for each chunk with appropriate timing
+            chunk_duration = display_duration / len(chunks)
+            for i, chunk_text in enumerate(chunks):
+                chunk_start = start_sec + (i * chunk_duration)
+                chunk_end = chunk_start + chunk_duration
+                
+                start_time_formatted = f"{int(chunk_start)//3600:02d}:{(int(chunk_start)%3600)//60:02d}:{int(chunk_start)%60:02d},{int(chunk_start*1000)%1000:03d}"
+                end_time_formatted = f"{int(chunk_end)//3600:02d}:{(int(chunk_end)%3600)//60:02d}:{int(chunk_end)%60:02d},{int(chunk_end*1000)%1000:03d}"
+                
+                subtitle_entries.append(f"{idx + i}\n{start_time_formatted} --> {end_time_formatted}\n{chunk_text}\n")
         else:
-            end_sec = start_sec + 5
-
-        start_time_formatted = f"{start_sec//3600:02d}:{(start_sec%3600)//60:02d}:{start_sec%60:02d},000"
-        end_time_formatted = f"{end_sec//3600:02d}:{(end_sec%3600)//60:02d}:{end_sec%60:02d},000"
-        subtitle_entries.append(f"{idx}\n{start_time_formatted} --> {end_time_formatted}\n{text}\n")
+            # Simple case for short text
+            end_sec = start_sec + display_duration
+            
+            # Check for next subtitle to avoid overlap
+            if idx < len(matches):
+                next_min, next_sec = int(matches[idx][0]), int(matches[idx][1])
+                next_sec_total = next_min * 60 + next_sec
+                end_sec = min(end_sec, next_sec_total - 0.1)  # Avoid overlap
+            
+            start_time_formatted = f"{int(start_sec)//3600:02d}:{(int(start_sec)%3600)//60:02d}:{int(start_sec)%60:02d},{int(start_sec*1000)%1000:03d}"
+            end_time_formatted = f"{int(end_sec)//3600:02d}:{(int(end_sec)%3600)//60:02d}:{int(end_sec)%60:02d},{int(end_sec*1000)%1000:03d}"
+            
+            subtitle_entries.append(f"{idx}\n{start_time_formatted} --> {end_time_formatted}\n{text}\n")
 
     srt_path = Path(get_subtitle_path())
     srt_path.parent.mkdir(parents=True, exist_ok=True)
@@ -135,32 +230,61 @@ def generate_audio_narration(text: str, filename: str = None, dry_run: bool = Fa
 
     if dry_run:
         logger.info("[DRY RUN] Creating silent audio placeholder.")
-        create_silent_audio_placeholder(audio_path, len(text.split()) / 3)
+        # Estimate duration based on word count - average person speaks at 150 words per minute
+        estimated_duration = len(text.split()) / 2.5  # More realistic timing
+        create_silent_audio_placeholder(audio_path, estimated_duration)
         return audio_path
 
     api_key = os.environ.get("ELEVENLABS_API_KEY")
     if not api_key:
         logger.warning("No ElevenLabs API key found. Using silent audio placeholder.")
-        create_silent_audio_placeholder(audio_path, len(text.split()) / 3)
+        # Add a more realistic duration calculation
+        estimated_duration = len(text.split()) / 2.5
+        create_silent_audio_placeholder(audio_path, estimated_duration)
         return audio_path
 
     try:
         if elevenlabs_available:
-            audio = eleven_generate(
-                text=text,
-                voice="Rachel",
-                model="eleven_monolingual_v1"
-            )
-            with open(audio_path, "wb") as f:
-                f.write(audio)
-            logger.info(f"Generated audio narration at {audio_path}")
+            logger.info("Using ElevenLabs for voice generation")
+            
+            # Set environment variable for the API key
+            os.environ["ELEVENLABS_API_KEY"] = api_key
+            
+            # List of voices to try in order of preference
+            voices = ["Rachel", "Adam", "Bella", "Antoni"]
+            
+            for voice in voices:
+                try:
+                    logger.info(f"Attempting to generate audio with voice: {voice}")
+                    audio = eleven_generate(
+                        text=text,
+                        voice=voice,
+                        model="eleven_multilingual_v2"  # Updated to newer model
+                    )
+                    
+                    with open(audio_path, "wb") as f:
+                        f.write(audio)
+                    
+                    logger.info(f"Successfully generated audio narration with voice {voice} at {audio_path}")
+                    return audio_path
+                except Exception as voice_error:
+                    logger.warning(f"Failed with voice {voice}: {str(voice_error)}")
+                    continue
+            
+            # If all voices fail, fall back to silent audio
+            logger.error("All voice attempts failed. Using silent audio placeholder.")
+            estimated_duration = len(text.split()) / 2.5
+            create_silent_audio_placeholder(audio_path, estimated_duration)
         else:
-            logger.warning("ElevenLabs not available, creating silent audio.")
-            create_silent_audio_placeholder(audio_path, len(text.split()) / 3)
+            logger.warning("ElevenLabs package not available. Creating silent audio.")
+            estimated_duration = len(text.split()) / 2.5
+            create_silent_audio_placeholder(audio_path, estimated_duration)
+        
         return audio_path
     except Exception as e:
         logger.exception(f"Error generating audio narration: {e}")
-        create_silent_audio_placeholder(audio_path, len(text.split()) / 3)
+        estimated_duration = len(text.split()) / 2.5
+        create_silent_audio_placeholder(audio_path, estimated_duration)
         return audio_path
 
 # ---------------------------
@@ -181,6 +305,12 @@ def render_manim_scenes(scene_files: list, output_dir: str) -> list:
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     
+    # Make sure ffmpeg is accessible to Manim by setting environment variables
+    if os.path.exists(FFMPEG_PATH):
+        logger.info(f"Setting FFMPEG_BINARY environment variable to {FFMPEG_PATH}")
+        os.environ["FFMPEG_BINARY"] = FFMPEG_PATH
+        os.environ["IMAGEIO_FFMPEG_EXE"] = FFMPEG_PATH
+    
     if not verify_manim_installation():
         logger.error("Manim not installed or not working properly. Creating placeholder videos.")
         # Assumes create_placeholder_videos is defined elsewhere
@@ -188,104 +318,301 @@ def render_manim_scenes(scene_files: list, output_dir: str) -> list:
 
     video_files = []
     for i, scene_file in enumerate(scene_files):
+        output_path = output_dir / f"scene_{i}.mp4"
+        video_files.append(str(output_path))
+        
         scene_path = Path(scene_file)
         if not scene_path.exists():
             logger.error(f"Scene file not found: {scene_file}")
-            placeholder = output_dir / f"placeholder_scene_{i}.mp4"
-            create_placeholder_video(placeholder, text=f"Scene {i+1} not found")
-            video_files.append(str(placeholder))
+            create_placeholder_video(output_path, text=f"Scene {i+1} not found")
             continue
 
         logger.info(f"Rendering scene {i+1} from {scene_file}")
         logger.info(f"Cleaning scene file {scene_file}")
         clean_existing_scene_file(str(scene_path))
 
-        cmd = ["manim", "-ql", str(scene_path), "UserAnimationScene", "-o", f"scene_{i}"]
+        # If output file already exists with non-zero size, skip rendering
+        if output_path.exists() and output_path.stat().st_size > 0:
+            logger.info(f"Output file already exists at {output_path}, skipping rendering")
+            continue
+            
+        # Try multiple approaches to render the scene
+        success = False
+        
+        # Approach 1: Using Python module approach (most reliable)
         try:
-            result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
-            if result.returncode == 0:
-                scene_name = scene_path.stem
-                video_dir = scene_path.parent
-                base_media_dir = Path(video_dir.parent) / "videos"
-                expected_video = base_media_dir / "videos" / scene_name / "480p15" / "UserAnimationScene.mp4"
-                if expected_video.exists():
-                    output_path = output_dir / f"scene_{i}.mp4"
-                    shutil.copy(expected_video, output_path)
-                    video_files.append(str(output_path))
-                    logger.info(f"Rendered scene {i+1} to {output_path}")
+            logger.info("Trying Python module approach to render Manim scene")
+            # Use importlib to dynamically import the scene file and run it
+            import importlib.util
+            import sys
+            
+            # Prepare a unique module name
+            module_name = f"scene_module_{i}_{int(time.time())}"
+            
+            # Create a spec and import the module
+            spec = importlib.util.spec_from_file_location(module_name, scene_path)
+            if spec and spec.loader:
+                module = importlib.util.module_from_spec(spec)
+                sys.modules[module_name] = module
+                spec.loader.exec_module(module)
+                
+                # Check if UserAnimationScene exists in the module
+                if hasattr(module, 'UserAnimationScene'):
+                    # Configure Manim to output directly to our desired location with the desired filename
+                    from manim import config
+                    config.media_dir = str(output_dir)
+                    config.video_dir = str(output_dir)
+                    config.output_file = f"scene_{i}"
+                    
+                    # Create and render the scene
+                    scene = module.UserAnimationScene()
+                    scene.render()
+                    
+                    # Verify the output file exists
+                    if output_path.exists() and output_path.stat().st_size > 0:
+                        logger.info(f"Successfully rendered to {output_path} using Python module approach")
+                        success = True
+                    else:
+                        # Look for any other generated mp4 file in the output directory
+                        possible_outputs = list(output_dir.glob("*.mp4"))
+                        if possible_outputs:
+                            for possible_output in possible_outputs:
+                                if "scene_" in possible_output.name and possible_output.stat().st_size > 0:
+                                    if possible_output.name != output_path.name:
+                                        # If found but with wrong name, rename it
+                                        possible_output.rename(output_path)
+                                        logger.info(f"Renamed {possible_output} to {output_path}")
+                                    success = True
+                                    break
                 else:
-                    # Search for the video file if not in expected location
-                    found = False
-                    for root, _, files in os.walk(base_media_dir):
-                        for file in files:
-                            if file.endswith(".mp4") and "UserAnimationScene" in file:
-                                video_path = Path(root) / file
-                                output_path = output_dir / f"scene_{i}.mp4"
-                                shutil.copy(video_path, output_path)
-                                video_files.append(str(output_path))
-                                logger.info(f"Rendered scene {i+1} to {output_path}")
-                                found = True
-                                break
-                        if found:
-                            break
-                    if not found:
-                        logger.warning(f"Rendered video for scene {i+1} not found. Creating placeholder.")
-                        placeholder = output_dir / f"placeholder_scene_{i}.mp4"
-                        create_placeholder_video(placeholder, text=f"Scene {i+1} rendered but video not found")
-                        video_files.append(str(placeholder))
+                    logger.warning(f"UserAnimationScene not found in {scene_path}")
             else:
-                logger.error(f"Error rendering scene {i+1}:\nSTDOUT: {result.stdout}\nSTDERR: {result.stderr}")
-                if "LaTeX" in result.stderr or "tex" in result.stderr.lower():
-                    logger.error("LaTeX error detected. Creating placeholder video.")
-                    placeholder = output_dir / f"placeholder_scene_{i}.mp4"
-                    create_placeholder_video(placeholder, text="Scene couldn't be rendered due to LaTeX issues.")
-                    video_files.append(str(placeholder))
-                elif "NameError" in result.stderr and "is not defined" in result.stderr:
-                    error_match = re.search(r"name '([^']+)' is not defined", result.stderr)
-                    error_name = error_match.group(1) if error_match else "undefined variable"
-                    logger.error(f"Name error detected: {error_name}. Creating placeholder.")
-                    placeholder = output_dir / f"placeholder_scene_{i}.mp4"
-                    create_placeholder_video(placeholder, text=f"Undefined name: {error_name}")
-                    video_files.append(str(placeholder))
-                else:
-                    logger.info("Retrying with basic quality...")
-                    cmd_retry = ["manim", "-l", str(scene_path), "UserAnimationScene", "-o", f"scene_{i}"]
-                    try:
-                        result = subprocess.run(cmd_retry, capture_output=True, text=True, timeout=120)
-                        if result.returncode == 0:
-                            scene_name = scene_path.stem
-                            video_dir = scene_path.parent
-                            base_media_dir = Path(video_dir.parent) / "videos"
-                            expected_video = base_media_dir / "videos" / scene_name / "480p15" / "UserAnimationScene.mp4"
-                            if expected_video.exists():
-                                output_path = output_dir / f"scene_{i}.mp4"
-                                shutil.copy(expected_video, output_path)
-                                video_files.append(str(output_path))
-                                logger.info(f"Rendered scene {i+1} to {output_path}")
-                            else:
-                                placeholder = output_dir / f"placeholder_scene_{i}.mp4"
-                                create_placeholder_video(placeholder, text=f"Scene {i+1} rendered but video not found")
-                                video_files.append(str(placeholder))
-                        else:
-                            logger.error(f"Retry failed for scene {i+1}. Creating placeholder.")
-                            placeholder = output_dir / f"placeholder_scene_{i}.mp4"
-                            create_placeholder_video(placeholder, text=f"Scene {i+1} rendering failed")
-                            video_files.append(str(placeholder))
-                    except Exception as e:
-                        logger.exception(f"Error during retry for scene {i+1}: {e}")
-                        placeholder = output_dir / f"placeholder_scene_{i}.mp4"
-                        create_placeholder_video(placeholder, text=f"Scene {i+1} rendering failed")
-                        video_files.append(str(placeholder))
-        except subprocess.TimeoutExpired:
-            logger.error(f"Rendering timed out for scene {i+1}. Creating placeholder.")
-            placeholder = output_dir / f"placeholder_scene_{i}.mp4"
-            create_placeholder_video(placeholder, text=f"Scene {i+1} rendering timed out")
-            video_files.append(str(placeholder))
+                logger.warning(f"Failed to create spec for {scene_path}")
         except Exception as e:
-            logger.exception(f"Error processing scene {i+1}: {e}")
-            placeholder = output_dir / f"placeholder_scene_{i}.mp4"
-            create_placeholder_video(placeholder, text=f"Scene {i+1} processing error")
-            video_files.append(str(placeholder))
+            logger.warning(f"Python module approach failed: {e}")
+        
+        # Approach 2: Using subprocess with improved command and error handling
+        if not success:
+            try:
+                # Try with Python executable to ensure correct environment
+                logger.info("Trying subprocess approach with Python executable")
+                
+                # Create a temporary script that runs the scene
+                run_script = output_dir / f"run_manim_{i}.py"
+                with open(run_script, "w") as f:
+                    f.write(f"""
+import sys
+sys.path.append("{os.path.dirname(os.path.abspath(scene_path))}")
+from manim import *
+from pathlib import Path
+
+# Configure Manim to output directly to the desired location with the correct filename
+config.media_dir = "{output_dir}"
+config.video_dir = "{output_dir}"
+config.output_file = "scene_{i}"
+
+# Compatibility fixes for different Manim versions
+if 'ShowCreation' not in globals():
+    ShowCreation = Create  # Updated name in newer Manim versions
+
+if 'FRAME_WIDTH' not in globals():
+    FRAME_WIDTH = config.frame_width  # Updated in newer Manim versions
+    FRAME_HEIGHT = config.frame_height
+
+# Add missing shapes/objects that might be referenced
+if 'Checkmark' not in globals():
+    class Checkmark(VMobject):
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
+            self.set_points_as_corners([
+                UP + LEFT, DOWN, RIGHT + UP,
+            ])
+            self.scale(0.5)
+
+# Physics compatibility code
+if 'Pendulum' not in globals():
+    class Pendulum(VGroup):
+        def __init__(self, length=3, angle=PI/4, weight_diameter=0.5, **kwargs):
+            super().__init__(**kwargs)
+            self.length = length
+            self.angle = angle
+            self.weight_diameter = weight_diameter
+            self.pivot = Dot(ORIGIN, color=WHITE)
+            self.rod = Line(ORIGIN, length * RIGHT, color=GRAY)
+            self.rod.rotate(angle, about_point=ORIGIN)
+            self.bob = Circle(radius=weight_diameter/2, color=BLUE, fill_opacity=1)
+            self.bob.move_to(self.rod.get_end())
+            self.add(self.pivot, self.rod, self.bob)
+            
+        def get_angle(self):
+            return self.angle
+
+if 'Pyramid' not in globals():
+    class Pyramid(ThreeDObject):
+        def __init__(self, base_side_length=2, height=3, color=BLUE, **kwargs):
+            super().__init__(**kwargs)
+            self.base_side_length = base_side_length
+            self.height = height
+            self.set_color(color)
+            self.create_pyramid()
+            
+        def create_pyramid(self):
+            # Create square base
+            base = Square(side_length=self.base_side_length)
+            base.rotate(PI/4, axis=UP)  # Rotate to diamond shape
+            
+            # Create apex point
+            apex = Dot3D(point=OUT * self.height)
+            
+            # Create triangular faces
+            square_vertices = base.get_vertices()
+            self.add(base)
+            
+            for i in range(4):
+                face = Polygon(
+                    square_vertices[i],
+                    square_vertices[(i+1) % 4],
+                    apex.get_center(),
+                    color=self.color,
+                    fill_opacity=0.7
+                )
+                self.add(face)
+
+# Physics-specific classes
+if 'GravityForce' not in globals():
+    class GravityForce(Arrow):
+        def __init__(self, obj, length=1, **kwargs):
+            super().__init__(obj.get_center(), obj.get_center() + DOWN * length, **kwargs)
+            self.add_updater(lambda m: m.put_start_and_end_on(obj.get_center(), obj.get_center() + DOWN * length))
+
+if 'Spring' not in globals():
+    class Spring(VMobject):
+        def __init__(self, start=ORIGIN, end=RIGHT*3, num_coils=5, radius=0.2, **kwargs):
+            super().__init__(**kwargs)
+            self.start = start
+            self.end = end
+            self.num_coils = num_coils
+            self.radius = radius
+            self.create_spring()
+            
+        def create_spring(self):
+            points = []
+            length = np.linalg.norm(self.end - self.start)
+            direction = (self.end - self.start) / length
+            normal = np.array([-direction[1], direction[0], 0])
+            
+            # Create coils
+            segment_length = length / (2 * self.num_coils + 2)
+            points.append(self.start)
+            points.append(self.start + direction * segment_length)
+            
+            for i in range(self.num_coils):
+                points.append(self.start + direction * ((2*i+1) * segment_length) + normal * self.radius)
+                points.append(self.start + direction * ((2*i+2) * segment_length) - normal * self.radius)
+            
+            points.append(self.end - direction * segment_length)
+            points.append(self.end)
+            
+            self.set_points_as_corners(points)
+
+# Import scene file
+scene_path = "{scene_path}"
+with open(scene_path, "r") as f:
+    scene_code = f.read()
+
+# Fix common issues in the scene code
+if "ShowCreation(" in scene_code and "ShowCreation = Create" not in scene_code:
+    scene_code = scene_code.replace("ShowCreation(", "Create(")
+
+if "FRAME_WIDTH" in scene_code and "FRAME_WIDTH = config.frame_width" not in scene_code:
+    scene_code = scene_code.replace("FRAME_WIDTH", "config.frame_width")
+
+if "ThreeDObject" in scene_code and "class UserAnimationScene(Scene)" in scene_code:
+    scene_code = scene_code.replace("class UserAnimationScene(Scene)", "class UserAnimationScene(ThreeDScene)")
+
+# If physics classes are used, make sure to use ThreeDScene
+physics_classes = ["GravityForce", "Pendulum", "Spring", "Pyramid", "Wave", "ArrowVectorField"]
+if any(cls in scene_code for cls in physics_classes) and "class UserAnimationScene(Scene)" in scene_code:
+    scene_code = scene_code.replace("class UserAnimationScene(Scene)", "class UserAnimationScene(ThreeDScene)")
+
+# Execute fixed scene code
+exec(scene_code)
+
+# Try to run the scene with error handling
+try:
+    scene = UserAnimationScene()
+    scene.render()
+except Exception as e:
+    print(f"Error rendering scene: {{e}}")
+    # Create a simple fallback scene with the error message
+    class FallbackScene(Scene):
+        def construct(self):
+            error_text = Text(f"Rendering Error\\n{{str(e)[:50]}}", color=RED)
+            self.play(Write(error_text))
+            self.wait(2)
+    FallbackScene().render()
+""")
+                
+                # Run the script
+                python_executable = sys.executable
+                cmd = [python_executable, str(run_script)]
+                result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+                
+                # Verify the output file exists
+                if output_path.exists() and output_path.stat().st_size > 0:
+                    logger.info(f"Successfully rendered to {output_path} using subprocess approach")
+                    success = True
+                else:
+                    # Look for any other generated mp4 file in the output directory
+                    for mp4_file in output_dir.glob("*.mp4"):
+                        if mp4_file.stat().st_size > 0 and (f"scene_{i}" in mp4_file.name or "UserAnimationScene" in mp4_file.name):
+                            if mp4_file.name != output_path.name:
+                                # If found but with wrong name, rename it
+                                mp4_file.rename(output_path)
+                                logger.info(f"Renamed {mp4_file} to {output_path}")
+                            success = True
+                            break
+                
+            except Exception as e:
+                logger.warning(f"Subprocess approach failed: {e}")
+        
+        # Approach 3: Original subprocess approach (fallback)
+        if not success:
+            try:
+                logger.info("Trying original manim command approach")
+                # Adding additional flags for improved compatibility and error handling
+                cmd = [
+                    "manim", "-ql", str(scene_path), "UserAnimationScene", 
+                    "-o", f"scene_{i}", "--media_dir", str(output_dir),
+                    "--use_opengl_renderer"  # Try OpenGL renderer for better 3D support
+                ]
+                result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+                
+                # Verify the output file exists
+                if output_path.exists() and output_path.stat().st_size > 0:
+                    logger.info(f"Successfully rendered to {output_path} using manim command approach")
+                    success = True
+                else:
+                    # Search for any generated mp4 files
+                    for root, _, files in os.walk(output_dir):
+                        for file in files:
+                            if file.endswith(".mp4") and (f"scene_{i}" in file or "UserAnimationScene" in file):
+                                file_path = Path(root) / file
+                                if file_path.stat().st_size > 0:
+                                    if file_path != output_path:
+                                        # If found but with wrong name/location, copy/move it
+                                        shutil.copy2(file_path, output_path)
+                                        logger.info(f"Copied {file_path} to {output_path}")
+                                    success = True
+                                    break
+            except Exception as e:
+                logger.warning(f"Original command approach failed: {e}")
+        
+        # If all approaches failed, create a placeholder
+        if not success or not output_path.exists() or output_path.stat().st_size == 0:
+            logger.warning(f"Failed to render scene {i+1}. Creating placeholder.")
+            create_placeholder_video(output_path, text=f"Scene {i+1} rendering failed")
+            
     logger.info(f"Rendered {len(scene_files)} Manim scenes")
     return video_files
 
@@ -294,7 +621,7 @@ def render_manim_scenes(scene_files: list, output_dir: str) -> list:
 # ---------------------------
 def create_timing_data(scenes: list, output_dirs: dict, duration_minutes: int = 5) -> list:
     """
-    Create timing data for synchronizing scenes with audio.
+    Create timing data for scene transitions.
     
     Args:
         scenes: List of scene descriptions.
@@ -302,35 +629,65 @@ def create_timing_data(scenes: list, output_dirs: dict, duration_minutes: int = 
         duration_minutes: Total video duration in minutes.
         
     Returns:
-        List of timing data dictionaries.
+        List of dictionaries with timing data (start_time, end_time) for each scene.
     """
-    total_duration = duration_minutes * 60
     scene_count = len(scenes)
     if scene_count == 0:
+        logger.warning("No scenes provided for timing data")
         return []
-
-    if scene_count <= 3:
-        section_durations = [total_duration / scene_count] * scene_count
-    else:
-        first = total_duration * 0.15
-        last = total_duration * 0.15
-        middle = (total_duration - first - last) / (scene_count - 2)
-        section_durations = [first] + [middle] * (scene_count - 2) + [last]
-
-    timing_data = []
-    current_time = 0
-    for duration in section_durations:
-        timing_data.append({
-            "start_time": current_time,
-            "end_time": current_time + duration
-        })
-        current_time += duration
-
-    timing_file = Path(get_timing_data_path())
-    timing_file.parent.mkdir(parents=True, exist_ok=True)
-    timing_file.write_text(json.dumps(timing_data))
     
-    for i, t in enumerate(timing_data, start=1):
+    # Ensure minimum duration is respected
+    total_duration = max(duration_minutes * 60, scene_count * 20)  # Ensure at least 20 seconds per scene
+    
+    timing_data = []
+    
+    # More sophisticated time distribution with minimum scene durations
+    if scene_count == 1:
+        # Single scene gets all the time
+        timing_data = [{"start_time": 0, "end_time": total_duration}]
+    elif scene_count == 2:
+        # Two scenes get roughly equal time with intro slightly shorter
+        first = total_duration * 0.45
+        second = total_duration * 0.55
+        timing_data = [
+            {"start_time": 0, "end_time": first},
+            {"start_time": first, "end_time": total_duration}
+        ]
+    else:
+        # Distribute time with more weight to middle content
+        # Introduction (15%), Content (70%), Conclusion (15%)
+        first = max(total_duration * 0.15, 30)  # At least 30 seconds for intro
+        last = max(total_duration * 0.15, 30)   # At least 30 seconds for conclusion
+        
+        # Calculate middle section, ensuring at least 45 seconds per middle section
+        remaining_time = total_duration - first - last
+        middle_sections = scene_count - 2
+        
+        # Ensure minimum middle section duration
+        min_middle_section = 45  # seconds
+        if remaining_time < middle_sections * min_middle_section:
+            # Adjust total duration to accommodate minimums
+            additional_needed = (middle_sections * min_middle_section) - remaining_time
+            total_duration += additional_needed
+            remaining_time += additional_needed
+            logger.info(f"Adjusted total duration to {total_duration}s to ensure minimum scene durations")
+        
+        middle = remaining_time / middle_sections
+        
+        # Create section durations list
+        section_durations = [first] + [middle] * middle_sections + [last]
+        
+        # Create timing data
+        current_time = 0
+        for duration in section_durations:
+            timing_data.append({
+                "start_time": current_time,
+                "end_time": current_time + duration
+            })
+            current_time += duration
+    
+    # Log the timing data
+    for i, t in enumerate(timing_data):
         logger.info(f"Scene {i}: {t['start_time']:.1f}s to {t['end_time']:.1f}s (duration: {t['end_time'] - t['start_time']:.1f}s)")
     
     return timing_data
@@ -431,6 +788,7 @@ def merge_videos_with_audio(video_files: list, timing_data: list, output_dirs: d
             for video in video_files:
                 f.write(f"file '{Path(video).resolve()}'\n")
         
+        # First concatenate the video files
         concat_video = temp_dir / "concat_video.mp4"
         subprocess.run([
             FFMPEG_PATH, "-y", "-f", "concat", "-safe", "0",
@@ -438,12 +796,69 @@ def merge_videos_with_audio(video_files: list, timing_data: list, output_dirs: d
         ], check=True)
         logger.info(f"Videos concatenated to {concat_video}")
 
+        # Intermediate file with audio
+        audio_video = temp_dir / "audio_video.mp4"
+        
+        # Add audio if available
+        if audio_path and Path(audio_path).exists() and Path(audio_path).stat().st_size > 0:
+            logger.info(f"Adding audio narration from {audio_path}")
+            
+            # Get video duration
+            ffprobe_cmd = [
+                FFMPEG_PATH, "-v", "error", "-select_streams", "v:0", 
+                "-show_entries", "stream=duration", "-of", "csv=p=0", 
+                str(concat_video)
+            ]
+            result = subprocess.run(ffprobe_cmd, capture_output=True, text=True, check=True)
+            video_duration = float(result.stdout.strip())
+            logger.info(f"Video duration: {video_duration:.2f} seconds")
+            
+            # Add audio to video
+            subprocess.run([
+                FFMPEG_PATH, "-y",
+                "-i", str(concat_video),  # Video input
+                "-i", str(audio_path),    # Audio input
+                "-c:v", "copy",           # Copy video codec
+                "-c:a", "aac",            # Convert audio to AAC
+                "-shortest",              # Match to shortest input
+                str(audio_video)
+            ], check=True)
+            logger.info(f"Added audio to video: {audio_video}")
+            
+            # Use the audio+video file for final steps
+            processed_video = audio_video
+        else:
+            logger.warning("No valid audio file found. Using video without narration.")
+            processed_video = concat_video
+        
+        # Final video with subtitles if available
+        final_output = temp_dir / "final_with_subs.mp4"
+        
+        if subtitle_path and Path(subtitle_path).exists():
+            logger.info(f"Adding subtitles from {subtitle_path}")
+            
+            # Add subtitles to the video
+            subprocess.run([
+                FFMPEG_PATH, "-y",
+                "-i", str(processed_video),
+                "-vf", f"subtitles={subtitle_path}:force_style='FontName=Arial,FontSize=24,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BackColour=&H80000000,BorderStyle=4,Outline=1,Shadow=0,MarginV=30'",
+                "-c:a", "copy",
+                str(final_output)
+            ], check=True)
+            logger.info(f"Added subtitles to video: {final_output}")
+            
+            # Use file with subtitles as the final version
+            final_source = final_output
+        else:
+            logger.warning("No subtitle file found. Using video without subtitles.")
+            final_source = processed_video
+        
         # Save final video directly to the root directory for simplicity
         root_final_video = Path(project_root) / "final_video.mp4"
         
-        # Copy the concatenated video as the final video to project root
+        # Copy the final video to project root
         try:
-            shutil.copy2(str(concat_video), str(root_final_video))
+            shutil.copy2(str(final_source), str(root_final_video))
             logger.info(f"Final video created at root: {root_final_video}")
         except Exception as e:
             logger.error(f"Failed to copy to root directory: {e}")
@@ -452,24 +867,21 @@ def merge_videos_with_audio(video_files: list, timing_data: list, output_dirs: d
         # Save in standard output location
         final_video = Path(output_dirs.get("videos", ".")) / "final_video.mp4"
         final_video.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(str(concat_video), str(final_video))
+        shutil.copy2(str(final_source), str(final_video))
         logger.info(f"Final video created at {final_video}")
         
         # Create a more accessible copy in the output directory (for backward compatibility)
         accessible_copy = Path("output") / "final_video.mp4"
         try:
             accessible_copy.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(str(concat_video), str(accessible_copy))
+            shutil.copy2(str(final_source), str(accessible_copy))
             logger.info(f"Created accessible copy at {accessible_copy}")
         except Exception as e:
             logger.error(f"Failed to create accessible copy: {e}")
         
-        # If root copy succeeded, return that path, otherwise return the standard path
-        if root_final_video.exists():
-            return str(root_final_video)
         return str(final_video)
     except Exception as e:
-        logger.exception(f"Error merging videos: {e}")
+        logger.exception(f"Error merging videos with audio: {e}")
         return None
 
 # ---------------------------
@@ -488,11 +900,30 @@ def create_silent_audio_placeholder(output_path: Path, duration_seconds: float) 
     """
     try:
         duration_seconds = math.ceil(duration_seconds)
-        # Create a simple empty file instead of trying to use ffmpeg
-        logger.info(f"Creating silent audio placeholder at {output_path}")
+        logger.info(f"Creating silent audio placeholder at {output_path} for {duration_seconds} seconds")
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        output_path.touch()
-        return output_path
+        
+        # Use ffmpeg to create a proper silent audio file
+        cmd = [
+            FFMPEG_PATH, "-y",
+            "-f", "lavfi", 
+            "-i", f"anullsrc=r=44100:cl=stereo",
+            "-t", str(duration_seconds),
+            "-c:a", "libmp3lame",
+            "-b:a", "128k",
+            str(output_path)
+        ]
+        
+        try:
+            result = subprocess.run(cmd, check=True, capture_output=True, text=True)
+            logger.info(f"Created silent audio with ffmpeg at {output_path}")
+            return output_path
+        except subprocess.CalledProcessError as e:
+            logger.warning(f"FFmpeg error creating silent audio: {e.stderr}")
+            # Fallback to touching the file if ffmpeg fails
+            output_path.touch()
+            return output_path
+            
     except Exception as e:
         logger.exception(f"Error creating silent audio placeholder: {e}")
         output_path.touch()
@@ -535,6 +966,32 @@ def create_placeholder_video(output_path: Path, text: str, duration: int = 10) -
         return output_path
 
 # ---------------------------
+# Function: Create Placeholder Videos (Multiple)
+# ---------------------------
+def create_placeholder_videos(count: int, output_dirs: dict) -> list:
+    """
+    Create multiple placeholder videos.
+    
+    Args:
+        count: Number of placeholder videos to create.
+        output_dirs: Dictionary with output directory paths.
+        
+    Returns:
+        List of paths to created placeholder videos.
+    """
+    output_dir = Path(output_dirs.get("output_dir", "output/videos"))
+    output_dir.mkdir(parents=True, exist_ok=True)
+    
+    video_files = []
+    for i in range(count):
+        placeholder = output_dir / f"placeholder_scene_{i}.mp4"
+        create_placeholder_video(placeholder, text=f"Placeholder for scene {i+1}")
+        video_files.append(str(placeholder))
+    
+    logger.info(f"Created {count} placeholder videos")
+    return video_files
+
+# ---------------------------
 # Function: Create Math Tutorial
 # ---------------------------
 def create_math_tutorial(topic, level="beginner", duration=3, dry_run=False, progress_callback=None, timeout=300):
@@ -543,7 +1000,7 @@ def create_math_tutorial(topic, level="beginner", duration=3, dry_run=False, pro
     
     Args:
         topic: The topic of the math tutorial.
-        level: Difficulty level (beginner, intermediate, advanced).
+        level: Difficulty level (1=beginner, 2=intermediate, 3=advanced) or string.
         duration: Duration of the video in minutes.
         dry_run: If True, use placeholder content instead of generated content.
         progress_callback: Function to call with progress updates.
@@ -554,6 +1011,10 @@ def create_math_tutorial(topic, level="beginner", duration=3, dry_run=False, pro
     """
     try:
         start_time = time.time()
+        
+        # Ensure minimum duration
+        duration = max(duration, 3)  # Minimum 3 minute duration
+        
         logger.info(f"Creating math tutorial: {topic}, level: {level}, duration: {duration} min, dry_run: {dry_run}")
         
         # Default progress callback if none provided
@@ -571,13 +1032,18 @@ def create_math_tutorial(topic, level="beginner", duration=3, dry_run=False, pro
         tutorial_dir.mkdir(exist_ok=True)
         logger.info(f"Created tutorial directory: {tutorial_dir}")
         
-        # Step 1: Generate script
-        progress_callback(5.0, f"Generating script for '{topic}'...")
+        # Step 1: Generate script with appropriate duration
+        progress_callback(5.0, f"Generating script for '{topic}' ({duration} min)...")
         logger.info(f"Generating script for topic: {topic}, level: {level}, duration: {duration}, dry_run: {dry_run}")
+        
+        # Adjust target duration for script to ensure final video is at least the requested duration
+        script_duration = int(duration * 1.2)  # Generate script for 20% longer than target
+        logger.info(f"Using adjusted script duration of {script_duration} minutes to ensure minimum video length")
+        
         script = script_generator.generate_math_tutorial_script(
             topic=topic,
             level=level,
-            duration=duration,
+            duration=script_duration,
             dry_run=dry_run
         )
         progress_callback(10.0, f"Script generation completed ({len(script)} characters)")
@@ -618,10 +1084,20 @@ def create_math_tutorial(topic, level="beginner", duration=3, dry_run=False, pro
                 logger.error(f"Error generating Manim code for scene {i+1}: {str(e)}")
                 # Continue with other scenes if one fails
         
-        # Step 4: Create timing data
+        # Step 4: Create timing data 
         progress_callback(35.0, f"Creating timing data for video...")
         timing_data = create_timing_data(scenes, output_dirs, duration)
         progress_callback(40.0, f"Created timing data for {len(timing_data)} scenes")
+        
+        # Calculate total video duration from timing data
+        if timing_data:
+            estimated_duration = timing_data[-1]["end_time"] / 60
+            logger.info(f"Estimated video duration based on timing data: {estimated_duration:.2f} minutes")
+            if estimated_duration < duration:
+                logger.warning(f"Estimated duration is less than requested duration. Adjusting timing...")
+                # Recalculate timing data with increased duration
+                timing_data = create_timing_data(scenes, output_dirs, int(duration * 1.1))
+                logger.info(f"Adjusted timing data for minimum duration of {duration} minutes")
         
         # Step 5: Render scenes
         progress_callback(45.0, f"Rendering scene animations...")

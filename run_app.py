@@ -4,13 +4,13 @@ Main application server for the Math Tutorial Generator.
 This script runs the Flask API server and serves the frontend.
 
 Usage:
-  python run_app.py [--debug] [--verbose] [--port PORT] [--reload]
+  python run_app.py [--debug] [--verbose] [--port PORT] [--no-reload]
 
 Options:
   --debug      Run in debug mode with enhanced error messages
   --verbose    Enable verbose logging
   --port       Specify port number (default: 8742)
-  --reload     Enable auto-reloading when files change (not recommended during video generation)
+  --no-reload  Disable auto-reloading when files change (recommended during video generation)
 """
 
 import os
@@ -34,7 +34,7 @@ parser = argparse.ArgumentParser(description='Run the Math Tutorial Generator se
 parser.add_argument('--debug', action='store_true', help='Run in debug mode with enhanced error messages')
 parser.add_argument('--verbose', action='store_true', help='Enable verbose logging')
 parser.add_argument('--port', type=int, default=8742, help='Port number (default: 8742)')
-parser.add_argument('--reload', action='store_true', help='Enable auto-reloading when files change (not recommended during video generation)')
+parser.add_argument('--no-reload', action='store_true', help='Disable auto-reloading when files change (recommended during video generation)')
 args = parser.parse_args()
 
 # Configure logging
@@ -253,10 +253,6 @@ def signal_handler(sig, frame):
     # Perform any cleanup needed here
     sys.exit(0)
 
-# Register signal handlers
-signal.signal(signal.SIGINT, signal_handler)
-signal.signal(signal.SIGTERM, signal_handler)
-
 # Monitor active tasks
 def task_monitor():
     """Monitor active tasks and log their status."""
@@ -319,23 +315,28 @@ def task_monitor():
         time.sleep(30)
 
 if __name__ == '__main__':
-    # Record start time
+    # Record the start time for uptime calculation
     start_time = time.time()
     
-    # Start task monitor in background
-    monitor_thread = threading.Thread(target=task_monitor, daemon=True)
-    monitor_thread.start()
+    # Setup signal handlers for graceful shutdown
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGTERM, signal_handler)
     
-    # Display startup message
+    # Print server information
     print("=" * 50)
     print("  🧮 Math Tutorial Generator Server 🎥")
     print("=" * 50)
     print(f"Frontend: http://localhost:{args.port}")
     print(f"API: http://localhost:{args.port}/api")
     print(f"Debug mode: {'ON' if args.debug else 'OFF'}")
-    print(f"Auto-reload: {'ON' if args.reload else 'OFF'}")
+    print(f"Auto-reload: {'OFF' if args.no_reload else 'ON'}")
     print(f"Verbose logging: {'ON' if args.verbose else 'OFF'}")
     print("=" * 50)
     
-    # Run the application with auto-reload disabled by default
-    app.run(debug=args.debug, host='0.0.0.0', port=args.port, use_reloader=args.reload) 
+    # Run the Flask app
+    app.run(
+        host='0.0.0.0',  # Make the server publicly available
+        port=args.port,
+        debug=args.debug,
+        use_reloader=not args.no_reload  # Disable reloader if --no-reload is specified
+    ) 

@@ -94,3 +94,55 @@
 2025-03-14 18:04:43,425 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 2 using generative-manim approach
 2025-03-14 18:04:53,219 - src.backend.generative_manim_integration - INFO - Received response (1388 characters)
 2025-03-14 18:04:53,219 - src.backend.generative_manim_integration - INFO - Generated Manim code successfully (1387 characters)
+2025-03-14 22:04:45,012 - src.backend.generative_manim_integration - INFO - Loaded Manim docs (14888 characters)
+2025-03-14 22:11:53,559 - src.backend.generative_manim_integration - INFO - Loaded Manim docs (14888 characters)
+2025-03-14 22:12:38,726 - src.backend.generative_manim_integration - INFO - Loaded Manim docs (14888 characters)
+2025-03-14 22:13:12,010 - src.backend.generative_manim_integration - INFO - Loaded Manim docs (14888 characters)
+2025-03-14 22:14:09,181 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 0 using generative-manim approach
+2025-03-14 22:14:22,495 - src.backend.generative_manim_integration - INFO - Received response (2336 characters)
+2025-03-14 22:14:22,495 - src.backend.generative_manim_integration - INFO - Generated Manim code successfully (2332 characters)
+2025-03-14 22:14:22,500 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 1 using generative-manim approach
+2025-03-14 22:14:36,708 - src.backend.generative_manim_integration - INFO - Received response (2224 characters)
+2025-03-14 22:14:36,708 - src.backend.generative_manim_integration - INFO - Generated Manim code successfully (2220 characters)
+2025-03-14 22:14:36,710 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 2 using generative-manim approach
+2025-03-14 22:14:56,471 - src.backend.generative_manim_integration - INFO - Received response (2258 characters)
+2025-03-14 22:14:56,471 - src.backend.generative_manim_integration - INFO - Generated Manim code successfully (2254 characters)
+2025-03-14 22:27:30,410 - src.backend.generative_manim_integration - INFO - Loaded Manim docs (14888 characters)
+2025-03-14 22:28:45,827 - src.backend.generative_manim_integration - INFO - Loaded Manim docs (14888 characters)
+2025-03-14 22:31:13,873 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 0 using generative-manim approach
+2025-03-14 22:31:28,531 - src.backend.generative_manim_integration - INFO - Received response (2306 characters)
+2025-03-14 22:31:28,531 - src.backend.generative_manim_integration - INFO - Generated Manim code successfully (2302 characters)
+2025-03-14 22:31:28,533 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 1 using generative-manim approach
+2025-03-14 22:31:37,241 - src.backend.generative_manim_integration - INFO - Received response (1484 characters)
+2025-03-14 22:31:37,241 - src.backend.generative_manim_integration - INFO - Generated Manim code successfully (1480 characters)
+2025-03-14 22:31:37,243 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 2 using generative-manim approach
+2025-03-14 22:31:42,413 - src.backend.generative_manim_integration - INFO - Received response (506 characters)
+2025-03-14 22:31:42,414 - src.backend.generative_manim_integration - INFO - Generated Manim code successfully (502 characters)
+2025-03-14 22:50:15,440 - src.backend.generative_manim_integration - INFO - Loaded Manim docs (14888 characters)
+2025-03-14 22:51:51,845 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 0 using generative-manim approach
+2025-03-14 22:52:05,702 - src.backend.generative_manim_integration - INFO - Received response (2405 characters)
+2025-03-14 22:52:05,702 - src.backend.generative_manim_integration - INFO - Generated Manim code successfully (2401 characters)
+2025-03-14 22:52:05,704 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 1 using generative-manim approach
+2025-03-14 22:52:20,585 - src.backend.generative_manim_integration - INFO - Received response (1783 characters)
+2025-03-14 22:52:20,585 - src.backend.generative_manim_integration - INFO - Generated Manim code successfully (1779 characters)
+2025-03-14 22:52:20,587 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 2 using generative-manim approach
+2025-03-14 22:52:33,752 - src.backend.generative_manim_integration - INFO - Received response (1825 characters)
+2025-03-14 22:52:33,752 - src.backend.generative_manim_integration - INFO - Generated Manim code successfully (1821 characters)
+2025-03-14 22:52:33,756 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 3 using generative-manim approach
+2025-03-14 22:52:51,700 - src.backend.generative_manim_integration - INFO - Received response (2345 characters)
+2025-03-14 22:52:51,700 - src.backend.generative_manim_integration - INFO - Generated Manim code successfully (2341 characters)
+2025-03-14 23:43:07,124 - src.backend.generative_manim_integration - INFO - Loaded Manim docs (14888 characters)
+2025-03-14 23:44:22,156 - src.backend.generative_manim_integration - INFO - Loaded Manim docs (14888 characters)
+2025-03-14 23:45:13,995 - src.backend.generative_manim_integration - INFO - Loaded Manim docs (14888 characters)
+2025-03-14 23:45:58,903 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 0 using generative-manim approach
+2025-03-14 23:46:18,214 - src.backend.generative_manim_integration - INFO - Received response (2909 characters)
+2025-03-14 23:46:18,214 - src.backend.generative_manim_integration - INFO - Generated Manim code successfully (2905 characters)
+2025-03-14 23:46:18,218 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 1 using generative-manim approach
+2025-03-14 23:46:33,241 - src.backend.generative_manim_integration - INFO - Received response (2181 characters)
+2025-03-14 23:46:33,241 - src.backend.generative_manim_integration - INFO - Generated Manim code successfully (2177 characters)
+2025-03-14 23:46:33,244 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 2 using generative-manim approach
+2025-03-14 23:46:45,460 - src.backend.generative_manim_integration - INFO - Received response (2122 characters)
+2025-03-14 23:46:45,460 - src.backend.generative_manim_integration - INFO - Generated Manim code successfully (1850 characters)
+2025-03-14 23:46:45,464 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 3 using generative-manim approach
+2025-03-14 23:47:04,894 - src.backend.generative_manim_integration - INFO - Received response (2236 characters)
+2025-03-14 23:47:04,895 - src.backend.generative_manim_integration - INFO - Generated Manim code successfully (1824 characters)

@@ -1548,3 +1548,142 @@ NameError: name 'Pyramid' is not defined
 2025-03-14 18:05:01,627 - src.backend.video_generator - INFO - Final video created at root: /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/final_video.mp4
 2025-03-14 18:05:01,627 - src.backend.video_generator - INFO - Final video created at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/final_video.mp4
 2025-03-14 18:05:01,628 - src.backend.video_generator - INFO - Created accessible copy at output/final_video.mp4
+2025-03-14 22:04:45,219 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 22:11:53,771 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 22:12:38,892 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 22:13:12,203 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 22:14:56,475 - src.backend.video_generator - INFO - Scene 1: 0.0s to 60.0s (duration: 60.0s)
+2025-03-14 22:14:56,475 - src.backend.video_generator - INFO - Scene 2: 60.0s to 120.0s (duration: 60.0s)
+2025-03-14 22:14:56,475 - src.backend.video_generator - INFO - Scene 3: 120.0s to 180.0s (duration: 60.0s)
+2025-03-14 22:14:56,476 - src.backend.video_generator - INFO - Rendering 3 Manim scenes
+2025-03-14 22:14:56,476 - src.backend.video_generator - INFO - Setting FFMPEG_BINARY environment variable to /Users/dariuskashani/bin/ffmpeg
+2025-03-14 22:14:57,376 - src.backend.video_generator - INFO - Rendering scene 1 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 22:14:57,376 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 22:14:57,377 - src.backend.video_generator - INFO - Trying Python module approach to render Manim scene
+2025-03-14 22:15:09,288 - src.backend.video_generator - WARNING - Python module approach failed: list index out of range
+2025-03-14 22:15:09,288 - src.backend.video_generator - INFO - Trying subprocess approach with Python executable
+2025-03-14 22:15:21,182 - src.backend.video_generator - INFO - Found rendered video by searching: /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/scene_0.mp4
+2025-03-14 22:22:26,329 - src.backend.video_generator - INFO - Scene 1: 0.0s to 30.0s (duration: 30.0s)
+2025-03-14 22:22:26,329 - src.backend.video_generator - INFO - Scene 2: 30.0s to 60.0s (duration: 30.0s)
+2025-03-14 22:22:26,329 - src.backend.video_generator - INFO - Rendering 2 Manim scenes
+2025-03-14 22:22:26,329 - src.backend.video_generator - INFO - Setting FFMPEG_BINARY environment variable to /Users/dariuskashani/bin/ffmpeg
+2025-03-14 22:22:27,010 - src.backend.video_generator - INFO - Rendering scene 1 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 22:22:27,010 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 22:22:27,011 - src.backend.video_generator - INFO - Trying Python module approach to render Manim scene
+2025-03-14 22:22:38,423 - src.backend.video_generator - INFO - Trying subprocess approach with Python executable
+2025-03-14 22:22:50,059 - src.backend.video_generator - INFO - Found rendered video by searching: /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/scene_0.mp4
+2025-03-14 22:22:50,059 - src.backend.video_generator - INFO - Found rendered video by searching: /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/videos/1080p60/UserAnimationScene.mp4
+2025-03-14 22:22:50,062 - src.backend.video_generator - INFO - Copied rendered scene 1 to /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/scene_0.mp4
+2025-03-14 22:22:50,062 - src.backend.video_generator - INFO - Rendering scene 2 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 22:22:50,062 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 22:22:50,063 - src.backend.video_generator - INFO - Trying Python module approach to render Manim scene
+2025-03-14 22:22:58,512 - src.backend.video_generator - INFO - Trying subprocess approach with Python executable
+2025-03-14 22:23:07,807 - src.backend.video_generator - INFO - Found rendered video by searching: /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/scene_1.mp4
+2025-03-14 22:23:07,808 - src.backend.video_generator - INFO - Found rendered video by searching: /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/videos/1080p60/UserAnimationScene.mp4
+2025-03-14 22:23:07,809 - src.backend.video_generator - INFO - Copied rendered scene 2 to /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/scene_1.mp4
+2025-03-14 22:23:07,809 - src.backend.video_generator - INFO - Rendered 2 Manim scenes
+2025-03-14 22:23:07,812 - src.backend.video_generator - INFO - [DRY RUN] Creating silent audio placeholder.
+2025-03-14 22:23:07,812 - src.backend.video_generator - INFO - Creating silent audio placeholder at generated/audio/narration.mp3
+2025-03-14 22:23:07,812 - src.backend.video_generator - INFO - Generating subtitle file from script...
+2025-03-14 22:23:07,813 - src.backend.video_generator - INFO - Generated SRT file with 6 entries at /Users/dariuskashani/CodeProjects/ai_tutor/output/data/subtitles.srt
+2025-03-14 22:23:07,932 - src.backend.video_generator - INFO - Videos concatenated to /Users/dariuskashani/CodeProjects/ai_tutor/output/temp/concat_video.mp4
+2025-03-14 22:23:07,934 - src.backend.video_generator - INFO - Final video created at root: /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/final_video.mp4
+2025-03-14 22:23:07,937 - src.backend.video_generator - INFO - Final video created at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/final_video.mp4
+2025-03-14 22:23:07,938 - src.backend.video_generator - INFO - Created accessible copy at output/final_video.mp4
+2025-03-14 22:27:30,622 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 22:28:46,026 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 22:31:42,416 - src.backend.video_generator - INFO - Scene 1: 0.0s to 20.0s (duration: 20.0s)
+2025-03-14 22:31:42,416 - src.backend.video_generator - INFO - Scene 2: 20.0s to 40.0s (duration: 20.0s)
+2025-03-14 22:31:42,416 - src.backend.video_generator - INFO - Scene 3: 40.0s to 60.0s (duration: 20.0s)
+2025-03-14 22:31:42,416 - src.backend.video_generator - INFO - Rendering 3 Manim scenes
+2025-03-14 22:31:42,417 - src.backend.video_generator - INFO - Setting FFMPEG_BINARY environment variable to /Users/dariuskashani/bin/ffmpeg
+2025-03-14 22:31:43,176 - src.backend.video_generator - INFO - Rendering scene 1 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 22:31:43,176 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 22:31:43,177 - src.backend.video_generator - INFO - Output file already exists at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/scene_0.mp4, skipping rendering
+2025-03-14 22:31:43,177 - src.backend.video_generator - INFO - Rendering scene 2 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 22:31:43,177 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 22:31:43,177 - src.backend.video_generator - INFO - Output file already exists at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/scene_1.mp4, skipping rendering
+2025-03-14 22:31:43,177 - src.backend.video_generator - INFO - Rendering scene 3 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 22:31:43,177 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 22:31:43,177 - src.backend.video_generator - INFO - Trying Python module approach to render Manim scene
+2025-03-14 22:31:46,004 - src.backend.video_generator - INFO - Successfully rendered to /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/scene_2.mp4 using Python module approach
+2025-03-14 22:31:46,004 - src.backend.video_generator - INFO - Rendered 3 Manim scenes
+2025-03-14 22:31:46,005 - src.backend.video_generator - WARNING - ElevenLabs not available, creating silent audio.
+2025-03-14 22:31:46,005 - src.backend.video_generator - INFO - Creating silent audio placeholder at generated/audio/narration.mp3
+2025-03-14 22:31:46,005 - src.backend.video_generator - INFO - Generating subtitle file from script...
+2025-03-14 22:31:46,005 - src.backend.video_generator - INFO - Generated SRT file with 6 entries at /Users/dariuskashani/CodeProjects/ai_tutor/output/data/subtitles.srt
+2025-03-14 22:31:46,108 - src.backend.video_generator - INFO - Videos concatenated to /Users/dariuskashani/CodeProjects/ai_tutor/output/temp/concat_video.mp4
+2025-03-14 22:31:46,109 - src.backend.video_generator - INFO - Final video created at root: /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/final_video.mp4
+2025-03-14 22:31:46,112 - src.backend.video_generator - INFO - Final video created at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/final_video.mp4
+2025-03-14 22:31:46,114 - src.backend.video_generator - INFO - Created accessible copy at output/final_video.mp4
+2025-03-14 22:50:15,663 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 22:52:51,701 - src.backend.video_generator - INFO - Scene 1: 0.0s to 45.0s (duration: 45.0s)
+2025-03-14 22:52:51,701 - src.backend.video_generator - INFO - Scene 2: 45.0s to 150.0s (duration: 105.0s)
+2025-03-14 22:52:51,701 - src.backend.video_generator - INFO - Scene 3: 150.0s to 255.0s (duration: 105.0s)
+2025-03-14 22:52:51,701 - src.backend.video_generator - INFO - Scene 4: 255.0s to 300.0s (duration: 45.0s)
+2025-03-14 22:52:51,701 - src.backend.video_generator - INFO - Rendering 4 Manim scenes
+2025-03-14 22:52:51,701 - src.backend.video_generator - INFO - Setting FFMPEG_BINARY environment variable to /Users/dariuskashani/bin/ffmpeg
+2025-03-14 22:52:52,350 - src.backend.video_generator - INFO - Rendering scene 1 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 22:52:52,350 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 22:52:52,353 - src.backend.video_generator - INFO - Output file already exists at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/scene_0.mp4, skipping rendering
+2025-03-14 22:52:52,353 - src.backend.video_generator - INFO - Rendering scene 2 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 22:52:52,353 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 22:52:52,353 - src.backend.video_generator - INFO - Output file already exists at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/scene_1.mp4, skipping rendering
+2025-03-14 22:52:52,353 - src.backend.video_generator - INFO - Rendering scene 3 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 22:52:52,353 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 22:52:52,354 - src.backend.video_generator - INFO - Output file already exists at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/scene_2.mp4, skipping rendering
+2025-03-14 22:52:52,354 - src.backend.video_generator - INFO - Rendering scene 4 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_3.py
+2025-03-14 22:52:52,354 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_3.py
+2025-03-14 22:52:52,354 - src.backend.video_generator - INFO - Trying Python module approach to render Manim scene
+2025-03-14 22:53:02,388 - src.backend.video_generator - INFO - Successfully rendered to /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/scene_3.mp4 using Python module approach
+2025-03-14 22:53:02,388 - src.backend.video_generator - INFO - Rendered 4 Manim scenes
+2025-03-14 22:53:02,389 - src.backend.video_generator - WARNING - ElevenLabs not available, creating silent audio.
+2025-03-14 22:53:02,389 - src.backend.video_generator - INFO - Creating silent audio placeholder at generated/audio/narration.mp3
+2025-03-14 22:53:02,389 - src.backend.video_generator - INFO - Generating subtitle file from script...
+2025-03-14 22:53:02,390 - src.backend.video_generator - INFO - Generated SRT file with 10 entries at /Users/dariuskashani/CodeProjects/ai_tutor/output/data/subtitles.srt
+2025-03-14 22:53:02,541 - src.backend.video_generator - INFO - Videos concatenated to /Users/dariuskashani/CodeProjects/ai_tutor/output/temp/concat_video.mp4
+2025-03-14 22:53:02,544 - src.backend.video_generator - INFO - Final video created at root: /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/final_video.mp4
+2025-03-14 22:53:02,545 - src.backend.video_generator - INFO - Final video created at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/final_video.mp4
+2025-03-14 22:53:02,547 - src.backend.video_generator - INFO - Created accessible copy at output/final_video.mp4
+2025-03-14 23:43:06,910 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 23:43:07,131 - src.backend.video_generator - INFO - Creating math tutorial: The Pythagorean Theorem, level: 2, duration: 5 min, dry_run: False
+2025-03-14 23:43:07,131 - src.backend.video_generator - INFO - Retrieved project directories: {'project': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output'), 'scenes': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/scenes'), 'videos': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/videos'), 'audio': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/audio'), 'data': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/data'), 'temp': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/temp'), 'tutorials': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/tutorials')}
+2025-03-14 23:43:07,131 - src.backend.video_generator - INFO - Created tutorial directory: /Users/dariuskashani/CodeProjects/ai_tutor/output/tutorials/1742020987
+2025-03-14 23:43:07,131 - src.backend.video_generator - INFO - Generating script for topic: The Pythagorean Theorem, level: 2, duration: 5, dry_run: False
+2025-03-14 23:43:07,131 - src.backend.video_generator - INFO - Using adjusted script duration of 6 minutes to ensure minimum video length
+2025-03-14 23:44:22,370 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 23:45:14,197 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 23:47:04,896 - src.backend.video_generator - INFO - Scene 0: 0.0s to 45.0s (duration: 45.0s)
+2025-03-14 23:47:04,896 - src.backend.video_generator - INFO - Scene 1: 45.0s to 150.0s (duration: 105.0s)
+2025-03-14 23:47:04,896 - src.backend.video_generator - INFO - Scene 2: 150.0s to 255.0s (duration: 105.0s)
+2025-03-14 23:47:04,896 - src.backend.video_generator - INFO - Scene 3: 255.0s to 300.0s (duration: 45.0s)
+2025-03-14 23:47:04,897 - src.backend.video_generator - INFO - Rendering 4 Manim scenes
+2025-03-14 23:47:04,897 - src.backend.video_generator - INFO - Setting FFMPEG_BINARY environment variable to /Users/dariuskashani/bin/ffmpeg
+2025-03-14 23:47:05,578 - src.backend.video_generator - INFO - Rendering scene 1 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 23:47:05,579 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 23:47:05,580 - src.backend.video_generator - INFO - Output file already exists at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/scene_0.mp4, skipping rendering
+2025-03-14 23:47:05,580 - src.backend.video_generator - INFO - Rendering scene 2 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 23:47:05,580 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 23:47:05,581 - src.backend.video_generator - INFO - Output file already exists at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/scene_1.mp4, skipping rendering
+2025-03-14 23:47:05,581 - src.backend.video_generator - INFO - Rendering scene 3 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 23:47:05,581 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 23:47:05,581 - src.backend.video_generator - INFO - Output file already exists at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/scene_2.mp4, skipping rendering
+2025-03-14 23:47:05,581 - src.backend.video_generator - INFO - Rendering scene 4 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_3.py
+2025-03-14 23:47:05,582 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_3.py
+2025-03-14 23:47:05,582 - src.backend.video_generator - INFO - Output file already exists at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/scene_3.mp4, skipping rendering
+2025-03-14 23:47:05,582 - src.backend.video_generator - INFO - Rendered 4 Manim scenes
+2025-03-14 23:47:05,582 - src.backend.video_generator - WARNING - ElevenLabs package not available. Creating silent audio.
+2025-03-14 23:47:05,582 - src.backend.video_generator - INFO - Creating silent audio placeholder at generated/audio/narration.mp3 for 218 seconds
+2025-03-14 23:47:08,902 - src.backend.video_generator - INFO - Created silent audio with ffmpeg at generated/audio/narration.mp3
+2025-03-14 23:47:08,902 - src.backend.video_generator - INFO - Generating subtitle file from script...
+2025-03-14 23:47:08,903 - src.backend.video_generator - INFO - Generated SRT file with 52 entries at /Users/dariuskashani/CodeProjects/ai_tutor/output/data/subtitles.srt
+2025-03-14 23:47:08,976 - src.backend.video_generator - INFO - Videos concatenated to /Users/dariuskashani/CodeProjects/ai_tutor/output/temp/concat_video.mp4
+2025-03-14 23:47:08,977 - src.backend.video_generator - INFO - Adding audio narration from generated/audio/narration.mp3
+2025-03-14 23:47:08,997 - src.backend.video_generator - ERROR - Error merging videos with audio: Command '['/Users/dariuskashani/bin/ffmpeg', '-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=duration', '-of', 'csv=p=0', '/Users/dariuskashani/CodeProjects/ai_tutor/output/temp/concat_video.mp4']' returned non-zero exit status 8.
+Traceback (most recent call last):
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/src/backend/video_generator.py", line 812, in merge_videos_with_audio
+    result = subprocess.run(ffprobe_cmd, capture_output=True, text=True, check=True)
+  File "/opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 579, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/Users/dariuskashani/bin/ffmpeg', '-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=duration', '-of', 'csv=p=0', '/Users/dariuskashani/CodeProjects/ai_tutor/output/temp/concat_video.mp4']' returned non-zero exit status 8.
