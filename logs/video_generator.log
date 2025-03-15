@@ -1,0 +1,1477 @@
+2025-03-14 13:57:59,346 - src.backend.video_generator - INFO - Creating math tutorial: pythgagorean theorem, level: 6, duration: 2 min, id: 22f73d08-64a3-4ed2-a91c-9ef4de145860
+2025-03-14 13:57:59,348 - src.backend.video_generator - INFO - Retrieved project directories: {'project': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output'), 'scenes': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/scenes'), 'videos': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/videos'), 'audio': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/audio'), 'data': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/data'), 'temp': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/temp'), 'tutorials': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/tutorials')}
+2025-03-14 13:57:59,349 - src.backend.video_generator - INFO - Created tutorial directory: /Users/dariuskashani/CodeProjects/ai_tutor/output/tutorials/22f73d08-64a3-4ed2-a91c-9ef4de145860
+2025-03-14 13:57:59,349 - src.backend.video_generator - INFO - Generating script for topic: pythgagorean theorem, level: 6, duration: 2, dry_run: True
+2025-03-14 13:57:59,350 - src.backend.video_generator - ERROR - Error generating script: 'int' object has no attribute 'lower'
+2025-03-14 13:57:59,350 - src.backend.video_generator - ERROR - Error creating math tutorial: 'int' object has no attribute 'lower'
+2025-03-14 14:25:30,679 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 14:37:16,329 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 14:38:27,482 - src.backend.video_generator - INFO - Scene 1: 0.0s to 20.0s (duration: 20.0s)
+2025-03-14 14:38:27,482 - src.backend.video_generator - INFO - Scene 2: 20.0s to 40.0s (duration: 20.0s)
+2025-03-14 14:38:27,482 - src.backend.video_generator - INFO - Scene 3: 40.0s to 60.0s (duration: 20.0s)
+2025-03-14 14:38:27,483 - src.backend.video_generator - INFO - Rendering 3 Manim scenes
+2025-03-14 14:38:29,338 - src.backend.video_generator - INFO - Rendering scene 1 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 14:38:29,338 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 14:38:31,538 - src.backend.video_generator - WARNING - Rendered video for scene 1 not found. Creating placeholder.
+2025-03-14 14:38:31,538 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4 with text: Scene 1 rendered but video not found
+2025-03-14 14:38:33,094 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4
+2025-03-14 14:38:33,095 - src.backend.video_generator - INFO - Rendering scene 2 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 14:38:33,095 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 14:38:33,836 - src.backend.video_generator - ERROR - Error rendering scene 2:
+STDOUT: Manim Community v0.19.0
+
+[03/14/25 14:38:33] INFO     Writing 0 to   tex_file_writing.py:111
+                             media/Tex/66e1                        
+                             bc57a83e0f07.t                        
+                             ex                                    
+                    ERROR    LaTeX          tex_file_writing.py:314
+                             compilation                           
+                             error: LaTeX                          
+                             Error: File                           
+                             `standalone.cl                        
+                             s' not found.                         
+                                                                   
+                    ERROR    Context of     tex_file_writing.py:348
+                             error:                                
+                             ->                                    
+                             \documentclass                        
+                             [preview]{stan                        
+                             dalone}                               
+                             \usepackage[en                        
+                             glish]{babel}                         
+                             \usepackage{am                        
+                             smath}                                
+                             \usepackage{am                        
+                             ssymb}                                
+                                                                   
+                    INFO     You do not     tex_file_writing.py:358
+                             have package                          
+                             standalone.cls                        
+                             installed.                            
+                    INFO     Install        tex_file_writing.py:358
+                             standalone.cls                        
+                             it using your                         
+                             LaTeX package                         
+                             manager, or                           
+                             check for                             
+                             typos.                                
+                    ERROR    LaTeX          tex_file_writing.py:314
+                             compilation                           
+                             error:                                
+                             Emergency                             
+                             stop.                                 
+                                                                   
+                    ERROR    Context of     tex_file_writing.py:348
+                             error:                                
+                             ->                                    
+                             \documentclass                        
+                             [preview]{stan                        
+                             dalone}                               
+                             \usepackage[en                        
+                             glish]{babel}                         
+                             \usepackage{am                        
+                             smath}                                
+                             \usepackage{am                        
+                             ssymb}                                
+                                                                   
+
+STDERR: ╭─────────────── Traceback (most recent call last) ───────────────╮
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib │
+│ /python3.13/site-packages/manim/cli/render/commands.py:125 in   │
+│ render                                                          │
+│                                                                 │
+│   122 │   │   │   try:                                          │
+│   123 │   │   │   │   with tempconfig({}):                      │
+│   124 │   │   │   │   │   scene = SceneClass()                  │
+│ ❱ 125 │   │   │   │   │   scene.render()                        │
+│   126 │   │   │   except Exception:                             │
+│   127 │   │   │   │   error_console.print_exception()           │
+│   128 │   │   │   │   sys.exit(1)                               │
+│                                                                 │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib │
+│ /python3.13/site-packages/manim/scene/scene.py:237 in render    │
+│                                                                 │
+│    234 │   │   """                                              │
+│    235 │   │   self.setup()                                     │
+│    236 │   │   try:                                             │
+│ ❱  237 │   │   │   self.construct()                             │
+│    238 │   │   except EndSceneEarlyException:                   │
+│    239 │   │   │   pass                                         │
+│    240 │   │   except RerunSceneException:                      │
+│                                                                 │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_ │
+│ 1.py:6 in construct                                             │
+│                                                                 │
+│    3 class UserAnimationScene(Scene):                           │
+│    4 │   def construct(self):                                   │
+│    5 │   │   # Create a number line from 0 to 10                │
+│ ❱  6 │   │   number_line = NumberLine(x_range=[0, 10, 1], lengt │
+│    7 │   │   self.add(number_line)                              │
+│    8 │   │                                                      │
+│    9 │   │   # Place a point at '3' and another at '5'          │
+│                                                                 │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib │
+│ /python3.13/site-packages/manim/mobject/graphing/number_line.py │
+│ :264 in __init__                                                │
+│                                                                 │
+│   261 │   │   │   │   )                                         │
+│   262 │   │   │                                                 │
+│   263 │   │   │   else:                                         │
+│ ❱ 264 │   │   │   │   self.add_numbers(                         │
+│   265 │   │   │   │   │   x_values=self.numbers_to_include,     │
+│   266 │   │   │   │   │   excluding=self.numbers_to_exclude,    │
+│   267 │   │   │   │   │   font_size=self.font_size,             │
+│                                                                 │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib │
+│ /python3.13/site-packages/manim/mobject/graphing/number_line.py │
+│ :540 in add_numbers                                             │
+│                                                                 │
+│   537 │   │   │   if x in excluding:                            │
+│   538 │   │   │   │   continue                                  │
+│   539 │   │   │   numbers.add(                                  │
+│ ❱ 540 │   │   │   │   self.get_number_mobject(                  │
+│   541 │   │   │   │   │   x,                                    │
+│   542 │   │   │   │   │   font_size=font_size,                  │
+│   543 │   │   │   │   │   label_constructor=label_constructor,  │
+│                                                                 │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib │
+│ /python3.13/site-packages/manim/mobject/graphing/number_line.py │
+│ :478 in get_number_mobject                                      │
+│                                                                 │
+│   475 │   │   if label_constructor is None:                     │
+│   476 │   │   │   label_constructor = self.label_constructor    │
+│   477 │   │                                                     │
+│ ❱ 478 │   │   num_mob = DecimalNumber(                          │
+│   479 │   │   │   x, font_size=font_size, mob_class=label_const │
+│   480 │   │   )                                                 │
+│   481                                                           │
+│                                                                 │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib │
+│ /python3.13/site-packages/manim/mobject/text/numbers.py:136 in  │
+│ __init__                                                        │
+│                                                                 │
+│   133 │   │   │   },                                            │
+│   134 │   │   )                                                 │
+│   135 │   │                                                     │
+│ ❱ 136 │   │   self._set_submobjects_from_number(number)         │
+│   137 │   │   self.init_colors()                                │
+│   138 │                                                         │
+│   139 │   @property                                             │
+│                                                                 │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib │
+│ /python3.13/site-packages/manim/mobject/text/numbers.py:161 in  │
+│ _set_submobjects_from_number                                    │
+│                                                                 │
+│   158 │   │   self.submobjects = []                             │
+│   159 │   │                                                     │
+│   160 │   │   num_string = self._get_num_string(number)         │
+│ ❱ 161 │   │   self.add(*(map(self._string_to_mob, num_string))) │
+│   162 │   │                                                     │
+│   163 │   │   # Add non-numerical bits                          │
+│   164 │   │   if self.show_ellipsis:                            │
+│                                                                 │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib │
+│ /python3.13/site-packages/manim/mobject/text/numbers.py:223 in  │
+│ _string_to_mob                                                  │
+│                                                                 │
+│   220 │   │   │   mob_class = self.mob_class                    │
+│   221 │   │                                                     │
+│   222 │   │   if string not in string_to_mob_map:               │
+│ ❱ 223 │   │   │   string_to_mob_map[string] = mob_class(string, │
+│   224 │   │   mob = string_to_mob_map[string].copy()            │
+│   225 │   │   mob.font_size = self._font_size                   │
+│   226 │   │   return mob                                        │
+│                                                                 │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib │
+│ /python3.13/site-packages/manim/mobject/text/tex_mobject.py:298 │
+│  in __init__                                                    │
+│                                                                 │
+│   295 │   │   │   │   │   │   """,                              │
+│   296 │   │   │   │   │   ),                                    │
+│   297 │   │   │   │   )                                         │
+│ ❱ 298 │   │   │   raise compilation_error                       │
+│   299 │   │   self.set_color_by_tex_to_color_map(self.tex_to_co │
+│   300 │   │                                                     │
+│   301 │   │   if self.organize_left_to_right:                   │
+│                                                                 │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib │
+│ /python3.13/site-packages/manim/mobject/text/tex_mobject.py:277 │
+│  in __init__                                                    │
+│                                                                 │
+│   274 │   │   self.brace_notation_split_occurred = False        │
+│   275 │   │   self.tex_strings = self._break_up_tex_strings(tex │
+│   276 │   │   try:                                              │
+│ ❱ 277 │   │   │   super().__init__(                             │
+│   278 │   │   │   │   self.arg_separator.join(self.tex_strings) │
+│   279 │   │   │   │   tex_environment=self.tex_environment,     │
+│   280 │   │   │   │   tex_template=self.tex_template,           │
+│                                                                 │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib │
+│ /python3.13/site-packages/manim/mobject/text/tex_mobject.py:80  │
+│ in __init__                                                     │
+│                                                                 │
+│    77 │   │                                                     │
+│    78 │   │   assert isinstance(tex_string, str)                │
+│    79 │   │   self.tex_string = tex_string                      │
+│ ❱  80 │   │   file_name = tex_to_svg_file(                      │
+│    81 │   │   │   self._get_modified_expression(tex_string),    │
+│    82 │   │   │   environment=self.tex_environment,             │
+│    83 │   │   │   tex_template=self.tex_template,               │
+│                                                                 │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib │
+│ /python3.13/site-packages/manim/utils/tex_file_writing.py:65 in │
+│ tex_to_svg_file                                                 │
+│                                                                 │
+│    62 │   if svg_file.exists():                                 │
+│    63 │   │   return svg_file                                   │
+│    64 │                                                         │
+│ ❱  65 │   dvi_file = compile_tex(                               │
+│    66 │   │   tex_file,                                         │
+│    67 │   │   tex_template.tex_compiler,                        │
+│    68 │   │   tex_template.output_format,                       │
+│                                                                 │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib │
+│ /python3.13/site-packages/manim/utils/tex_file_writing.py:212   │
+│ in compile_tex                                                  │
+│                                                                 │
+│   209 │   │   if cp.returncode != 0:                            │
+│   210 │   │   │   log_file = tex_file.with_suffix(".log")       │
+│   211 │   │   │   print_all_tex_errors(log_file, tex_compiler,  │
+│ ❱ 212 │   │   │   raise ValueError(                             │
+│   213 │   │   │   │   f"{tex_compiler} error converting to"     │
+│   214 │   │   │   │   f" {output_format[1:]}. See log output ab │
+│   215 │   │   │   │   f" the log file: {log_file}",             │
+╰─────────────────────────────────────────────────────────────────╯
+ValueError: latex error converting to dvi. See log output above or 
+the log file: media/Tex/66e1bc57a83e0f07.log
+
+2025-03-14 14:38:33,838 - src.backend.video_generator - ERROR - LaTeX error detected. Creating placeholder video.
+2025-03-14 14:38:33,838 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4 with text: Scene couldn't be rendered due to LaTeX issues.
+2025-03-14 14:38:34,130 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4
+2025-03-14 14:38:34,130 - src.backend.video_generator - INFO - Rendering scene 3 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 14:38:34,130 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 14:38:35,883 - src.backend.video_generator - WARNING - Rendered video for scene 3 not found. Creating placeholder.
+2025-03-14 14:38:35,883 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_2.mp4 with text: Scene 3 rendered but video not found
+2025-03-14 14:38:36,180 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_2.mp4
+2025-03-14 14:38:36,180 - src.backend.video_generator - INFO - Rendered 3 Manim scenes
+2025-03-14 14:38:36,181 - src.backend.video_generator - WARNING - ElevenLabs not available, creating silent audio.
+2025-03-14 14:38:36,371 - src.backend.video_generator - INFO - Generating subtitle file from script...
+2025-03-14 14:38:36,372 - src.backend.video_generator - INFO - Generated SRT file with 7 entries at /Users/dariuskashani/CodeProjects/ai_tutor/output/data/subtitles.srt
+2025-03-14 14:38:36,428 - src.backend.video_generator - INFO - Videos concatenated to /Users/dariuskashani/CodeProjects/ai_tutor/output/temp/concat_video.mp4
+2025-03-14 14:38:36,429 - src.backend.video_generator - INFO - Adding audio track from generated/audio/narration.mp3
+2025-03-14 14:38:36,615 - src.backend.video_generator - INFO - Extending video to meet target duration of 60 seconds
+2025-03-14 14:38:36,657 - src.backend.video_generator - INFO - Original video duration: 30.00s
+2025-03-14 14:38:36,657 - src.backend.video_generator - INFO - Extending video by freezing last frame for 30.00s
+2025-03-14 14:38:37,916 - src.backend.video_generator - INFO - Successfully extended video to /Users/dariuskashani/CodeProjects/ai_tutor/output/temp/extended_video.mp4
+2025-03-14 14:38:37,917 - src.backend.video_generator - INFO - Final video created at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/final_video.mp4
+2025-03-14 14:47:12,021 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 14:47:12,029 - src.backend.video_generator - INFO - Scene 1: 0.0s to 30.0s (duration: 30.0s)
+2025-03-14 14:47:12,029 - src.backend.video_generator - INFO - Scene 2: 30.0s to 60.0s (duration: 30.0s)
+2025-03-14 14:47:12,029 - src.backend.video_generator - INFO - Rendering 2 Manim scenes
+2025-03-14 14:47:12,789 - src.backend.video_generator - INFO - Rendering scene 1 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 14:47:12,789 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 14:47:13,256 - src.backend.video_generator - ERROR - Error rendering scene 1:
+STDOUT: Manim Community v0.19.0
+
+
+STDERR: /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+  warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+Traceback (most recent call last):
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/bin/manim", line 8, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/click/core.py", line 1161, in __call__
+    return self.main(*args, **kwargs)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/click/core.py", line 1082, in main
+    rv = self.invoke(ctx)
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/click/core.py", line 1697, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+                           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/click/core.py", line 1443, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/click/core.py", line 788, in invoke
+    return __callback(*args, **kwargs)
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/cli/render/commands.py", line 121, in render
+    for SceneClass in scene_classes_from_file(file):
+                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/utils/module_ops.py", line 167, in scene_classes_from_file
+    module = get_module(file_path)
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/utils/module_ops.py", line 67, in get_module
+    spec.loader.exec_module(module)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 1022, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 1160, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1090, in source_to_code
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py", line 26
+    short_desc = Text("Start with a title screen showing "Simple Addition...", color=GREEN, font_size=18)
+                                                                            ^
+SyntaxError: unterminated string literal (detected at line 26)
+
+2025-03-14 14:47:13,257 - src.backend.video_generator - ERROR - LaTeX error detected. Creating placeholder video.
+2025-03-14 14:47:13,257 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4 with text: Scene couldn't be rendered due to LaTeX issues.
+2025-03-14 14:47:13,260 - src.backend.video_generator - ERROR - Error creating placeholder video: [Errno 2] No such file or directory: 'ffmpeg'
+Traceback (most recent call last):
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/src/backend/video_generator.py", line 558, in create_placeholder_video
+    subprocess.run(cmd, check=True, capture_output=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 556, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 1038, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 1974, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2025-03-14 14:47:13,263 - src.backend.video_generator - INFO - Rendering scene 2 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 14:47:13,263 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 14:47:16,858 - src.backend.video_generator - WARNING - Rendered video for scene 2 not found. Creating placeholder.
+2025-03-14 14:47:16,858 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4 with text: Scene 2 rendered but video not found
+2025-03-14 14:47:16,861 - src.backend.video_generator - ERROR - Error creating placeholder video: [Errno 2] No such file or directory: 'ffmpeg'
+Traceback (most recent call last):
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/src/backend/video_generator.py", line 558, in create_placeholder_video
+    subprocess.run(cmd, check=True, capture_output=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 556, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 1038, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 1974, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2025-03-14 14:47:16,862 - src.backend.video_generator - INFO - Rendered 2 Manim scenes
+2025-03-14 14:47:16,862 - src.backend.video_generator - INFO - [DRY RUN] Creating silent audio placeholder.
+2025-03-14 14:47:16,864 - src.backend.video_generator - ERROR - Error creating silent audio placeholder: [Errno 2] No such file or directory: 'ffmpeg'
+Traceback (most recent call last):
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/src/backend/video_generator.py", line 510, in create_silent_audio_placeholder
+    subprocess.run([
+    ~~~~~~~~~~~~~~^^
+        "ffmpeg", "-f", "lavfi", "-i", "anullsrc=r=44100:cl=mono",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "-t", str(duration_seconds), "-q:a", "9", "-acodec", "libmp3lame",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        str(output_path)
+        ^^^^^^^^^^^^^^^^
+    ], check=True, capture_output=True)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 556, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 1038, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 1974, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2025-03-14 14:47:16,865 - src.backend.video_generator - INFO - Generating subtitle file from script...
+2025-03-14 14:47:16,866 - src.backend.video_generator - INFO - Generated SRT file with 6 entries at /Users/dariuskashani/CodeProjects/ai_tutor/output/data/subtitles.srt
+2025-03-14 14:47:16,868 - src.backend.video_generator - ERROR - Error merging videos: [Errno 2] No such file or directory: 'ffmpeg'
+Traceback (most recent call last):
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/src/backend/video_generator.py", line 433, in merge_videos_with_audio
+    subprocess.run([
+    ~~~~~~~~~~~~~~^^
+        "ffmpeg", "-y", "-f", "concat", "-safe", "0",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "-i", str(list_file), "-c", "copy", str(concat_video)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ], check=True)
+    ^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 556, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 1038, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 1974, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2025-03-14 14:50:01,183 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 14:50:01,191 - src.backend.video_generator - INFO - Scene 1: 0.0s to 30.0s (duration: 30.0s)
+2025-03-14 14:50:01,191 - src.backend.video_generator - INFO - Scene 2: 30.0s to 60.0s (duration: 30.0s)
+2025-03-14 14:50:01,191 - src.backend.video_generator - INFO - Rendering 2 Manim scenes
+2025-03-14 14:50:02,154 - src.backend.video_generator - INFO - Rendering scene 1 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 14:50:02,154 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 14:50:02,606 - src.backend.video_generator - ERROR - Error rendering scene 1:
+STDOUT: Manim Community v0.19.0
+
+
+STDERR: Traceback (most recent call last):
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/bin/manim", line 8, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/click/core.py", line 1161, in __call__
+    return self.main(*args, **kwargs)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/click/core.py", line 1082, in main
+    rv = self.invoke(ctx)
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/click/core.py", line 1697, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+                           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/click/core.py", line 1443, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/click/core.py", line 788, in invoke
+    return __callback(*args, **kwargs)
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/cli/render/commands.py", line 121, in render
+    for SceneClass in scene_classes_from_file(file):
+                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/utils/module_ops.py", line 167, in scene_classes_from_file
+    module = get_module(file_path)
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/utils/module_ops.py", line 67, in get_module
+    spec.loader.exec_module(module)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 1022, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 1160, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1090, in source_to_code
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py", line 26
+    short_desc = Text("Start with a title screen showing "Simple Addition...", color=GREEN, font_size=18)
+                                                                            ^
+SyntaxError: unterminated string literal (detected at line 26)
+
+2025-03-14 14:50:02,607 - src.backend.video_generator - ERROR - LaTeX error detected. Creating placeholder video.
+2025-03-14 14:50:02,607 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4 with text: Scene couldn't be rendered due to LaTeX issues.
+2025-03-14 14:50:05,759 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4
+2025-03-14 14:50:05,760 - src.backend.video_generator - INFO - Rendering scene 2 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 14:50:05,760 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 14:50:08,563 - src.backend.video_generator - WARNING - Rendered video for scene 2 not found. Creating placeholder.
+2025-03-14 14:50:08,563 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4 with text: Scene 2 rendered but video not found
+2025-03-14 14:50:08,871 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4
+2025-03-14 14:50:08,871 - src.backend.video_generator - INFO - Rendered 2 Manim scenes
+2025-03-14 14:50:08,871 - src.backend.video_generator - INFO - [DRY RUN] Creating silent audio placeholder.
+2025-03-14 15:01:24,750 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 15:01:24,757 - src.backend.video_generator - INFO - Scene 1: 0.0s to 30.0s (duration: 30.0s)
+2025-03-14 15:01:24,757 - src.backend.video_generator - INFO - Scene 2: 30.0s to 60.0s (duration: 30.0s)
+2025-03-14 15:01:24,758 - src.backend.video_generator - INFO - Rendering 2 Manim scenes
+2025-03-14 15:01:25,499 - src.backend.video_generator - INFO - Rendering scene 1 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 15:01:25,499 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 15:01:28,851 - src.backend.video_generator - WARNING - Rendered video for scene 1 not found. Creating placeholder.
+2025-03-14 15:01:28,851 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4 with text: Scene 1 rendered but video not found
+2025-03-14 15:01:29,227 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4
+2025-03-14 15:01:29,228 - src.backend.video_generator - INFO - Rendering scene 2 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 15:01:29,228 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 15:01:31,969 - src.backend.video_generator - WARNING - Rendered video for scene 2 not found. Creating placeholder.
+2025-03-14 15:01:31,969 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4 with text: Scene 2 rendered but video not found
+2025-03-14 15:01:32,284 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4
+2025-03-14 15:01:32,284 - src.backend.video_generator - INFO - Rendered 2 Manim scenes
+2025-03-14 15:01:32,285 - src.backend.video_generator - INFO - [DRY RUN] Creating silent audio placeholder.
+2025-03-14 15:08:48,064 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 15:08:48,071 - src.backend.video_generator - INFO - Scene 1: 0.0s to 30.0s (duration: 30.0s)
+2025-03-14 15:08:48,071 - src.backend.video_generator - INFO - Scene 2: 30.0s to 60.0s (duration: 30.0s)
+2025-03-14 15:08:48,071 - src.backend.video_generator - INFO - Rendering 2 Manim scenes
+2025-03-14 15:08:48,784 - src.backend.video_generator - INFO - Rendering scene 1 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 15:08:48,784 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 15:08:51,464 - src.backend.video_generator - WARNING - Rendered video for scene 1 not found. Creating placeholder.
+2025-03-14 15:08:51,465 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4 with text: Scene 1 rendered but video not found
+2025-03-14 15:08:51,865 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4
+2025-03-14 15:08:51,866 - src.backend.video_generator - INFO - Rendering scene 2 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 15:08:51,866 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 15:08:54,494 - src.backend.video_generator - WARNING - Rendered video for scene 2 not found. Creating placeholder.
+2025-03-14 15:08:54,495 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4 with text: Scene 2 rendered but video not found
+2025-03-14 15:08:54,807 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4
+2025-03-14 15:08:54,808 - src.backend.video_generator - INFO - Rendered 2 Manim scenes
+2025-03-14 15:08:54,808 - src.backend.video_generator - INFO - [DRY RUN] Creating silent audio placeholder.
+2025-03-14 15:11:10,515 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 15:11:10,522 - src.backend.video_generator - INFO - Scene 1: 0.0s to 30.0s (duration: 30.0s)
+2025-03-14 15:11:10,522 - src.backend.video_generator - INFO - Scene 2: 30.0s to 60.0s (duration: 30.0s)
+2025-03-14 15:11:10,522 - src.backend.video_generator - INFO - Rendering 2 Manim scenes
+2025-03-14 15:11:11,212 - src.backend.video_generator - INFO - Rendering scene 1 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 15:11:11,212 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 15:11:14,181 - src.backend.video_generator - WARNING - Rendered video for scene 1 not found. Creating placeholder.
+2025-03-14 15:11:14,181 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4 with text: Scene 1 rendered but video not found
+2025-03-14 15:11:14,612 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4
+2025-03-14 15:11:14,612 - src.backend.video_generator - INFO - Rendering scene 2 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 15:11:14,612 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 15:11:17,233 - src.backend.video_generator - WARNING - Rendered video for scene 2 not found. Creating placeholder.
+2025-03-14 15:11:17,233 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4 with text: Scene 2 rendered but video not found
+2025-03-14 15:11:17,538 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4
+2025-03-14 15:11:17,539 - src.backend.video_generator - INFO - Rendered 2 Manim scenes
+2025-03-14 15:11:17,539 - src.backend.video_generator - INFO - [DRY RUN] Creating silent audio placeholder.
+2025-03-14 16:05:22,508 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 16:05:22,515 - src.backend.video_generator - INFO - Scene 1: 0.0s to 30.0s (duration: 30.0s)
+2025-03-14 16:05:22,515 - src.backend.video_generator - INFO - Scene 2: 30.0s to 60.0s (duration: 30.0s)
+2025-03-14 16:05:22,515 - src.backend.video_generator - INFO - Rendering 2 Manim scenes
+2025-03-14 16:05:23,267 - src.backend.video_generator - INFO - Rendering scene 1 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 16:05:23,267 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 16:05:25,886 - src.backend.video_generator - WARNING - Rendered video for scene 1 not found. Creating placeholder.
+2025-03-14 16:05:25,886 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4 with text: Scene 1 rendered but video not found
+2025-03-14 16:05:25,910 - src.backend.video_generator - ERROR - Error creating placeholder video: Command '['/Users/dariuskashani/bin/ffmpeg', '-y', '-f', 'lavfi', '-i', 'color=c=black:s=1280x720:d=10', '-vf', "drawtext=fontfile=/System/Library/Fonts/Helvetica.ttc:fontcolor=white:fontsize=48:text='Scene 1 rendered but video not found':x=(w-text_w)/2:y=(h-text_h)/2", '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '/Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4']' returned non-zero exit status 8.
+Traceback (most recent call last):
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/src/backend/video_generator.py", line 560, in create_placeholder_video
+    subprocess.run(cmd, check=True, capture_output=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 579, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/Users/dariuskashani/bin/ffmpeg', '-y', '-f', 'lavfi', '-i', 'color=c=black:s=1280x720:d=10', '-vf', "drawtext=fontfile=/System/Library/Fonts/Helvetica.ttc:fontcolor=white:fontsize=48:text='Scene 1 rendered but video not found':x=(w-text_w)/2:y=(h-text_h)/2", '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '/Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4']' returned non-zero exit status 8.
+2025-03-14 16:05:25,912 - src.backend.video_generator - INFO - Rendering scene 2 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 16:05:25,912 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 16:05:28,559 - src.backend.video_generator - WARNING - Rendered video for scene 2 not found. Creating placeholder.
+2025-03-14 16:05:28,559 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4 with text: Scene 2 rendered but video not found
+2025-03-14 16:05:28,583 - src.backend.video_generator - ERROR - Error creating placeholder video: Command '['/Users/dariuskashani/bin/ffmpeg', '-y', '-f', 'lavfi', '-i', 'color=c=black:s=1280x720:d=10', '-vf', "drawtext=fontfile=/System/Library/Fonts/Helvetica.ttc:fontcolor=white:fontsize=48:text='Scene 2 rendered but video not found':x=(w-text_w)/2:y=(h-text_h)/2", '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '/Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4']' returned non-zero exit status 8.
+Traceback (most recent call last):
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/src/backend/video_generator.py", line 560, in create_placeholder_video
+    subprocess.run(cmd, check=True, capture_output=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 579, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/Users/dariuskashani/bin/ffmpeg', '-y', '-f', 'lavfi', '-i', 'color=c=black:s=1280x720:d=10', '-vf', "drawtext=fontfile=/System/Library/Fonts/Helvetica.ttc:fontcolor=white:fontsize=48:text='Scene 2 rendered but video not found':x=(w-text_w)/2:y=(h-text_h)/2", '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '/Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4']' returned non-zero exit status 8.
+2025-03-14 16:05:28,583 - src.backend.video_generator - INFO - Rendered 2 Manim scenes
+2025-03-14 16:05:28,584 - src.backend.video_generator - INFO - [DRY RUN] Creating silent audio placeholder.
+2025-03-14 16:15:32,658 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 16:15:32,666 - src.backend.video_generator - INFO - Scene 1: 0.0s to 30.0s (duration: 30.0s)
+2025-03-14 16:15:32,666 - src.backend.video_generator - INFO - Scene 2: 30.0s to 60.0s (duration: 30.0s)
+2025-03-14 16:15:32,666 - src.backend.video_generator - INFO - Rendering 2 Manim scenes
+2025-03-14 16:15:33,382 - src.backend.video_generator - INFO - Rendering scene 1 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 16:15:33,382 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 16:15:35,962 - src.backend.video_generator - WARNING - Rendered video for scene 1 not found. Creating placeholder.
+2025-03-14 16:15:35,962 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4 with text: Scene 1 rendered but video not found
+2025-03-14 16:15:36,522 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4
+2025-03-14 16:15:36,523 - src.backend.video_generator - INFO - Rendering scene 2 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 16:15:36,523 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 16:15:39,246 - src.backend.video_generator - WARNING - Rendered video for scene 2 not found. Creating placeholder.
+2025-03-14 16:15:39,247 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4 with text: Scene 2 rendered but video not found
+2025-03-14 16:15:39,753 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4
+2025-03-14 16:15:39,753 - src.backend.video_generator - INFO - Rendered 2 Manim scenes
+2025-03-14 16:15:39,753 - src.backend.video_generator - INFO - [DRY RUN] Creating silent audio placeholder.
+2025-03-14 16:15:39,753 - src.backend.video_generator - INFO - Creating silent audio placeholder at generated/audio/narration.mp3
+2025-03-14 16:15:39,753 - src.backend.video_generator - INFO - Generating subtitle file from script...
+2025-03-14 16:15:39,754 - src.backend.video_generator - INFO - Generated SRT file with 6 entries at /Users/dariuskashani/CodeProjects/ai_tutor/output/data/subtitles.srt
+2025-03-14 16:15:39,794 - src.backend.video_generator - INFO - Videos concatenated to /Users/dariuskashani/CodeProjects/ai_tutor/output/temp/concat_video.mp4
+2025-03-14 16:15:39,794 - src.backend.video_generator - INFO - Adding audio track from generated/audio/narration.mp3
+2025-03-14 16:15:39,889 - src.backend.video_generator - ERROR - Error merging videos: Command '['/Users/dariuskashani/bin/ffmpeg', '-v', 'error', '-show_entries', 'format=duration', '-of', 'default=noprint_wrappers=1:nokey=1', '/Users/dariuskashani/CodeProjects/ai_tutor/output/videos/final_video.mp4']' returned non-zero exit status 8.
+Traceback (most recent call last):
+  File "/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/src/backend/video_generator.py", line 467, in merge_videos_with_audio
+    duration_result = subprocess.run(duration_cmd, stdout=subprocess.PIPE,
+                                     stderr=subprocess.PIPE, text=True, check=True)
+  File "/opt/homebrew/Cellar/python@3.13/3.13.2/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 579, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/Users/dariuskashani/bin/ffmpeg', '-v', 'error', '-show_entries', 'format=duration', '-of', 'default=noprint_wrappers=1:nokey=1', '/Users/dariuskashani/CodeProjects/ai_tutor/output/videos/final_video.mp4']' returned non-zero exit status 8.
+2025-03-14 16:16:16,817 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 16:16:16,825 - src.backend.video_generator - INFO - Scene 1: 0.0s to 30.0s (duration: 30.0s)
+2025-03-14 16:16:16,825 - src.backend.video_generator - INFO - Scene 2: 30.0s to 60.0s (duration: 30.0s)
+2025-03-14 16:16:16,825 - src.backend.video_generator - INFO - Rendering 2 Manim scenes
+2025-03-14 16:16:17,560 - src.backend.video_generator - INFO - Rendering scene 1 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 16:16:17,560 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 16:16:20,139 - src.backend.video_generator - WARNING - Rendered video for scene 1 not found. Creating placeholder.
+2025-03-14 16:16:20,139 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4 with text: Scene 1 rendered but video not found
+2025-03-14 16:16:20,661 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4
+2025-03-14 16:16:20,661 - src.backend.video_generator - INFO - Rendering scene 2 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 16:16:20,661 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 16:16:23,284 - src.backend.video_generator - WARNING - Rendered video for scene 2 not found. Creating placeholder.
+2025-03-14 16:16:23,284 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4 with text: Scene 2 rendered but video not found
+2025-03-14 16:16:23,767 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4
+2025-03-14 16:16:23,767 - src.backend.video_generator - INFO - Rendered 2 Manim scenes
+2025-03-14 16:16:23,767 - src.backend.video_generator - INFO - [DRY RUN] Creating silent audio placeholder.
+2025-03-14 16:16:23,767 - src.backend.video_generator - INFO - Creating silent audio placeholder at generated/audio/narration.mp3
+2025-03-14 16:16:23,767 - src.backend.video_generator - INFO - Generating subtitle file from script...
+2025-03-14 16:16:23,768 - src.backend.video_generator - INFO - Generated SRT file with 6 entries at /Users/dariuskashani/CodeProjects/ai_tutor/output/data/subtitles.srt
+2025-03-14 16:16:23,804 - src.backend.video_generator - INFO - Videos concatenated to /Users/dariuskashani/CodeProjects/ai_tutor/output/temp/concat_video.mp4
+2025-03-14 16:16:23,805 - src.backend.video_generator - INFO - Final video created at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/final_video.mp4
+2025-03-14 16:16:23,805 - src.backend.video_generator - INFO - Created accessible copy at output/final_video.mp4
+2025-03-14 16:21:01,731 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 16:22:11,664 - src.backend.video_generator - INFO - Scene 1: 0.0s to 20.0s (duration: 20.0s)
+2025-03-14 16:22:11,664 - src.backend.video_generator - INFO - Scene 2: 20.0s to 40.0s (duration: 20.0s)
+2025-03-14 16:22:11,664 - src.backend.video_generator - INFO - Scene 3: 40.0s to 60.0s (duration: 20.0s)
+2025-03-14 16:22:11,664 - src.backend.video_generator - INFO - Rendering 3 Manim scenes
+2025-03-14 16:22:12,413 - src.backend.video_generator - INFO - Rendering scene 1 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 16:22:12,413 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 16:22:13,313 - src.backend.video_generator - ERROR - Error rendering scene 1:
+STDOUT: Manim Community v0.19.0
+
+[03/14/25 16:22:12] INFO     Animation 0 : Partial movie file written in             scene_file_writer.py:588
+                             '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/                         
+                             media/videos/scene_0/480p15/partial_movie_files/UserAni                         
+                             mationScene/1185818338_1197960414_223132457.mp4'                                
+[03/14/25 16:22:13] INFO     Animation 1 : Partial movie file written in             scene_file_writer.py:588
+                             '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/                         
+                             media/videos/scene_0/480p15/partial_movie_files/UserAni                         
+                             mationScene/624642324_2408024828_2941822564.mp4'                                
+                    INFO     Animation 2 : Partial movie file written in             scene_file_writer.py:588
+                             '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/                         
+                             media/videos/scene_0/480p15/partial_movie_files/UserAni                         
+                             mationScene/624642324_1833466169_155782473.mp4'                                 
+
+STDERR: 
+Animation 0: Write(Text('Simple Addition')):   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                                   
+
+Animation 2: _MethodAnimation(Text('Simple Addition')):   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                                              
+╭─────────────────────────────── Traceback (most recent call last) ────────────────────────────────╮
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/c │
+│ li/render/commands.py:125 in render                                                              │
+│                                                                                                  │
+│   122 │   │   │   try:                                                                           │
+│   123 │   │   │   │   with tempconfig({}):                                                       │
+│   124 │   │   │   │   │   scene = SceneClass()                                                   │
+│ ❱ 125 │   │   │   │   │   scene.render()                                                         │
+│   126 │   │   │   except Exception:                                                              │
+│   127 │   │   │   │   error_console.print_exception()                                            │
+│   128 │   │   │   │   sys.exit(1)                                                                │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/s │
+│ cene/scene.py:237 in render                                                                      │
+│                                                                                                  │
+│    234 │   │   """                                                                               │
+│    235 │   │   self.setup()                                                                      │
+│    236 │   │   try:                                                                              │
+│ ❱  237 │   │   │   self.construct()                                                              │
+│    238 │   │   except EndSceneEarlyException:                                                    │
+│    239 │   │   │   pass                                                                          │
+│    240 │   │   except RerunSceneException:                                                       │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py:15 in construct              │
+│                                                                                                  │
+│   12 │   │   self.play(title.animate.scale(0.5).to_edge(UP))                                     │
+│   13 │   │                                                                                       │
+│   14 │   │   # Draw two red apples on a green table                                              │
+│ ❱ 15 │   │   table = Rectangle(width=FRAME_WIDTH, height=2, color=GREEN).shift(DOWN*2)           │
+│   16 │   │   apple1 = Circle(color=RED, fill_opacity=1).scale(0.5).shift(LEFT*2 + UP*0.5)        │
+│   17 │   │   apple2 = apple1.copy().shift(RIGHT*1)                                               │
+│   18 │   │   self.play(FadeIn(table), DrawBorderThenFill(apple1), DrawBorderThenFill(apple2))    │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+NameError: name 'FRAME_WIDTH' is not defined
+
+2025-03-14 16:22:13,315 - src.backend.video_generator - ERROR - LaTeX error detected. Creating placeholder video.
+2025-03-14 16:22:13,315 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4 with text: Scene couldn't be rendered due to LaTeX issues.
+2025-03-14 16:22:13,825 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4
+2025-03-14 16:22:13,825 - src.backend.video_generator - INFO - Rendering scene 2 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 16:22:13,825 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 16:22:15,521 - src.backend.video_generator - ERROR - Error rendering scene 2:
+STDOUT: Manim Community v0.19.0
+
+[03/14/25 16:22:14] INFO     Animation 0 : Partial movie file written in             scene_file_writer.py:588
+                             '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/                         
+                             media/videos/scene_1/480p15/partial_movie_files/UserAni                         
+                             mationScene/1185818338_2643892120_2358810818.mp4'                               
+                    INFO     Animation 1 : Partial movie file written in             scene_file_writer.py:588
+                             '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/                         
+                             media/videos/scene_1/480p15/partial_movie_files/UserAni                         
+                             mationScene/624642324_2015106682_2762692562.mp4'                                
+                    INFO     Animation 2 : Partial movie file written in             scene_file_writer.py:588
+                             '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/                         
+                             media/videos/scene_1/480p15/partial_movie_files/UserAni                         
+                             mationScene/624642324_3680863253_3149784355.mp4'                                
+                    INFO     Animation 3 : Partial movie file written in             scene_file_writer.py:588
+                             '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/                         
+                             media/videos/scene_1/480p15/partial_movie_files/UserAni                         
+                             mationScene/624642324_2015106682_642932898.mp4'                                 
+                    INFO     Animation 4 : Partial movie file written in             scene_file_writer.py:588
+                             '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/                         
+                             media/videos/scene_1/480p15/partial_movie_files/UserAni                         
+                             mationScene/624642324_1456935655_4191021347.mp4'                                
+                    INFO     Animation 5 : Partial movie file written in             scene_file_writer.py:588
+                             '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/                         
+                             media/videos/scene_1/480p15/partial_movie_files/UserAni                         
+                             mationScene/624642324_1734327179_3811624131.mp4'                                
+                    INFO     Animation 6 : Partial movie file written in             scene_file_writer.py:588
+                             '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/                         
+                             media/videos/scene_1/480p15/partial_movie_files/UserAni                         
+                             mationScene/624642324_1185334358_1832781504.mp4'                                
+[03/14/25 16:22:15] INFO     Animation 7 : Partial movie file written in             scene_file_writer.py:588
+                             '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/                         
+                             media/videos/scene_1/480p15/partial_movie_files/UserAni                         
+                             mationScene/624642324_2408024828_1709449809.mp4'                                
+                    INFO     Animation 8 : Partial movie file written in             scene_file_writer.py:588
+                             '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/                         
+                             media/videos/scene_1/480p15/partial_movie_files/UserAni                         
+                             mationScene/624642324_1316309052_3840602103.mp4'                                
+                    INFO     Animation 9 : Partial movie file written in             scene_file_writer.py:588
+                             '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/                         
+                             media/videos/scene_1/480p15/partial_movie_files/UserAni                         
+                             mationScene/624642324_1734327179_2327803170.mp4'                                
+                    INFO     Animation 10 : Partial movie file written in            scene_file_writer.py:588
+                             '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/                         
+                             media/videos/scene_1/480p15/partial_movie_files/UserAni                         
+                             mationScene/624642324_1418497493_1615401314.mp4'                                
+                    INFO     Animation 11 : Partial movie file written in            scene_file_writer.py:588
+                             '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/                         
+                             media/videos/scene_1/480p15/partial_movie_files/UserAni                         
+                             mationScene/624642324_2408024828_3844421438.mp4'                                
+
+STDERR: 
+Animation 0: LaggedStart(Group):   0%|          | 0/90 [00:00<?, ?it/s]
+                                                                       
+
+Animation 2: LaggedStart(Group):   0%|          | 0/45 [00:00<?, ?it/s]
+                                                                       
+
+Animation 4: Write(Text('+')), etc.:   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                           
+
+Animation 6: Write(Text('7')):   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                     
+
+Animation 8: Write(Text('5 plus 2 equals 7')):   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                                     
+
+Animation 10: GrowArrow(Arrow):   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                      
+╭─────────────────────────────── Traceback (most recent call last) ────────────────────────────────╮
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/c │
+│ li/render/commands.py:125 in render                                                              │
+│                                                                                                  │
+│   122 │   │   │   try:                                                                           │
+│   123 │   │   │   │   with tempconfig({}):                                                       │
+│   124 │   │   │   │   │   scene = SceneClass()                                                   │
+│ ❱ 125 │   │   │   │   │   scene.render()                                                         │
+│   126 │   │   │   except Exception:                                                              │
+│   127 │   │   │   │   error_console.print_exception()                                            │
+│   128 │   │   │   │   sys.exit(1)                                                                │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/s │
+│ cene/scene.py:237 in render                                                                      │
+│                                                                                                  │
+│    234 │   │   """                                                                               │
+│    235 │   │   self.setup()                                                                      │
+│    236 │   │   try:                                                                              │
+│ ❱  237 │   │   │   self.construct()                                                              │
+│    238 │   │   except EndSceneEarlyException:                                                    │
+│    239 │   │   │   pass                                                                          │
+│    240 │   │   except RerunSceneException:                                                       │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py:44 in construct              │
+│                                                                                                  │
+│   41 │   │   self.wait(2)  # Wait until 1:00                                                     │
+│   42 │   │                                                                                       │
+│   43 │   │   # At 1:00 - end the scene with a red checkmark                                      │
+│ ❱ 44 │   │   checkmark = Checkmark().next_to(phrase, RIGHT, buff=0.5).set_color(RED)             │
+│   45 │   │   self.play(Write(checkmark))                                                         │
+│   46 │   │                                                                                       │
+│   47 │   │   # Final pause                                                                       │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+NameError: name 'Checkmark' is not defined
+
+2025-03-14 16:22:15,521 - src.backend.video_generator - ERROR - LaTeX error detected. Creating placeholder video.
+2025-03-14 16:22:15,522 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4 with text: Scene couldn't be rendered due to LaTeX issues.
+2025-03-14 16:22:16,054 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4
+2025-03-14 16:22:16,054 - src.backend.video_generator - INFO - Rendering scene 3 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 16:22:16,054 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 16:22:18,357 - src.backend.video_generator - ERROR - Error rendering scene 3:
+STDOUT: Manim Community v0.19.0
+
+[03/14/25 16:22:18] INFO     Animation 0 : Partial movie file written in             scene_file_writer.py:588
+                             '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/                         
+                             media/videos/scene_2/480p15/partial_movie_files/UserAni                         
+                             mationScene/1185818338_1396920141_631829896.mp4'                                
+
+STDERR: ╭─────────────────────────────── Traceback (most recent call last) ────────────────────────────────╮
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/c │
+│ li/render/commands.py:125 in render                                                              │
+│                                                                                                  │
+│   122 │   │   │   try:                                                                           │
+│   123 │   │   │   │   with tempconfig({}):                                                       │
+│   124 │   │   │   │   │   scene = SceneClass()                                                   │
+│ ❱ 125 │   │   │   │   │   scene.render()                                                         │
+│   126 │   │   │   except Exception:                                                              │
+│   127 │   │   │   │   error_console.print_exception()                                            │
+│   128 │   │   │   │   sys.exit(1)                                                                │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/s │
+│ cene/scene.py:237 in render                                                                      │
+│                                                                                                  │
+│    234 │   │   """                                                                               │
+│    235 │   │   self.setup()                                                                      │
+│    236 │   │   try:                                                                              │
+│ ❱  237 │   │   │   self.construct()                                                              │
+│    238 │   │   except EndSceneEarlyException:                                                    │
+│    239 │   │   │   pass                                                                          │
+│    240 │   │   except RerunSceneException:                                                       │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py:19 in construct              │
+│                                                                                                  │
+│   16 │   │   self.wait(65 - self.time)                                                           │
+│   17 │   │                                                                                       │
+│   18 │   │   # Show initial candy bars                                                           │
+│ ❱ 19 │   │   self.play(ShowCreation(first_candy_bars))                                           │
+│   20 │   │                                                                                       │
+│   21 │   │   # Wait until 1:10                                                                   │
+│   22 │   │   self.wait(70 - self.time)                                                           │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+NameError: name 'ShowCreation' is not defined
+
+2025-03-14 16:22:18,358 - src.backend.video_generator - ERROR - Name error detected: ShowCreation. Creating placeholder.
+2025-03-14 16:22:18,358 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_2.mp4 with text: Undefined name: ShowCreation
+2025-03-14 16:22:18,835 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_2.mp4
+2025-03-14 16:22:18,835 - src.backend.video_generator - INFO - Rendered 3 Manim scenes
+2025-03-14 16:22:18,835 - src.backend.video_generator - WARNING - ElevenLabs not available, creating silent audio.
+2025-03-14 16:22:18,836 - src.backend.video_generator - INFO - Creating silent audio placeholder at generated/audio/narration.mp3
+2025-03-14 16:22:18,836 - src.backend.video_generator - INFO - Generating subtitle file from script...
+2025-03-14 16:22:18,836 - src.backend.video_generator - INFO - Generated SRT file with 7 entries at /Users/dariuskashani/CodeProjects/ai_tutor/output/data/subtitles.srt
+2025-03-14 16:22:18,875 - src.backend.video_generator - INFO - Videos concatenated to /Users/dariuskashani/CodeProjects/ai_tutor/output/temp/concat_video.mp4
+2025-03-14 16:22:18,875 - src.backend.video_generator - INFO - Final video created at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/final_video.mp4
+2025-03-14 16:22:18,875 - src.backend.video_generator - INFO - Created accessible copy at output/final_video.mp4
+2025-03-14 16:29:12,903 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 16:29:23,628 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 16:29:23,636 - src.backend.video_generator - INFO - Scene 1: 0.0s to 30.0s (duration: 30.0s)
+2025-03-14 16:29:23,637 - src.backend.video_generator - INFO - Scene 2: 30.0s to 60.0s (duration: 30.0s)
+2025-03-14 16:29:23,637 - src.backend.video_generator - INFO - Rendering 2 Manim scenes
+2025-03-14 16:29:24,393 - src.backend.video_generator - INFO - Rendering scene 1 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 16:29:24,393 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 16:29:27,008 - src.backend.video_generator - WARNING - Rendered video for scene 1 not found. Creating placeholder.
+2025-03-14 16:29:27,008 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4 with text: Scene 1 rendered but video not found
+2025-03-14 16:29:27,859 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4
+2025-03-14 16:29:27,859 - src.backend.video_generator - INFO - Rendering scene 2 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 16:29:27,859 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 16:29:30,534 - src.backend.video_generator - WARNING - Rendered video for scene 2 not found. Creating placeholder.
+2025-03-14 16:29:30,534 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4 with text: Scene 2 rendered but video not found
+2025-03-14 16:29:31,006 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4
+2025-03-14 16:29:31,007 - src.backend.video_generator - INFO - Rendered 2 Manim scenes
+2025-03-14 16:29:31,007 - src.backend.video_generator - INFO - [DRY RUN] Creating silent audio placeholder.
+2025-03-14 16:29:31,007 - src.backend.video_generator - INFO - Creating silent audio placeholder at generated/audio/narration.mp3
+2025-03-14 16:29:31,007 - src.backend.video_generator - INFO - Generating subtitle file from script...
+2025-03-14 16:29:31,007 - src.backend.video_generator - INFO - Generated SRT file with 6 entries at /Users/dariuskashani/CodeProjects/ai_tutor/output/data/subtitles.srt
+2025-03-14 16:29:31,042 - src.backend.video_generator - INFO - Videos concatenated to /Users/dariuskashani/CodeProjects/ai_tutor/output/temp/concat_video.mp4
+2025-03-14 16:29:31,043 - src.backend.video_generator - INFO - Final video created at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/final_video.mp4
+2025-03-14 16:29:31,043 - src.backend.video_generator - INFO - Created accessible copy at output/final_video.mp4
+2025-03-14 16:30:49,043 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 16:30:49,051 - src.backend.video_generator - INFO - Scene 1: 0.0s to 30.0s (duration: 30.0s)
+2025-03-14 16:30:49,051 - src.backend.video_generator - INFO - Scene 2: 30.0s to 60.0s (duration: 30.0s)
+2025-03-14 16:30:49,051 - src.backend.video_generator - INFO - Rendering 2 Manim scenes
+2025-03-14 16:30:49,856 - src.backend.video_generator - INFO - Rendering scene 1 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 16:30:49,856 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 16:30:52,512 - src.backend.video_generator - WARNING - Rendered video for scene 1 not found. Creating placeholder.
+2025-03-14 16:30:52,512 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4 with text: Scene 1 rendered but video not found
+2025-03-14 16:30:53,107 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4
+2025-03-14 16:30:53,107 - src.backend.video_generator - INFO - Rendering scene 2 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 16:30:53,107 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 16:30:55,911 - src.backend.video_generator - WARNING - Rendered video for scene 2 not found. Creating placeholder.
+2025-03-14 16:30:55,911 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4 with text: Scene 2 rendered but video not found
+2025-03-14 16:30:56,570 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4
+2025-03-14 16:30:56,570 - src.backend.video_generator - INFO - Rendered 2 Manim scenes
+2025-03-14 16:30:56,570 - src.backend.video_generator - INFO - [DRY RUN] Creating silent audio placeholder.
+2025-03-14 16:30:56,570 - src.backend.video_generator - INFO - Creating silent audio placeholder at generated/audio/narration.mp3
+2025-03-14 16:30:56,570 - src.backend.video_generator - INFO - Generating subtitle file from script...
+2025-03-14 16:30:56,571 - src.backend.video_generator - INFO - Generated SRT file with 6 entries at /Users/dariuskashani/CodeProjects/ai_tutor/output/data/subtitles.srt
+2025-03-14 16:30:56,608 - src.backend.video_generator - INFO - Videos concatenated to /Users/dariuskashani/CodeProjects/ai_tutor/output/temp/concat_video.mp4
+2025-03-14 16:30:56,609 - src.backend.video_generator - INFO - Final video created at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/final_video.mp4
+2025-03-14 16:30:56,609 - src.backend.video_generator - INFO - Created accessible copy at output/final_video.mp4
+2025-03-14 16:34:10,637 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 16:34:59,897 - src.backend.video_generator - INFO - Scene 1: 0.0s to 20.0s (duration: 20.0s)
+2025-03-14 16:34:59,897 - src.backend.video_generator - INFO - Scene 2: 20.0s to 40.0s (duration: 20.0s)
+2025-03-14 16:34:59,897 - src.backend.video_generator - INFO - Scene 3: 40.0s to 60.0s (duration: 20.0s)
+2025-03-14 16:34:59,897 - src.backend.video_generator - INFO - Rendering 3 Manim scenes
+2025-03-14 16:35:00,669 - src.backend.video_generator - INFO - Rendering scene 1 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 16:35:00,669 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 16:35:01,313 - src.backend.video_generator - ERROR - Error rendering scene 1:
+STDOUT: Manim Community v0.19.0
+
+[03/14/25 16:35:01] INFO     Writing Side A to media/Tex/b4498c74cbae9e3f.tex         tex_file_writing.py:111
+                    ERROR    LaTeX compilation error: LaTeX Error: File               tex_file_writing.py:314
+                             `standalone.cls' not found.                                                     
+                                                                                                             
+                    ERROR    Context of error:                                        tex_file_writing.py:348
+                             -> \documentclass[preview]{standalone}                                          
+                             \usepackage[english]{babel}                                                     
+                             \usepackage{amsmath}                                                            
+                             \usepackage{amssymb}                                                            
+                                                                                                             
+                    INFO     You do not have package standalone.cls installed.        tex_file_writing.py:358
+                    INFO     Install standalone.cls it using your LaTeX package       tex_file_writing.py:358
+                             manager, or check for typos.                                                    
+                    ERROR    LaTeX compilation error: Emergency stop.                 tex_file_writing.py:314
+                                                                                                             
+                    ERROR    Context of error:                                        tex_file_writing.py:348
+                             -> \documentclass[preview]{standalone}                                          
+                             \usepackage[english]{babel}                                                     
+                             \usepackage{amsmath}                                                            
+                             \usepackage{amssymb}                                                            
+                                                                                                             
+
+STDERR: /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+  warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+╭─────────────────────────────── Traceback (most recent call last) ────────────────────────────────╮
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/c │
+│ li/render/commands.py:125 in render                                                              │
+│                                                                                                  │
+│   122 │   │   │   try:                                                                           │
+│   123 │   │   │   │   with tempconfig({}):                                                       │
+│   124 │   │   │   │   │   scene = SceneClass()                                                   │
+│ ❱ 125 │   │   │   │   │   scene.render()                                                         │
+│   126 │   │   │   except Exception:                                                              │
+│   127 │   │   │   │   error_console.print_exception()                                            │
+│   128 │   │   │   │   sys.exit(1)                                                                │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/s │
+│ cene/scene.py:237 in render                                                                      │
+│                                                                                                  │
+│    234 │   │   """                                                                               │
+│    235 │   │   self.setup()                                                                      │
+│    236 │   │   try:                                                                              │
+│ ❱  237 │   │   │   self.construct()                                                              │
+│    238 │   │   except EndSceneEarlyException:                                                    │
+│    239 │   │   │   pass                                                                          │
+│    240 │   │   except RerunSceneException:                                                       │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py:14 in construct              │
+│                                                                                                  │
+│   11 │   │                                                                                       │
+│   12 │   │   # Labels for sides                                                                  │
+│   13 │   │   side_labels = VGroup(                                                               │
+│ ❱ 14 │   │   │   Tex("Side A").next_to(triangle.edges[0], RIGHT, buff=0.1),                      │
+│   15 │   │   │   Tex("Side B").next_to(triangle.edges[1], LEFT, buff=0.1),                       │
+│   16 │   │   │   Tex("Side C").next_to(triangle.edges[2], DOWN, buff=0.1)                        │
+│   17 │   │   )                                                                                   │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/m │
+│ object/text/tex_mobject.py:452 in __init__                                                       │
+│                                                                                                  │
+│   449 │   def __init__(                                                                          │
+│   450 │   │   self, *tex_strings, arg_separator="", tex_environment="center", **kwargs           │
+│   451 │   ):                                                                                     │
+│ ❱ 452 │   │   super().__init__(                                                                  │
+│   453 │   │   │   *tex_strings,                                                                  │
+│   454 │   │   │   arg_separator=arg_separator,                                                   │
+│   455 │   │   │   tex_environment=tex_environment,                                               │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/m │
+│ object/text/tex_mobject.py:298 in __init__                                                       │
+│                                                                                                  │
+│   295 │   │   │   │   │   │   """,                                                               │
+│   296 │   │   │   │   │   ),                                                                     │
+│   297 │   │   │   │   )                                                                          │
+│ ❱ 298 │   │   │   raise compilation_error                                                        │
+│   299 │   │   self.set_color_by_tex_to_color_map(self.tex_to_color_map)                          │
+│   300 │   │                                                                                      │
+│   301 │   │   if self.organize_left_to_right:                                                    │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/m │
+│ object/text/tex_mobject.py:277 in __init__                                                       │
+│                                                                                                  │
+│   274 │   │   self.brace_notation_split_occurred = False                                         │
+│   275 │   │   self.tex_strings = self._break_up_tex_strings(tex_strings)                         │
+│   276 │   │   try:                                                                               │
+│ ❱ 277 │   │   │   super().__init__(                                                              │
+│   278 │   │   │   │   self.arg_separator.join(self.tex_strings),                                 │
+│   279 │   │   │   │   tex_environment=self.tex_environment,                                      │
+│   280 │   │   │   │   tex_template=self.tex_template,                                            │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/m │
+│ object/text/tex_mobject.py:80 in __init__                                                        │
+│                                                                                                  │
+│    77 │   │                                                                                      │
+│    78 │   │   assert isinstance(tex_string, str)                                                 │
+│    79 │   │   self.tex_string = tex_string                                                       │
+│ ❱  80 │   │   file_name = tex_to_svg_file(                                                       │
+│    81 │   │   │   self._get_modified_expression(tex_string),                                     │
+│    82 │   │   │   environment=self.tex_environment,                                              │
+│    83 │   │   │   tex_template=self.tex_template,                                                │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/u │
+│ tils/tex_file_writing.py:65 in tex_to_svg_file                                                   │
+│                                                                                                  │
+│    62 │   if svg_file.exists():                                                                  │
+│    63 │   │   return svg_file                                                                    │
+│    64 │                                                                                          │
+│ ❱  65 │   dvi_file = compile_tex(                                                                │
+│    66 │   │   tex_file,                                                                          │
+│    67 │   │   tex_template.tex_compiler,                                                         │
+│    68 │   │   tex_template.output_format,                                                        │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/u │
+│ tils/tex_file_writing.py:212 in compile_tex                                                      │
+│                                                                                                  │
+│   209 │   │   if cp.returncode != 0:                                                             │
+│   210 │   │   │   log_file = tex_file.with_suffix(".log")                                        │
+│   211 │   │   │   print_all_tex_errors(log_file, tex_compiler, tex_file)                         │
+│ ❱ 212 │   │   │   raise ValueError(                                                              │
+│   213 │   │   │   │   f"{tex_compiler} error converting to"                                      │
+│   214 │   │   │   │   f" {output_format[1:]}. See log output above or"                           │
+│   215 │   │   │   │   f" the log file: {log_file}",                                              │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+ValueError: latex error converting to dvi. See log output above or the log file: 
+media/Tex/b4498c74cbae9e3f.log
+
+2025-03-14 16:35:01,315 - src.backend.video_generator - ERROR - LaTeX error detected. Creating placeholder video.
+2025-03-14 16:35:01,315 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4 with text: Scene couldn't be rendered due to LaTeX issues.
+2025-03-14 16:35:01,826 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4
+2025-03-14 16:35:01,826 - src.backend.video_generator - INFO - Rendering scene 2 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 16:35:01,826 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 16:35:03,973 - src.backend.video_generator - WARNING - Rendered video for scene 2 not found. Creating placeholder.
+2025-03-14 16:35:03,973 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4 with text: Scene 2 rendered but video not found
+2025-03-14 16:35:04,456 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4
+2025-03-14 16:35:04,456 - src.backend.video_generator - INFO - Rendering scene 3 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 16:35:04,456 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 16:35:05,067 - src.backend.video_generator - ERROR - Error rendering scene 3:
+STDOUT: Manim Community v0.19.0
+
+[03/14/25 16:35:04] ERROR    LaTeX compilation error: LaTeX Error: File               tex_file_writing.py:314
+                             `standalone.cls' not found.                                                     
+                                                                                                             
+                    ERROR    Context of error:                                        tex_file_writing.py:348
+                             -> \documentclass[preview]{standalone}                                          
+                             \usepackage[english]{babel}                                                     
+                             \usepackage{amsmath}                                                            
+                             \usepackage{amssymb}                                                            
+                                                                                                             
+                    INFO     You do not have package standalone.cls installed.        tex_file_writing.py:358
+                    INFO     Install standalone.cls it using your LaTeX package       tex_file_writing.py:358
+                             manager, or check for typos.                                                    
+                    ERROR    LaTeX compilation error: Emergency stop.                 tex_file_writing.py:314
+                                                                                                             
+                    ERROR    Context of error:                                        tex_file_writing.py:348
+                             -> \documentclass[preview]{standalone}                                          
+                             \usepackage[english]{babel}                                                     
+                             \usepackage{amsmath}                                                            
+                             \usepackage{amssymb}                                                            
+                                                                                                             
+
+STDERR: /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+  warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+╭─────────────────────────────── Traceback (most recent call last) ────────────────────────────────╮
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/c │
+│ li/render/commands.py:125 in render                                                              │
+│                                                                                                  │
+│   122 │   │   │   try:                                                                           │
+│   123 │   │   │   │   with tempconfig({}):                                                       │
+│   124 │   │   │   │   │   scene = SceneClass()                                                   │
+│ ❱ 125 │   │   │   │   │   scene.render()                                                         │
+│   126 │   │   │   except Exception:                                                              │
+│   127 │   │   │   │   error_console.print_exception()                                            │
+│   128 │   │   │   │   sys.exit(1)                                                                │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/s │
+│ cene/scene.py:237 in render                                                                      │
+│                                                                                                  │
+│    234 │   │   """                                                                               │
+│    235 │   │   self.setup()                                                                      │
+│    236 │   │   try:                                                                              │
+│ ❱  237 │   │   │   self.construct()                                                              │
+│    238 │   │   except EndSceneEarlyException:                                                    │
+│    239 │   │   │   pass                                                                          │
+│    240 │   │   except RerunSceneException:                                                       │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py:8 in construct               │
+│                                                                                                  │
+│    5 │   │   # Create a triangle                                                                 │
+│    6 │   │   triangle = Polygon([0, 1, 0], [1, -1, 0], [-1, -1, 0])                              │
+│    7 │   │   triangle_label_sides = VGroup(                                                      │
+│ ❱  8 │   │   │   Tex("a").move_to([0.5, -0.3, 0]),                                               │
+│    9 │   │   │   Tex("b").move_to([-1, 0, 0]),                                                   │
+│   10 │   │   │   Tex("c").move_to([0.5, 0.6, 0])                                                 │
+│   11 │   │   )                                                                                   │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/m │
+│ object/text/tex_mobject.py:452 in __init__                                                       │
+│                                                                                                  │
+│   449 │   def __init__(                                                                          │
+│   450 │   │   self, *tex_strings, arg_separator="", tex_environment="center", **kwargs           │
+│   451 │   ):                                                                                     │
+│ ❱ 452 │   │   super().__init__(                                                                  │
+│   453 │   │   │   *tex_strings,                                                                  │
+│   454 │   │   │   arg_separator=arg_separator,                                                   │
+│   455 │   │   │   tex_environment=tex_environment,                                               │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/m │
+│ object/text/tex_mobject.py:298 in __init__                                                       │
+│                                                                                                  │
+│   295 │   │   │   │   │   │   """,                                                               │
+│   296 │   │   │   │   │   ),                                                                     │
+│   297 │   │   │   │   )                                                                          │
+│ ❱ 298 │   │   │   raise compilation_error                                                        │
+│   299 │   │   self.set_color_by_tex_to_color_map(self.tex_to_color_map)                          │
+│   300 │   │                                                                                      │
+│   301 │   │   if self.organize_left_to_right:                                                    │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/m │
+│ object/text/tex_mobject.py:277 in __init__                                                       │
+│                                                                                                  │
+│   274 │   │   self.brace_notation_split_occurred = False                                         │
+│   275 │   │   self.tex_strings = self._break_up_tex_strings(tex_strings)                         │
+│   276 │   │   try:                                                                               │
+│ ❱ 277 │   │   │   super().__init__(                                                              │
+│   278 │   │   │   │   self.arg_separator.join(self.tex_strings),                                 │
+│   279 │   │   │   │   tex_environment=self.tex_environment,                                      │
+│   280 │   │   │   │   tex_template=self.tex_template,                                            │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/m │
+│ object/text/tex_mobject.py:80 in __init__                                                        │
+│                                                                                                  │
+│    77 │   │                                                                                      │
+│    78 │   │   assert isinstance(tex_string, str)                                                 │
+│    79 │   │   self.tex_string = tex_string                                                       │
+│ ❱  80 │   │   file_name = tex_to_svg_file(                                                       │
+│    81 │   │   │   self._get_modified_expression(tex_string),                                     │
+│    82 │   │   │   environment=self.tex_environment,                                              │
+│    83 │   │   │   tex_template=self.tex_template,                                                │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/u │
+│ tils/tex_file_writing.py:65 in tex_to_svg_file                                                   │
+│                                                                                                  │
+│    62 │   if svg_file.exists():                                                                  │
+│    63 │   │   return svg_file                                                                    │
+│    64 │                                                                                          │
+│ ❱  65 │   dvi_file = compile_tex(                                                                │
+│    66 │   │   tex_file,                                                                          │
+│    67 │   │   tex_template.tex_compiler,                                                         │
+│    68 │   │   tex_template.output_format,                                                        │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/u │
+│ tils/tex_file_writing.py:212 in compile_tex                                                      │
+│                                                                                                  │
+│   209 │   │   if cp.returncode != 0:                                                             │
+│   210 │   │   │   log_file = tex_file.with_suffix(".log")                                        │
+│   211 │   │   │   print_all_tex_errors(log_file, tex_compiler, tex_file)                         │
+│ ❱ 212 │   │   │   raise ValueError(                                                              │
+│   213 │   │   │   │   f"{tex_compiler} error converting to"                                      │
+│   214 │   │   │   │   f" {output_format[1:]}. See log output above or"                           │
+│   215 │   │   │   │   f" the log file: {log_file}",                                              │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+ValueError: latex error converting to dvi. See log output above or the log file: 
+media/Tex/0916b89cf9a240b8.log
+
+2025-03-14 16:35:05,068 - src.backend.video_generator - ERROR - LaTeX error detected. Creating placeholder video.
+2025-03-14 16:35:05,068 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_2.mp4 with text: Scene couldn't be rendered due to LaTeX issues.
+2025-03-14 16:35:05,557 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_2.mp4
+2025-03-14 16:35:05,557 - src.backend.video_generator - INFO - Rendered 3 Manim scenes
+2025-03-14 16:35:05,557 - src.backend.video_generator - WARNING - ElevenLabs not available, creating silent audio.
+2025-03-14 16:35:05,557 - src.backend.video_generator - INFO - Creating silent audio placeholder at generated/audio/narration.mp3
+2025-03-14 16:35:05,557 - src.backend.video_generator - INFO - Generating subtitle file from script...
+2025-03-14 16:35:05,558 - src.backend.video_generator - INFO - Generated SRT file with 7 entries at /Users/dariuskashani/CodeProjects/ai_tutor/output/data/subtitles.srt
+2025-03-14 16:35:05,597 - src.backend.video_generator - INFO - Videos concatenated to /Users/dariuskashani/CodeProjects/ai_tutor/output/temp/concat_video.mp4
+2025-03-14 16:35:05,598 - src.backend.video_generator - INFO - Final video created at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/final_video.mp4
+2025-03-14 16:35:05,598 - src.backend.video_generator - INFO - Created accessible copy at output/final_video.mp4
+2025-03-14 17:02:59,694 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 17:04:01,045 - src.backend.video_generator - INFO - Scene 1: 0.0s to 20.0s (duration: 20.0s)
+2025-03-14 17:04:01,046 - src.backend.video_generator - INFO - Scene 2: 20.0s to 40.0s (duration: 20.0s)
+2025-03-14 17:04:01,046 - src.backend.video_generator - INFO - Scene 3: 40.0s to 60.0s (duration: 20.0s)
+2025-03-14 17:04:01,046 - src.backend.video_generator - INFO - Rendering 3 Manim scenes
+2025-03-14 17:04:01,802 - src.backend.video_generator - INFO - Rendering scene 1 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:04:01,802 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:04:03,075 - src.backend.video_generator - ERROR - Error rendering scene 1:
+STDOUT: Manim Community v0.19.0
+
+[03/14/25 17:04:02] INFO     Animation 0 : Partial movie file written in             scene_file_writer.py:588
+                             '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/                         
+                             media/videos/scene_0/480p15/partial_movie_files/UserAni                         
+                             mationScene/1185818338_3789529091_223132457.mp4'                                
+                    INFO     Animation 1 : Partial movie file written in             scene_file_writer.py:588
+                             '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/                         
+                             media/videos/scene_0/480p15/partial_movie_files/UserAni                         
+                             mationScene/624642324_2408024828_2092323215.mp4'                                
+                    INFO     Animation 2 : Partial movie file written in             scene_file_writer.py:588
+                             '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/                         
+                             media/videos/scene_0/480p15/partial_movie_files/UserAni                         
+                             mationScene/624642324_2197217130_3345442379.mp4'                                
+                    INFO     Animation 3 : Partial movie file written in             scene_file_writer.py:588
+                             '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/                         
+                             media/videos/scene_0/480p15/partial_movie_files/UserAni                         
+                             mationScene/624642324_2408024828_3846847366.mp4'                                
+                    INFO     Animation 4 : Partial movie file written in             scene_file_writer.py:588
+                             '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/                         
+                             media/videos/scene_0/480p15/partial_movie_files/UserAni                         
+                             mationScene/624642324_3684850229_929083088.mp4'                                 
+
+STDERR: 
+Animation 0: Write(Text('Simple Triangle')):   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                                   
+
+Animation 2: _MethodAnimation(Text('Simple Triangle')):   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                                              
+
+Animation 4: Create(Polygon), etc.:   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                          
+╭─────────────────────────────── Traceback (most recent call last) ────────────────────────────────╮
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/c │
+│ li/render/commands.py:125 in render                                                              │
+│                                                                                                  │
+│   122 │   │   │   try:                                                                           │
+│   123 │   │   │   │   with tempconfig({}):                                                       │
+│   124 │   │   │   │   │   scene = SceneClass()                                                   │
+│ ❱ 125 │   │   │   │   │   scene.render()                                                         │
+│   126 │   │   │   except Exception:                                                              │
+│   127 │   │   │   │   error_console.print_exception()                                            │
+│   128 │   │   │   │   sys.exit(1)                                                                │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/s │
+│ cene/scene.py:237 in render                                                                      │
+│                                                                                                  │
+│    234 │   │   """                                                                               │
+│    235 │   │   self.setup()                                                                      │
+│    236 │   │   try:                                                                              │
+│ ❱  237 │   │   │   self.construct()                                                              │
+│    238 │   │   except EndSceneEarlyException:                                                    │
+│    239 │   │   │   pass                                                                          │
+│    240 │   │   except RerunSceneException:                                                       │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py:22 in construct              │
+│                                                                                                  │
+│   19 │   │   self.play(Create(triangle), Write(labels))                                          │
+│   20 │   │                                                                                       │
+│   21 │   │   # Right angle                                                                       │
+│ ❱ 22 │   │   right_angle = RightAngle(triangle, quadrant=(-1, -1), length=0.25, color=YELLOW)    │
+│   23 │   │   self.wait(2)                                                                        │
+│   24 │   │   self.play(Create(right_angle))                                                      │
+│   25                                                                                             │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+TypeError: RightAngle.__init__() missing 1 required positional argument: 'line2'
+
+2025-03-14 17:04:03,075 - src.backend.video_generator - ERROR - LaTeX error detected. Creating placeholder video.
+2025-03-14 17:04:03,076 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4 with text: Scene couldn't be rendered due to LaTeX issues.
+2025-03-14 17:04:03,702 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4
+2025-03-14 17:04:03,702 - src.backend.video_generator - INFO - Rendering scene 2 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 17:04:03,702 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 17:04:05,703 - src.backend.video_generator - WARNING - Rendered video for scene 2 not found. Creating placeholder.
+2025-03-14 17:04:05,703 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4 with text: Scene 2 rendered but video not found
+2025-03-14 17:04:06,172 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4
+2025-03-14 17:04:06,173 - src.backend.video_generator - INFO - Rendering scene 3 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 17:04:06,173 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 17:04:07,266 - src.backend.video_generator - WARNING - Rendered video for scene 3 not found. Creating placeholder.
+2025-03-14 17:04:07,267 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_2.mp4 with text: Scene 3 rendered but video not found
+2025-03-14 17:04:07,735 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_2.mp4
+2025-03-14 17:04:07,735 - src.backend.video_generator - INFO - Rendered 3 Manim scenes
+2025-03-14 17:04:07,735 - src.backend.video_generator - WARNING - ElevenLabs not available, creating silent audio.
+2025-03-14 17:04:07,735 - src.backend.video_generator - INFO - Creating silent audio placeholder at generated/audio/narration.mp3
+2025-03-14 17:04:07,736 - src.backend.video_generator - INFO - Generating subtitle file from script...
+2025-03-14 17:04:07,736 - src.backend.video_generator - INFO - Generated SRT file with 7 entries at /Users/dariuskashani/CodeProjects/ai_tutor/output/data/subtitles.srt
+2025-03-14 17:04:07,775 - src.backend.video_generator - INFO - Videos concatenated to /Users/dariuskashani/CodeProjects/ai_tutor/output/temp/concat_video.mp4
+2025-03-14 17:04:07,775 - src.backend.video_generator - INFO - Final video created at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/final_video.mp4
+2025-03-14 17:04:07,776 - src.backend.video_generator - INFO - Created accessible copy at output/final_video.mp4
+2025-03-14 17:05:41,282 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 17:06:32,790 - src.backend.video_generator - INFO - Scene 1: 0.0s to 20.0s (duration: 20.0s)
+2025-03-14 17:06:32,791 - src.backend.video_generator - INFO - Scene 2: 20.0s to 40.0s (duration: 20.0s)
+2025-03-14 17:06:32,791 - src.backend.video_generator - INFO - Scene 3: 40.0s to 60.0s (duration: 20.0s)
+2025-03-14 17:06:32,791 - src.backend.video_generator - INFO - Rendering 3 Manim scenes
+2025-03-14 17:06:33,508 - src.backend.video_generator - INFO - Rendering scene 1 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:06:33,508 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:06:41,481 - src.backend.video_generator - WARNING - Rendered video for scene 1 not found. Creating placeholder.
+2025-03-14 17:06:41,482 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4 with text: Scene 1 rendered but video not found
+2025-03-14 17:06:41,985 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4
+2025-03-14 17:06:41,986 - src.backend.video_generator - INFO - Rendering scene 2 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 17:06:41,986 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 17:06:42,514 - src.backend.video_generator - ERROR - Error rendering scene 2:
+STDOUT: Manim Community v0.19.0
+
+
+STDERR: ╭─────────────────────────────── Traceback (most recent call last) ────────────────────────────────╮
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/c │
+│ li/render/commands.py:125 in render                                                              │
+│                                                                                                  │
+│   122 │   │   │   try:                                                                           │
+│   123 │   │   │   │   with tempconfig({}):                                                       │
+│   124 │   │   │   │   │   scene = SceneClass()                                                   │
+│ ❱ 125 │   │   │   │   │   scene.render()                                                         │
+│   126 │   │   │   except Exception:                                                              │
+│   127 │   │   │   │   error_console.print_exception()                                            │
+│   128 │   │   │   │   sys.exit(1)                                                                │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/s │
+│ cene/scene.py:237 in render                                                                      │
+│                                                                                                  │
+│    234 │   │   """                                                                               │
+│    235 │   │   self.setup()                                                                      │
+│    236 │   │   try:                                                                              │
+│ ❱  237 │   │   │   self.construct()                                                              │
+│    238 │   │   except EndSceneEarlyException:                                                    │
+│    239 │   │   │   pass                                                                          │
+│    240 │   │   except RerunSceneException:                                                       │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py:14 in construct              │
+│                                                                                                  │
+│   11 │   │   straight_line = Line([-3, -2, 0], [3, -2, 0], color=YELLOW)                         │
+│   12 │   │                                                                                       │
+│   13 │   │   # Pizza slice                                                                       │
+│ ❱ 14 │   │   pizza = Sector(outer_radius=2, angle=PI/4, color=ORANGE).shift(RIGHT * 4)           │
+│   15 │   │   crust = Arc(radius=2, angle=PI/4, color=WHITE).shift(RIGHT * 4)                     │
+│   16 │   │   left_edge = Line(pizza.get_center(), pizza.point_from_proportion(0), color=WHITE    │
+│   17 │   │   right_edge = Line(pizza.get_center(), pizza.point_from_proportion(1), color=WHIT    │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/m │
+│ object/geometry/arc.py:940 in __init__                                                           │
+│                                                                                                  │
+│    937 │   """                                                                                   │
+│    938 │                                                                                         │
+│    939 │   def __init__(self, radius: float = 1, **kwargs: Any) -> None:                         │
+│ ❱  940 │   │   super().__init__(inner_radius=0, outer_radius=radius, **kwargs)                   │
+│    941                                                                                           │
+│    942                                                                                           │
+│    943 class Annulus(Circle):                                                                    │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+TypeError: manim.mobject.geometry.arc.AnnularSector.__init__() got multiple values for keyword argument 
+'outer_radius'
+
+2025-03-14 17:06:42,515 - src.backend.video_generator - INFO - Retrying with basic quality...
+2025-03-14 17:06:42,965 - src.backend.video_generator - ERROR - Retry failed for scene 2. Creating placeholder.
+2025-03-14 17:06:42,965 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4 with text: Scene 2 rendering failed
+2025-03-14 17:06:43,442 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4
+2025-03-14 17:06:43,442 - src.backend.video_generator - INFO - Rendering scene 3 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 17:06:43,442 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 17:06:45,045 - src.backend.video_generator - ERROR - Error rendering scene 3:
+STDOUT: Manim Community v0.19.0
+
+[03/14/25 17:06:44] INFO     Animation 0 : Partial movie file written in             scene_file_writer.py:588
+                             '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/                         
+                             media/videos/scene_2/480p15/partial_movie_files/UserAni                         
+                             mationScene/1185818338_973635854_2358810818.mp4'                                
+                    INFO     Animation 1 : Partial movie file written in             scene_file_writer.py:588
+                             '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/                         
+                             media/videos/scene_2/480p15/partial_movie_files/UserAni                         
+                             mationScene/624642324_3201849554_17254077.mp4'                                  
+
+STDERR: 
+Animation 0: AddTextWordByWord(Group):   0%|          | 0/75 [00:00<?, ?it/s]
+Animation 0: AddTextWordByWord(Group):  16%|█▌        | 12/75 [00:00<00:00, 110.33it/s]
+Animation 0: AddTextWordByWord(Group):  32%|███▏      | 24/75 [00:00<00:00, 111.91it/s]
+Animation 0: AddTextWordByWord(Group):  48%|████▊     | 36/75 [00:00<00:00, 112.50it/s]
+Animation 0: AddTextWordByWord(Group):  64%|██████▍   | 48/75 [00:00<00:00, 110.61it/s]
+Animation 0: AddTextWordByWord(Group):  80%|████████  | 60/75 [00:00<00:00, 111.59it/s]
+Animation 0: AddTextWordByWord(Group):  96%|█████████▌| 72/75 [00:00<00:00, 111.25it/s]
+                                                                                       
+╭─────────────────────────────── Traceback (most recent call last) ────────────────────────────────╮
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/c │
+│ li/render/commands.py:125 in render                                                              │
+│                                                                                                  │
+│   122 │   │   │   try:                                                                           │
+│   123 │   │   │   │   with tempconfig({}):                                                       │
+│   124 │   │   │   │   │   scene = SceneClass()                                                   │
+│ ❱ 125 │   │   │   │   │   scene.render()                                                         │
+│   126 │   │   │   except Exception:                                                              │
+│   127 │   │   │   │   error_console.print_exception()                                            │
+│   128 │   │   │   │   sys.exit(1)                                                                │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/manim/s │
+│ cene/scene.py:237 in render                                                                      │
+│                                                                                                  │
+│    234 │   │   """                                                                               │
+│    235 │   │   self.setup()                                                                      │
+│    236 │   │   try:                                                                              │
+│ ❱  237 │   │   │   self.construct()                                                              │
+│    238 │   │   except EndSceneEarlyException:                                                    │
+│    239 │   │   │   pass                                                                          │
+│    240 │   │   except RerunSceneException:                                                       │
+│                                                                                                  │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py:21 in construct              │
+│                                                                                                  │
+│   18 │   │                                                                                       │
+│   19 │   │   # Highlighting parts of the triangle                                                │
+│   20 │   │   side_highlight = SurroundingRectangle(triangle, color=YELLOW)                       │
+│ ❱ 21 │   │   angle_highlight = Angle(triangle.get_vertices()[0], triangle.get_vertices()[1],     │
+│   22 │   │                                                                                       │
+│   23 │   │   self.play(Write(properties_text))                                                   │
+│   24 │   │   self.play(Create(triangle))                                                         │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+TypeError: Angle.__init__() got multiple values for argument 'radius'
+
+2025-03-14 17:06:45,045 - src.backend.video_generator - ERROR - LaTeX error detected. Creating placeholder video.
+2025-03-14 17:06:45,045 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_2.mp4 with text: Scene couldn't be rendered due to LaTeX issues.
+2025-03-14 17:06:45,517 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_2.mp4
+2025-03-14 17:06:45,517 - src.backend.video_generator - INFO - Rendered 3 Manim scenes
+2025-03-14 17:06:45,518 - src.backend.video_generator - WARNING - ElevenLabs not available, creating silent audio.
+2025-03-14 17:06:45,518 - src.backend.video_generator - INFO - Creating silent audio placeholder at generated/audio/narration.mp3
+2025-03-14 17:06:45,518 - src.backend.video_generator - INFO - Generating subtitle file from script...
+2025-03-14 17:06:45,518 - src.backend.video_generator - INFO - Generated SRT file with 13 entries at /Users/dariuskashani/CodeProjects/ai_tutor/output/data/subtitles.srt
+2025-03-14 17:06:45,558 - src.backend.video_generator - INFO - Videos concatenated to /Users/dariuskashani/CodeProjects/ai_tutor/output/temp/concat_video.mp4
+2025-03-14 17:06:45,558 - src.backend.video_generator - INFO - Final video created at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/final_video.mp4
+2025-03-14 17:06:45,558 - src.backend.video_generator - INFO - Created accessible copy at output/final_video.mp4
+2025-03-14 17:07:49,162 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 17:08:56,470 - src.backend.video_generator - INFO - Scene 1: 0.0s to 20.0s (duration: 20.0s)
+2025-03-14 17:08:56,470 - src.backend.video_generator - INFO - Scene 2: 20.0s to 40.0s (duration: 20.0s)
+2025-03-14 17:08:56,470 - src.backend.video_generator - INFO - Scene 3: 40.0s to 60.0s (duration: 20.0s)
+2025-03-14 17:08:56,470 - src.backend.video_generator - INFO - Rendering 3 Manim scenes
+2025-03-14 17:08:56,984 - src.backend.video_generator - INFO - Rendering scene 1 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:08:56,984 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:08:59,636 - src.backend.video_generator - WARNING - Rendered video for scene 1 not found. Creating placeholder.
+2025-03-14 17:08:59,637 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4 with text: Scene 1 rendered but video not found
+2025-03-14 17:09:00,155 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4
+2025-03-14 17:09:00,155 - src.backend.video_generator - INFO - Rendering scene 2 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 17:09:00,155 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 17:09:03,270 - src.backend.video_generator - WARNING - Rendered video for scene 2 not found. Creating placeholder.
+2025-03-14 17:09:03,270 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4 with text: Scene 2 rendered but video not found
+2025-03-14 17:09:03,746 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4
+2025-03-14 17:09:03,746 - src.backend.video_generator - INFO - Rendering scene 3 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 17:09:03,746 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 17:09:06,331 - src.backend.video_generator - WARNING - Rendered video for scene 3 not found. Creating placeholder.
+2025-03-14 17:09:06,331 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_2.mp4 with text: Scene 3 rendered but video not found
+2025-03-14 17:09:06,810 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_2.mp4
+2025-03-14 17:09:06,810 - src.backend.video_generator - INFO - Rendered 3 Manim scenes
+2025-03-14 17:09:06,810 - src.backend.video_generator - WARNING - ElevenLabs not available, creating silent audio.
+2025-03-14 17:09:06,810 - src.backend.video_generator - INFO - Creating silent audio placeholder at generated/audio/narration.mp3
+2025-03-14 17:09:06,810 - src.backend.video_generator - INFO - Generating subtitle file from script...
+2025-03-14 17:09:06,811 - src.backend.video_generator - INFO - Generated SRT file with 7 entries at /Users/dariuskashani/CodeProjects/ai_tutor/output/data/subtitles.srt
+2025-03-14 17:09:06,851 - src.backend.video_generator - INFO - Videos concatenated to /Users/dariuskashani/CodeProjects/ai_tutor/output/temp/concat_video.mp4
+2025-03-14 17:09:06,852 - src.backend.video_generator - INFO - Final video created at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/final_video.mp4
+2025-03-14 17:09:06,852 - src.backend.video_generator - INFO - Created accessible copy at output/final_video.mp4
+2025-03-14 17:21:00,504 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 17:21:00,979 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 17:22:56,015 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 17:23:27,315 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 17:25:49,367 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 17:26:08,377 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 17:28:03,020 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 17:29:25,866 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 17:30:42,707 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 17:31:20,249 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 17:34:44,693 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 17:34:45,177 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 17:36:45,974 - src.backend.video_generator - INFO - Scene 1: 0.0s to 30.0s (duration: 30.0s)
+2025-03-14 17:36:45,974 - src.backend.video_generator - INFO - Scene 2: 30.0s to 60.0s (duration: 30.0s)
+2025-03-14 17:36:45,974 - src.backend.video_generator - INFO - Rendering 2 Manim scenes
+2025-03-14 17:36:46,845 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 17:37:12,753 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 17:40:00,195 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 17:40:00,688 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 17:41:16,559 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 17:41:49,873 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 17:46:39,376 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 17:46:58,210 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 17:47:00,623 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 17:48:31,685 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 17:50:10,626 - src.backend.video_generator - INFO - Scene 1: 0.0s to 30.0s (duration: 30.0s)
+2025-03-14 17:50:10,626 - src.backend.video_generator - INFO - Scene 2: 30.0s to 60.0s (duration: 30.0s)
+2025-03-14 17:50:10,626 - src.backend.video_generator - INFO - Rendering 2 Manim scenes
+2025-03-14 17:50:11,432 - src.backend.video_generator - INFO - Rendering scene 1 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:50:11,432 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:50:14,096 - src.backend.video_generator - WARNING - Rendered video for scene 1 not found. Creating placeholder.
+2025-03-14 17:50:14,097 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4 with text: Scene 1 rendered but video not found
+2025-03-14 17:50:14,763 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4
+2025-03-14 17:50:14,763 - src.backend.video_generator - INFO - Rendering scene 2 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 17:50:14,763 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 17:50:17,763 - src.backend.video_generator - WARNING - Rendered video for scene 2 not found. Creating placeholder.
+2025-03-14 17:50:17,764 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4 with text: Scene 2 rendered but video not found
+2025-03-14 17:50:18,238 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4
+2025-03-14 17:50:18,238 - src.backend.video_generator - INFO - Rendered 2 Manim scenes
+2025-03-14 17:50:18,239 - src.backend.video_generator - INFO - [DRY RUN] Creating silent audio placeholder.
+2025-03-14 17:50:18,239 - src.backend.video_generator - INFO - Creating silent audio placeholder at generated/audio/narration.mp3
+2025-03-14 17:50:18,239 - src.backend.video_generator - INFO - Generating subtitle file from script...
+2025-03-14 17:50:18,240 - src.backend.video_generator - INFO - Generated SRT file with 6 entries at /Users/dariuskashani/CodeProjects/ai_tutor/output/data/subtitles.srt
+2025-03-14 17:50:18,278 - src.backend.video_generator - INFO - Videos concatenated to /Users/dariuskashani/CodeProjects/ai_tutor/output/temp/concat_video.mp4
+2025-03-14 17:50:18,279 - src.backend.video_generator - INFO - Final video created at root: /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/final_video.mp4
+2025-03-14 17:50:18,279 - src.backend.video_generator - INFO - Final video created at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/final_video.mp4
+2025-03-14 17:50:18,279 - src.backend.video_generator - INFO - Created accessible copy at output/final_video.mp4
+2025-03-14 17:54:33,139 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.

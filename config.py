@@ -24,7 +24,8 @@ def get_project_dirs(create_dirs=True):
         "videos": OUTPUT_DIR / "videos",
         "audio": OUTPUT_DIR / "audio",
         "data": OUTPUT_DIR / "data",
-        "temp": OUTPUT_DIR / "temp"
+        "temp": OUTPUT_DIR / "temp",
+        "tutorials": OUTPUT_DIR / "tutorials"
     }
     
     # Create directories if requested
@@ -46,6 +47,10 @@ def get_script_path():
 def get_narrator_script_path():
     """Get path to the narrator script file."""
     return OUTPUT_DIR / "audio" / "narrator_script.txt"
+
+def get_subtitle_path():
+    """Get path to the subtitle file."""
+    return OUTPUT_DIR / "data" / "subtitles.srt"
 
 def get_audio_path(filename="narration.mp3"):
     """Get path to the audio file."""

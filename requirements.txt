@@ -1,0 +1,23 @@
+# API and core dependencies
+openai>=1.0.0
+python-dotenv>=1.0.0
+requests>=2.28.0
+flask>=2.0.0
+flask-cors>=4.0.0
+
+# Optional - for audio generation
+elevenlabs>=0.2.24
+
+# Video processing
+# Note: ffmpeg must be installed separately on the system
+
+# Web server
+gunicorn>=20.1.0
+
+# Utilities
+pathlib>=1.0.1
+tqdm>=4.65.0
+
+# Manim is required for rendering animations
+# Recommended to install according to docs: https://docs.manim.community/en/stable/installation.html
+# manim>=0.19.0 

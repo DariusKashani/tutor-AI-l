@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Tutorial - Math Tutor AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Math Tutor</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li class="active"><a href="create.html"><i class="fas fa-plus"></i> Create</a></li>
+                    <li><a href="#"><i class="fas fa-video"></i> My Videos</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                    <li><a href="#"><i class="fas fa-question-circle"></i> Help</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <p>Math Tutor AI &copy; 2025</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Navigation Bar -->
+            <header class="top-nav">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search tutorials...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="user-profile">
+                    <div class="notifications">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="profile-image">
+                        <img src="https://via.placeholder.com/40" alt="Profile">
+                        <div class="profile-dropdown">
+                            <ul>
+                                <li><a href="#"><i class="fas fa-user"></i> My Profile</a></li>
+                                <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                                <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content Area -->
+            <div class="content-area">
+                <section class="create-video-section">
+                    <div class="section-header">
+                        <h1>Create New Tutorial</h1>
+                        <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+                    </div>
+                    
+                    <div class="create-form-container">
+                        <form id="generator-form" class="create-form">
+                            <div class="form-group">
+                                <label for="topic">Math Topic:</label>
+                                <input type="text" id="topic" placeholder="Enter a math topic (e.g., Pythagorean Theorem)">
+                                <p class="form-hint">Be specific for better results</p>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="sophistication">Sophistication Level: <span id="sophistication-value">Beginner</span></label>
+                                <div class="range-container">
+                                    <input type="range" id="sophistication" min="1" max="3" value="1">
+                                    <div class="range-labels">
+                                        <span>Beginner</span>
+                                        <span>Intermediate</span>
+                                        <span>Advanced</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="duration">Video Duration: <span id="duration-value">3 minutes</span></label>
+                                <div class="range-container">
+                                    <input type="range" id="duration" min="1" max="10" value="3">
+                                    <div class="range-labels">
+                                        <span>1 min</span>
+                                        <span>5 min</span>
+                                        <span>10 min</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group checkbox-group">
+                                <div class="checkbox-container">
+                                    <input type="checkbox" id="use-gm-api" checked>
+                                    <label for="use-gm-api">Use optimized Manim code generation</label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group" id="model-selection">
+                                <label>Model:</label>
+                                <div class="radio-container">
+                                    <div class="radio-option">
+                                        <input type="radio" name="model" id="model-gpt4" value="gpt4o" checked>
+                                        <label for="model-gpt4">GPT-4 (best quality)</label>
+                                    </div>
+                                    <div class="radio-option">
+                                        <input type="radio" name="model" id="model-gpt35" value="gpt35">
+                                        <label for="model-gpt35">GPT-3.5 (faster, potentially less reliable)</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group checkbox-group">
+                                <div class="checkbox-container">
+                                    <input type="checkbox" id="dry-run">
+                                    <label for="dry-run">Protect ElevenLabs credits (use silent audio)</label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" id="generate-btn" class="btn primary-btn">Generate Tutorial</button>
+                                <button type="button" id="reset-btn" class="btn secondary-btn">Reset</button>
+                            </div>
+                        </form>
+                        
+                        <div id="result-container" class="result-container hidden">
+                            <div class="result-header">
+                                <h2>Tutorial Generated Successfully!</h2>
+                                <p id="result-message"></p>
+                            </div>
+                            
+                            <div class="video-container">
+                                <video id="result-video" controls>
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                            
+                            <div class="result-actions">
+                                <button id="new-tutorial-btn" class="btn primary-btn">Generate Another Tutorial</button>
+                                <button id="download-btn" class="btn secondary-btn"><i class="fas fa-download"></i> Download</button>
+                            </div>
+                        </div>
+                        
+                        <div id="error-container" class="error-container hidden">
+                            <div class="error-header">
+                                <h2>Error</h2>
+                                <p id="error-message"></p>
+                            </div>
+                            <div class="error-actions">
+                                <button id="try-again-btn" class="btn primary-btn">Try Again</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Loader Overlay -->
+    <div id="loader-overlay" class="hidden">
+        <div class="loader-content">
+            <div class="loader"></div>
+            <p id="loader-text">Generating tutorial...</p>
+            <div id="progress-container">
+                <div id="progress-bar"></div>
+                <p id="progress-text">0%</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="create.js"></script>
+</body>
+</html> 

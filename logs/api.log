@@ -1,0 +1,628 @@
+2025-03-14 11:47:30,935 - task_manager - INFO - Task persistence directory: /Users/dariuskashani/CodeProjects/ai_tutor/output/data (absolute: /Users/dariuskashani/CodeProjects/ai_tutor/output/data)
+2025-03-14 11:47:30,935 - task_manager - INFO - Initializing TaskManager with persistence file: /Users/dariuskashani/CodeProjects/ai_tutor/output/data/tasks.json
+2025-03-14 11:47:30,935 - task_manager - INFO - Loading tasks from /Users/dariuskashani/CodeProjects/ai_tutor/output/data/tasks.json
+2025-03-14 11:47:30,935 - task_manager - INFO - Found 0 tasks in persistence file
+2025-03-14 11:47:30,935 - task_manager - INFO - Loaded 0 active tasks, skipped 0 old tasks
+2025-03-14 11:47:30,935 - task_manager - INFO - Active task IDs: []
+2025-03-14 11:47:30,941 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8742
+ * Running on http://10.23.30.129:8742
+2025-03-14 11:47:30,941 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-14 11:48:13,910 - api - INFO - Received request to generate tutorial
+2025-03-14 11:48:13,910 - api - INFO - Request data: {'topic': 'Simple Addition', 'level': 'beginner', 'duration': 1, 'dry_run': True}
+2025-03-14 11:48:13,910 - api - INFO - Starting tutorial generation for 'Simple Addition', level: beginner, duration: 1min
+2025-03-14 11:48:13,910 - api - INFO - [TASK:452e2290-4a51-4e4a-bf55-fa8d7b712331] Creating tutorial task for topic: Simple Addition
+2025-03-14 11:48:13,910 - task_manager - INFO - Created new task: 452e2290-4a51-4e4a-bf55-fa8d7b712331 of type tutorial
+2025-03-14 11:48:13,911 - task_manager - INFO - Created new task 452e2290-4a51-4e4a-bf55-fa8d7b712331 of type tutorial
+2025-03-14 11:48:30,945 - run_app - INFO - Active tasks: 1
+2025-03-14 11:48:30,945 - run_app - INFO - Task 452e2290-4a51-4e4a-bf55-fa8d7b712331: 0.0% - Task initialized
+2025-03-14 11:49:00,950 - run_app - INFO - Active tasks: 1
+2025-03-14 11:49:30,956 - run_app - INFO - Active tasks: 1
+2025-03-14 11:50:00,961 - run_app - INFO - Active tasks: 1
+2025-03-14 11:50:30,964 - run_app - INFO - Active tasks: 1
+2025-03-14 11:51:00,969 - run_app - INFO - Active tasks: 1
+2025-03-14 11:51:30,975 - run_app - INFO - Active tasks: 1
+2025-03-14 11:52:00,979 - run_app - INFO - Active tasks: 1
+2025-03-14 11:52:30,984 - run_app - INFO - Active tasks: 1
+2025-03-14 11:52:55,114 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 11:52:55] "GET /api/tasks HTTP/1.1" 200 -
+2025-03-14 11:53:00,989 - run_app - INFO - Active tasks: 1
+2025-03-14 11:53:30,994 - run_app - INFO - Active tasks: 1
+2025-03-14 11:54:01,000 - run_app - INFO - Active tasks: 1
+2025-03-14 11:55:20,127 - task_manager - INFO - Task persistence directory: /Users/dariuskashani/CodeProjects/ai_tutor/output/data (absolute: /Users/dariuskashani/CodeProjects/ai_tutor/output/data)
+2025-03-14 11:55:20,127 - task_manager - INFO - Initializing TaskManager with persistence file: /Users/dariuskashani/CodeProjects/ai_tutor/output/data/tasks.json
+2025-03-14 11:55:20,127 - task_manager - INFO - Loading tasks from /Users/dariuskashani/CodeProjects/ai_tutor/output/data/tasks.json
+2025-03-14 11:55:20,128 - task_manager - INFO - Found 0 tasks in persistence file
+2025-03-14 11:55:20,128 - task_manager - INFO - Loaded 0 active tasks, skipped 0 old tasks
+2025-03-14 11:55:20,128 - task_manager - INFO - Active task IDs: []
+2025-03-14 11:55:20,134 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8742
+ * Running on http://10.23.30.129:8742
+2025-03-14 11:55:20,134 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-14 11:56:00,725 - api - INFO - Received request to generate tutorial
+2025-03-14 11:56:00,725 - api - INFO - Request data: {'topic': 'Simple Addition', 'level': 'beginner', 'duration': 1, 'dry_run': True}
+2025-03-14 11:56:00,725 - api - INFO - Starting tutorial generation for 'Simple Addition', level: beginner, duration: 1min
+2025-03-14 11:56:00,725 - api - INFO - [TASK:f23b977e-3835-41dd-ab2f-e7c91465a298] Creating tutorial task for topic: Simple Addition
+2025-03-14 11:56:00,725 - task_manager - INFO - Created new task: f23b977e-3835-41dd-ab2f-e7c91465a298 of type tutorial
+2025-03-14 11:56:00,725 - task_manager - INFO - Created new task f23b977e-3835-41dd-ab2f-e7c91465a298 of type tutorial
+2025-03-14 11:56:20,141 - run_app - INFO - Active tasks: 1
+2025-03-14 11:56:20,143 - run_app - INFO - Task f23b977e-3835-41dd-ab2f-e7c91465a298: 0.0% - Task initialized
+2025-03-14 11:56:50,149 - run_app - INFO - Active tasks: 1
+2025-03-14 12:06:15,783 - run_app - INFO - Active tasks: 1
+2025-03-14 12:06:45,795 - run_app - INFO - Active tasks: 1
+2025-03-14 12:07:01,161 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 12:07:01] "GET /api/tasks HTTP/1.1" 200 -
+2025-03-14 12:07:15,801 - run_app - INFO - Active tasks: 1
+2025-03-14 12:07:45,805 - run_app - INFO - Active tasks: 1
+2025-03-14 12:08:01,920 - task_manager - INFO - Task persistence directory: /Users/dariuskashani/CodeProjects/ai_tutor/output/data (absolute: /Users/dariuskashani/CodeProjects/ai_tutor/output/data)
+2025-03-14 12:08:01,921 - task_manager - INFO - Initializing TaskManager with persistence file: /Users/dariuskashani/CodeProjects/ai_tutor/output/data/tasks.json
+2025-03-14 12:08:01,921 - task_manager - INFO - Loading tasks from /Users/dariuskashani/CodeProjects/ai_tutor/output/data/tasks.json
+2025-03-14 12:08:01,921 - task_manager - INFO - Found 0 tasks in persistence file
+2025-03-14 12:08:01,921 - task_manager - INFO - Loaded 0 active tasks, skipped 0 old tasks
+2025-03-14 12:08:01,921 - task_manager - INFO - Active task IDs: []
+2025-03-14 12:08:01,928 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8742
+ * Running on http://10.23.30.129:8742
+2025-03-14 12:08:01,929 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-14 12:08:35,856 - api - INFO - Received request to generate tutorial
+2025-03-14 12:08:35,856 - api - INFO - Request data: {'topic': 'Simple Addition', 'level': 'beginner', 'duration': 1, 'dry_run': True}
+2025-03-14 12:08:35,856 - api - INFO - Starting tutorial generation for 'Simple Addition', level: beginner, duration: 1min
+2025-03-14 12:08:35,856 - api - INFO - [TASK:912d67da-a24b-4c79-9f31-73183c4a6f37] Creating tutorial task for topic: Simple Addition
+2025-03-14 12:08:35,856 - task_manager - INFO - Created new task: 912d67da-a24b-4c79-9f31-73183c4a6f37 of type tutorial
+2025-03-14 12:08:35,856 - task_manager - INFO - Created new task 912d67da-a24b-4c79-9f31-73183c4a6f37 of type tutorial
+2025-03-14 12:09:01,932 - run_app - INFO - Active tasks: 1
+2025-03-14 12:09:01,932 - run_app - INFO - Task 912d67da-a24b-4c79-9f31-73183c4a6f37: 0.0% - Task initialized
+2025-03-14 12:09:31,937 - run_app - INFO - Active tasks: 1
+2025-03-14 12:10:01,941 - run_app - INFO - Active tasks: 1
+2025-03-14 12:10:20,879 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 12:10:20] "GET /api/tasks HTTP/1.1" 200 -
+2025-03-14 12:10:31,947 - run_app - INFO - Active tasks: 1
+2025-03-14 12:11:01,953 - run_app - INFO - Active tasks: 1
+2025-03-14 12:11:09,265 - task_manager - INFO - Task persistence directory: /Users/dariuskashani/CodeProjects/ai_tutor/output/data (absolute: /Users/dariuskashani/CodeProjects/ai_tutor/output/data)
+2025-03-14 12:11:09,265 - task_manager - INFO - Initializing TaskManager with persistence file: /Users/dariuskashani/CodeProjects/ai_tutor/output/data/tasks.json
+2025-03-14 12:11:09,265 - task_manager - INFO - Loading tasks from /Users/dariuskashani/CodeProjects/ai_tutor/output/data/tasks.json
+2025-03-14 12:11:09,265 - task_manager - INFO - Found 0 tasks in persistence file
+2025-03-14 12:11:09,265 - task_manager - INFO - Loaded 0 active tasks, skipped 0 old tasks
+2025-03-14 12:11:09,265 - task_manager - INFO - Active task IDs: []
+2025-03-14 12:11:09,272 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8742
+ * Running on http://10.23.30.129:8742
+2025-03-14 12:11:09,272 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-14 12:11:37,506 - werkzeug - INFO - 10.23.30.129 - - [14/Mar/2025 12:11:37] "GET / HTTP/1.1" 200 -
+2025-03-14 12:11:37,585 - werkzeug - INFO - 10.23.30.129 - - [14/Mar/2025 12:11:37] "GET /script.js HTTP/1.1" 200 -
+2025-03-14 12:11:37,591 - werkzeug - INFO - 10.23.30.129 - - [14/Mar/2025 12:11:37] "GET /styles.css HTTP/1.1" 200 -
+2025-03-14 12:11:37,837 - werkzeug - INFO - 10.23.30.129 - - [14/Mar/2025 12:11:37] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-03-14 12:11:38,706 - werkzeug - INFO - 10.23.30.129 - - [14/Mar/2025 12:11:38] "GET /create.html HTTP/1.1" 200 -
+2025-03-14 12:11:38,727 - werkzeug - INFO - 10.23.30.129 - - [14/Mar/2025 12:11:38] "[36mGET /styles.css HTTP/1.1[0m" 304 -
+2025-03-14 12:11:38,728 - werkzeug - INFO - 10.23.30.129 - - [14/Mar/2025 12:11:38] "GET /create.js HTTP/1.1" 200 -
+2025-03-14 12:11:45,171 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 12:11:45] "OPTIONS /api/generate HTTP/1.1" 200 -
+2025-03-14 12:11:45,178 - api - INFO - Received request to generate tutorial
+2025-03-14 12:11:45,179 - api - INFO - Request data: {'topic': 'pythagorean theorem', 'level': 'intermediate', 'duration': 3, 'use_gm_api': True, 'dry_run': False, 'gm_model': 'gpt4o'}
+2025-03-14 12:11:45,179 - api - INFO - Starting tutorial generation for 'pythagorean theorem', level: intermediate, duration: 3min
+2025-03-14 12:11:45,179 - api - INFO - [TASK:2be46457-49be-4f27-b167-ffeca81bed49] Creating tutorial task for topic: pythagorean theorem
+2025-03-14 12:11:45,179 - task_manager - INFO - Created new task: 2be46457-49be-4f27-b167-ffeca81bed49 of type tutorial
+2025-03-14 12:11:45,179 - task_manager - INFO - Created new task 2be46457-49be-4f27-b167-ffeca81bed49 of type tutorial
+2025-03-14 12:12:09,275 - run_app - INFO - Active tasks: 1
+2025-03-14 12:12:09,275 - run_app - INFO - Task 2be46457-49be-4f27-b167-ffeca81bed49: 0.0% - Task initialized
+2025-03-14 12:12:39,281 - run_app - INFO - Active tasks: 1
+2025-03-14 12:13:09,286 - run_app - INFO - Active tasks: 1
+2025-03-14 12:13:39,291 - run_app - INFO - Active tasks: 1
+2025-03-14 13:39:25,847 - task_manager - INFO - Task persistence directory: /Users/dariuskashani/CodeProjects/ai_tutor/output/data (absolute: /Users/dariuskashani/CodeProjects/ai_tutor/output/data)
+2025-03-14 13:39:25,847 - task_manager - INFO - Initializing TaskManager with persistence file: /Users/dariuskashani/CodeProjects/ai_tutor/output/data/tasks.json
+2025-03-14 13:39:25,847 - task_manager - INFO - Loading tasks from /Users/dariuskashani/CodeProjects/ai_tutor/output/data/tasks.json
+2025-03-14 13:39:25,847 - task_manager - INFO - Found 0 tasks in persistence file
+2025-03-14 13:39:25,847 - task_manager - INFO - Loaded 0 active tasks, skipped 0 old tasks
+2025-03-14 13:39:25,847 - task_manager - INFO - Active task IDs: []
+2025-03-14 13:39:25,855 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8742
+ * Running on http://192.168.1.24:8742
+2025-03-14 13:39:25,855 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-14 13:39:42,838 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 13:39:42] "GET / HTTP/1.1" 200 -
+2025-03-14 13:39:42,860 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 13:39:42] "GET /styles.css HTTP/1.1" 200 -
+2025-03-14 13:39:42,865 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 13:39:42] "GET /script.js HTTP/1.1" 200 -
+2025-03-14 13:39:43,152 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 13:39:43] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-03-14 13:39:43,904 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 13:39:43] "GET /create.html HTTP/1.1" 200 -
+2025-03-14 13:39:43,920 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 13:39:43] "GET /create.js HTTP/1.1" 200 -
+2025-03-14 13:39:43,920 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 13:39:43] "[36mGET /styles.css HTTP/1.1[0m" 304 -
+2025-03-14 13:40:08,106 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 13:40:08] "[36mGET /create.html HTTP/1.1[0m" 304 -
+2025-03-14 13:40:08,132 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 13:40:08] "[36mGET /styles.css HTTP/1.1[0m" 304 -
+2025-03-14 13:40:08,137 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 13:40:08] "[36mGET /create.js HTTP/1.1[0m" 304 -
+2025-03-14 13:40:17,766 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 13:40:17] "OPTIONS /api/generate HTTP/1.1" 200 -
+2025-03-14 13:40:17,768 - api - INFO - Received request to generate tutorial
+2025-03-14 13:40:17,768 - api - INFO - Request data: {'topic': 'Pythagorean theory', 'level': 'intermediate', 'duration': 3, 'use_gm_api': True, 'dry_run': False, 'gm_model': 'gpt4o'}
+2025-03-14 13:40:17,768 - api - INFO - Starting tutorial generation for 'Pythagorean theory', level: intermediate, duration: 3min
+2025-03-14 13:40:17,768 - api - INFO - [TASK:e20a5427-4cfa-4dfd-a943-318922d2fcaf] Creating tutorial task for topic: Pythagorean theory
+2025-03-14 13:40:17,768 - task_manager - INFO - Created new task: e20a5427-4cfa-4dfd-a943-318922d2fcaf of type tutorial
+2025-03-14 13:40:17,768 - task_manager - INFO - Created new task e20a5427-4cfa-4dfd-a943-318922d2fcaf of type tutorial
+2025-03-14 13:40:25,861 - run_app - INFO - Active tasks: 1
+2025-03-14 13:40:25,862 - run_app - INFO - Task e20a5427-4cfa-4dfd-a943-318922d2fcaf: 0.0% - Task initialized
+2025-03-14 13:40:55,867 - run_app - INFO - Active tasks: 1
+2025-03-14 13:41:25,874 - run_app - INFO - Active tasks: 1
+2025-03-14 13:41:55,878 - run_app - INFO - Active tasks: 1
+2025-03-14 13:42:25,884 - run_app - INFO - Active tasks: 1
+2025-03-14 13:42:55,889 - run_app - INFO - Active tasks: 1
+2025-03-14 13:43:25,895 - run_app - INFO - Active tasks: 1
+2025-03-14 13:43:55,897 - run_app - INFO - Active tasks: 1
+2025-03-14 13:44:25,904 - run_app - INFO - Active tasks: 1
+2025-03-14 13:44:55,905 - run_app - INFO - Active tasks: 1
+2025-03-14 13:45:25,911 - run_app - INFO - Active tasks: 1
+2025-03-14 13:45:55,909 - run_app - INFO - Active tasks: 1
+2025-03-14 13:46:25,913 - run_app - INFO - Active tasks: 1
+2025-03-14 13:46:55,918 - run_app - INFO - Active tasks: 1
+2025-03-14 13:47:25,923 - run_app - INFO - Active tasks: 1
+2025-03-14 13:47:55,925 - run_app - INFO - Active tasks: 1
+2025-03-14 13:48:25,930 - run_app - INFO - Active tasks: 1
+2025-03-14 13:48:55,936 - run_app - INFO - Active tasks: 1
+2025-03-14 13:49:25,941 - run_app - INFO - Active tasks: 1
+2025-03-14 13:49:55,947 - run_app - INFO - Active tasks: 1
+2025-03-14 13:50:25,952 - run_app - INFO - Active tasks: 1
+2025-03-14 13:50:55,955 - run_app - INFO - Active tasks: 1
+2025-03-14 13:51:25,960 - run_app - INFO - Active tasks: 1
+2025-03-14 13:51:54,106 - run_app - INFO - Shutdown signal received, exiting gracefully...
+2025-03-14 13:51:54,832 - task_manager - INFO - Task persistence directory: /Users/dariuskashani/CodeProjects/ai_tutor/output/data (absolute: /Users/dariuskashani/CodeProjects/ai_tutor/output/data)
+2025-03-14 13:51:54,832 - task_manager - INFO - Initializing TaskManager with persistence file: /Users/dariuskashani/CodeProjects/ai_tutor/output/data/tasks.json
+2025-03-14 13:51:54,832 - task_manager - INFO - Loading tasks from /Users/dariuskashani/CodeProjects/ai_tutor/output/data/tasks.json
+2025-03-14 13:51:54,832 - task_manager - INFO - Found 0 tasks in persistence file
+2025-03-14 13:51:54,832 - task_manager - INFO - Loaded 0 active tasks, skipped 0 old tasks
+2025-03-14 13:51:54,832 - task_manager - INFO - Active task IDs: []
+2025-03-14 13:51:54,839 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8742
+ * Running on http://192.168.1.24:8742
+2025-03-14 13:51:54,839 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-14 17:21:00,542 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8742
+ * Running on http://192.168.1.24:8742
+2025-03-14 17:21:00,542 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-14 17:21:00,546 - werkzeug - INFO -  * Restarting with watchdog (fsevents)
+2025-03-14 17:21:01,006 - werkzeug - WARNING -  * Debugger is active!
+2025-03-14 17:21:01,013 - werkzeug - INFO -  * Debugger PIN: 121-610-201
+2025-03-14 17:22:00,825 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 17:22:00] "GET / HTTP/1.1" 200 -
+2025-03-14 17:22:05,902 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 17:22:05] "GET /test-video.html HTTP/1.1" 200 -
+2025-03-14 17:22:12,901 - test_video_integration - INFO - Starting test video generation for topic: Simple Triangle
+2025-03-14 17:22:12,901 - test_video_integration - INFO - Parameters: duration=3min, sophistication_level=1, dry_run=False
+2025-03-14 17:22:12,902 - test_video_generator - INFO - Starting test video generation for topic: Simple Triangle
+2025-03-14 17:22:12,902 - test_video_generator - INFO - Parameters: duration=3min, sophistication_level=1, dry_run=False, use_generative_manim=True
+2025-03-14 17:22:12,902 - test_video_generator - INFO - Output directories: {'project': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output'), 'scenes': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/scenes'), 'videos': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/videos'), 'audio': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/audio'), 'data': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/data'), 'temp': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/temp'), 'tutorials': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/tutorials')}
+2025-03-14 17:22:12,902 - test_video_generator - INFO - Step 1: Generating script...
+2025-03-14 17:22:12,902 - script_generator - INFO - Starting script generation for topic: Simple Triangle with duration 3min, sophistication 1, dry_run=False
+2025-03-14 17:22:12,902 - script_generator - INFO - Script generation started at 17:22:12
+2025-03-14 17:22:12,902 - script_generator - INFO - Planning 3 scenes for a 3-minute video
+2025-03-14 17:22:12,903 - script_generator - INFO - Sophistication level: beginner-friendly, using simple language and basic concepts
+2025-03-14 17:22:12,903 - script_generator - INFO - Calling OpenAI API...
+2025-03-14 17:22:33,828 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-14 17:22:33,838 - script_generator - INFO - OpenAI API call completed in 20.93 seconds with response length 2640 characters
+2025-03-14 17:22:33,838 - script_generator - INFO - Last time code: [02:59] (179 seconds)
+2025-03-14 17:22:33,839 - script_generator - INFO - Full script saved to /Users/dariuskashani/CodeProjects/ai_tutor/output/data/full_script.txt
+2025-03-14 17:22:33,839 - script_generator - INFO - Script generation completed in 20.94 seconds
+2025-03-14 17:22:33,839 - test_video_generator - INFO - Script generated with 2640 characters
+2025-03-14 17:22:33,840 - test_video_generator - INFO - Step 2: Extracting scenes from script...
+2025-03-14 17:22:33,840 - script_generator - INFO - Scene 1 length: 527 characters
+2025-03-14 17:22:33,840 - script_generator - INFO - Scene 2 length: 526 characters
+2025-03-14 17:22:33,840 - script_generator - INFO - Scene 3 length: 660 characters
+2025-03-14 17:22:33,840 - test_video_generator - INFO - Extracted 3 scenes from script
+2025-03-14 17:22:33,840 - test_video_generator - INFO - Step 3: Generating Manim code for each scene...
+2025-03-14 17:22:33,840 - test_video_generator - INFO - Generating Manim code for scene 1 at /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:22:33,840 - src.backend.manim_generator - INFO - Generating Manim code for scene 0: [00:05] Begin with a title screen displaying "Simp...
+2025-03-14 17:22:33,841 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 17:22:33,841 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 0 using generative-manim approach
+2025-03-14 17:22:55,277 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-14 17:22:55,296 - src.backend.generative_manim_integration - INFO - Received response (2116 characters)
+2025-03-14 17:22:55,297 - src.backend.generative_manim_integration - INFO - Generated Manim code successfully (2112 characters)
+2025-03-14 17:22:55,298 - test_video_generator - INFO - Manim code for scene 1 saved to /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:22:55,298 - test_video_generator - INFO - Backup of scene 1 saved to output/scenes/backup_scene_0.py
+2025-03-14 17:22:55,298 - test_video_generator - INFO - Generating Manim code for scene 2 at /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 17:22:55,298 - src.backend.manim_generator - INFO - Generating Manim code for scene 1: [00:45] Fade out the previous scene and bring in a...
+2025-03-14 17:22:55,298 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 17:22:55,298 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 1 using generative-manim approach
+2025-03-14 17:22:55,321 - werkzeug - INFO -  * Detected change in '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/output/scenes/backup_scene_0.py', reloading
+2025-03-14 17:22:55,444 - werkzeug - INFO -  * Restarting with watchdog (fsevents)
+2025-03-14 17:22:56,045 - werkzeug - WARNING -  * Debugger is active!
+2025-03-14 17:22:56,050 - werkzeug - INFO -  * Debugger PIN: 121-610-201
+2025-03-14 17:22:56,064 - test_video_integration - INFO - Starting test video generation for topic: Simple Triangle
+2025-03-14 17:22:56,064 - test_video_integration - INFO - Parameters: duration=3min, sophistication_level=1, dry_run=False
+2025-03-14 17:22:56,064 - test_video_generator - INFO - Starting test video generation for topic: Simple Triangle
+2025-03-14 17:22:56,064 - test_video_generator - INFO - Parameters: duration=3min, sophistication_level=1, dry_run=False, use_generative_manim=True
+2025-03-14 17:22:56,065 - test_video_generator - INFO - Output directories: {'project': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output'), 'scenes': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/scenes'), 'videos': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/videos'), 'audio': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/audio'), 'data': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/data'), 'temp': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/temp'), 'tutorials': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/tutorials')}
+2025-03-14 17:22:56,065 - test_video_generator - INFO - Step 1: Generating script...
+2025-03-14 17:22:56,065 - script_generator - INFO - Starting script generation for topic: Simple Triangle with duration 3min, sophistication 1, dry_run=False
+2025-03-14 17:22:56,065 - script_generator - INFO - Script generation started at 17:22:56
+2025-03-14 17:22:56,065 - script_generator - INFO - Planning 3 scenes for a 3-minute video
+2025-03-14 17:22:56,065 - script_generator - INFO - Sophistication level: beginner-friendly, using simple language and basic concepts
+2025-03-14 17:22:56,065 - script_generator - INFO - Calling OpenAI API...
+2025-03-14 17:23:15,052 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-14 17:23:15,060 - script_generator - INFO - OpenAI API call completed in 19.00 seconds with response length 2498 characters
+2025-03-14 17:23:15,061 - script_generator - INFO - Last time code: [02:35] (155 seconds)
+2025-03-14 17:23:15,061 - script_generator - INFO - Full script saved to /Users/dariuskashani/CodeProjects/ai_tutor/output/data/full_script.txt
+2025-03-14 17:23:15,062 - script_generator - INFO - Script generation completed in 19.00 seconds
+2025-03-14 17:23:15,062 - test_video_generator - INFO - Script generated with 2498 characters
+2025-03-14 17:23:15,062 - test_video_generator - INFO - Step 2: Extracting scenes from script...
+2025-03-14 17:23:15,062 - script_generator - INFO - Scene 1 length: 592 characters
+2025-03-14 17:23:15,062 - script_generator - INFO - Scene 2 length: 614 characters
+2025-03-14 17:23:15,062 - script_generator - INFO - Scene 3 length: 621 characters
+2025-03-14 17:23:15,062 - test_video_generator - INFO - Extracted 3 scenes from script
+2025-03-14 17:23:15,062 - test_video_generator - INFO - Step 3: Generating Manim code for each scene...
+2025-03-14 17:23:15,062 - test_video_generator - INFO - Generating Manim code for scene 1 at /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:23:15,062 - src.backend.manim_generator - INFO - Generating Manim code for scene 0: [00:05] The scene opens with a title "Simple Trian...
+2025-03-14 17:23:15,063 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 17:23:15,063 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 0 using generative-manim approach
+2025-03-14 17:23:26,098 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-14 17:23:26,100 - src.backend.generative_manim_integration - INFO - Received response (1845 characters)
+2025-03-14 17:23:26,101 - src.backend.generative_manim_integration - INFO - Generated Manim code successfully (1841 characters)
+2025-03-14 17:23:26,102 - test_video_generator - INFO - Manim code for scene 1 saved to /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:23:26,102 - test_video_generator - INFO - Backup of scene 1 saved to output/scenes/backup_scene_0.py
+2025-03-14 17:23:26,102 - test_video_generator - INFO - Generating Manim code for scene 2 at /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 17:23:26,102 - src.backend.manim_generator - INFO - Generating Manim code for scene 1: [00:55] A new scene begins with a bold title "Isos...
+2025-03-14 17:23:26,102 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 17:23:26,102 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 1 using generative-manim approach
+2025-03-14 17:23:26,125 - werkzeug - INFO -  * Detected change in '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/output/scenes/backup_scene_0.py', reloading
+2025-03-14 17:23:26,754 - werkzeug - INFO -  * Restarting with watchdog (fsevents)
+2025-03-14 17:23:27,345 - werkzeug - WARNING -  * Debugger is active!
+2025-03-14 17:23:27,349 - werkzeug - INFO -  * Debugger PIN: 121-610-201
+2025-03-14 17:25:47,703 - werkzeug - INFO -  * Detected change in '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/src/backend/video_generator.py', reloading
+2025-03-14 17:25:48,793 - werkzeug - INFO -  * Restarting with watchdog (fsevents)
+2025-03-14 17:25:49,397 - werkzeug - WARNING -  * Debugger is active!
+2025-03-14 17:25:49,402 - werkzeug - INFO -  * Debugger PIN: 121-610-201
+2025-03-14 17:26:07,577 - werkzeug - INFO -  * Detected change in '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/src/backend/test_video_integration.py', reloading
+2025-03-14 17:26:07,795 - werkzeug - INFO -  * Restarting with watchdog (fsevents)
+2025-03-14 17:26:08,405 - werkzeug - WARNING -  * Debugger is active!
+2025-03-14 17:26:08,410 - werkzeug - INFO -  * Debugger PIN: 121-610-201
+2025-03-14 17:27:24,306 - test_video_integration - INFO - Starting test video generation for topic: Simple Triangle
+2025-03-14 17:27:24,306 - test_video_integration - INFO - Parameters: duration=3min, sophistication_level=1, dry_run=False
+2025-03-14 17:27:24,306 - test_video_generator - INFO - Starting test video generation for topic: Simple Triangle
+2025-03-14 17:27:24,306 - test_video_generator - INFO - Parameters: duration=3min, sophistication_level=1, dry_run=False, use_generative_manim=True
+2025-03-14 17:27:24,306 - test_video_generator - INFO - Output directories: {'project': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output'), 'scenes': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/scenes'), 'videos': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/videos'), 'audio': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/audio'), 'data': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/data'), 'temp': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/temp'), 'tutorials': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/tutorials')}
+2025-03-14 17:27:24,306 - test_video_generator - INFO - Step 1: Generating script...
+2025-03-14 17:27:24,306 - script_generator - INFO - Starting script generation for topic: Simple Triangle with duration 3min, sophistication 1, dry_run=False
+2025-03-14 17:27:24,306 - script_generator - INFO - Script generation started at 17:27:24
+2025-03-14 17:27:24,307 - script_generator - INFO - Planning 3 scenes for a 3-minute video
+2025-03-14 17:27:24,307 - script_generator - INFO - Sophistication level: beginner-friendly, using simple language and basic concepts
+2025-03-14 17:27:24,307 - script_generator - INFO - Calling OpenAI API...
+2025-03-14 17:27:46,015 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-14 17:27:46,034 - script_generator - INFO - OpenAI API call completed in 21.73 seconds with response length 2944 characters
+2025-03-14 17:27:46,035 - script_generator - INFO - Last time code: [02:40] (160 seconds)
+2025-03-14 17:27:46,036 - script_generator - INFO - Full script saved to /Users/dariuskashani/CodeProjects/ai_tutor/output/data/full_script.txt
+2025-03-14 17:27:46,036 - script_generator - INFO - Script generation completed in 21.73 seconds
+2025-03-14 17:27:46,036 - test_video_generator - INFO - Script generated with 2944 characters
+2025-03-14 17:27:46,036 - test_video_generator - INFO - Step 2: Extracting scenes from script...
+2025-03-14 17:27:46,036 - script_generator - INFO - Scene 1 length: 818 characters
+2025-03-14 17:27:46,036 - script_generator - INFO - Scene 2 length: 688 characters
+2025-03-14 17:27:46,036 - script_generator - INFO - Scene 3 length: 623 characters
+2025-03-14 17:27:46,036 - test_video_generator - INFO - Extracted 3 scenes from script
+2025-03-14 17:27:46,036 - test_video_generator - INFO - Step 3: Generating Manim code for each scene...
+2025-03-14 17:27:46,036 - test_video_generator - INFO - Generating Manim code for scene 1 at /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:27:46,036 - src.backend.manim_generator - INFO - Generating Manim code for scene 0: [00:05] Let's start with a clear and straightforwa...
+2025-03-14 17:27:46,036 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 17:27:46,037 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 0 using generative-manim approach
+2025-03-14 17:28:01,684 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-14 17:28:01,691 - src.backend.generative_manim_integration - INFO - Received response (2127 characters)
+2025-03-14 17:28:01,691 - src.backend.generative_manim_integration - INFO - Generated Manim code successfully (2123 characters)
+2025-03-14 17:28:01,692 - test_video_generator - INFO - Manim code for scene 1 saved to /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:28:01,693 - test_video_generator - INFO - Backup of scene 1 saved to output/scenes/backup_scene_0.py
+2025-03-14 17:28:01,693 - test_video_generator - INFO - Generating Manim code for scene 2 at /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 17:28:01,693 - src.backend.manim_generator - INFO - Generating Manim code for scene 1: [00:50] Let's illustrate one of these applications...
+2025-03-14 17:28:01,693 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 17:28:01,693 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 1 using generative-manim approach
+2025-03-14 17:28:01,716 - werkzeug - INFO -  * Detected change in '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/output/scenes/backup_scene_0.py', reloading
+2025-03-14 17:28:02,429 - werkzeug - INFO -  * Restarting with watchdog (fsevents)
+2025-03-14 17:28:03,052 - werkzeug - WARNING -  * Debugger is active!
+2025-03-14 17:28:03,056 - werkzeug - INFO -  * Debugger PIN: 121-610-201
+2025-03-14 17:29:41,901 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 17:29:41] "GET /test-video.html HTTP/1.1" 200 -
+2025-03-14 17:30:01,447 - test_video_integration - INFO - Starting test video generation for topic: Pythagorean theore
+2025-03-14 17:30:01,447 - test_video_integration - INFO - Parameters: duration=2min, sophistication_level=3, dry_run=False
+2025-03-14 17:30:01,447 - test_video_generator - INFO - Starting test video generation for topic: Pythagorean theore
+2025-03-14 17:30:01,448 - test_video_generator - INFO - Parameters: duration=2min, sophistication_level=3, dry_run=False, use_generative_manim=True
+2025-03-14 17:30:01,448 - test_video_generator - INFO - Output directories: {'project': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output'), 'scenes': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/scenes'), 'videos': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/videos'), 'audio': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/audio'), 'data': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/data'), 'temp': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/temp'), 'tutorials': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/tutorials')}
+2025-03-14 17:30:01,448 - test_video_generator - INFO - Step 1: Generating script...
+2025-03-14 17:30:01,448 - script_generator - INFO - Starting script generation for topic: Pythagorean theore with duration 2min, sophistication 3, dry_run=False
+2025-03-14 17:30:01,448 - script_generator - INFO - Script generation started at 17:30:01
+2025-03-14 17:30:01,449 - script_generator - INFO - Planning 3 scenes for a 2-minute video
+2025-03-14 17:30:01,449 - script_generator - INFO - Sophistication level: advanced level, using sophisticated concepts and terminology appropriate for advanced students
+2025-03-14 17:30:01,449 - script_generator - INFO - Calling OpenAI API...
+2025-03-14 17:30:23,900 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-14 17:30:23,902 - script_generator - INFO - OpenAI API call completed in 22.45 seconds with response length 2636 characters
+2025-03-14 17:30:23,903 - script_generator - INFO - Last time code: [02:00] (120 seconds)
+2025-03-14 17:30:23,903 - script_generator - INFO - Full script saved to /Users/dariuskashani/CodeProjects/ai_tutor/output/data/full_script.txt
+2025-03-14 17:30:23,903 - script_generator - INFO - Script generation completed in 22.45 seconds
+2025-03-14 17:30:23,903 - test_video_generator - INFO - Script generated with 2636 characters
+2025-03-14 17:30:23,903 - test_video_generator - INFO - Step 2: Extracting scenes from script...
+2025-03-14 17:30:23,903 - script_generator - INFO - Scene 1 length: 869 characters
+2025-03-14 17:30:23,903 - script_generator - INFO - Scene 2 length: 664 characters
+2025-03-14 17:30:23,903 - script_generator - INFO - Scene 3 length: 524 characters
+2025-03-14 17:30:23,903 - test_video_generator - INFO - Extracted 3 scenes from script
+2025-03-14 17:30:23,903 - test_video_generator - INFO - Step 3: Generating Manim code for each scene...
+2025-03-14 17:30:23,903 - test_video_generator - INFO - Generating Manim code for scene 1 at /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:30:23,903 - src.backend.manim_generator - INFO - Generating Manim code for scene 0: [00:03] Open with a clean title card displaying "P...
+2025-03-14 17:30:23,903 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 17:30:23,903 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 0 using generative-manim approach
+2025-03-14 17:30:41,452 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-14 17:30:41,468 - src.backend.generative_manim_integration - INFO - Received response (2885 characters)
+2025-03-14 17:30:41,468 - src.backend.generative_manim_integration - INFO - Generated Manim code successfully (2689 characters)
+2025-03-14 17:30:41,469 - test_video_generator - INFO - Manim code for scene 1 saved to /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:30:41,469 - test_video_generator - INFO - Backup of scene 1 saved to output/scenes/backup_scene_0.py
+2025-03-14 17:30:41,469 - test_video_generator - INFO - Generating Manim code for scene 2 at /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 17:30:41,469 - src.backend.manim_generator - INFO - Generating Manim code for scene 1: [01:03] Draw a physical scenario where a boat is m...
+2025-03-14 17:30:41,469 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 17:30:41,469 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 1 using generative-manim approach
+2025-03-14 17:30:41,492 - werkzeug - INFO -  * Detected change in '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/output/scenes/backup_scene_0.py', reloading
+2025-03-14 17:30:42,108 - werkzeug - INFO -  * Restarting with watchdog (fsevents)
+2025-03-14 17:30:42,737 - werkzeug - WARNING -  * Debugger is active!
+2025-03-14 17:30:42,742 - werkzeug - INFO -  * Debugger PIN: 121-610-201
+2025-03-14 17:30:42,757 - test_video_integration - INFO - Starting test video generation for topic: Pythagorean theore
+2025-03-14 17:30:42,757 - test_video_integration - INFO - Parameters: duration=2min, sophistication_level=3, dry_run=False
+2025-03-14 17:30:42,757 - test_video_generator - INFO - Starting test video generation for topic: Pythagorean theore
+2025-03-14 17:30:42,757 - test_video_generator - INFO - Parameters: duration=2min, sophistication_level=3, dry_run=False, use_generative_manim=True
+2025-03-14 17:30:42,757 - test_video_generator - INFO - Output directories: {'project': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output'), 'scenes': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/scenes'), 'videos': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/videos'), 'audio': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/audio'), 'data': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/data'), 'temp': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/temp'), 'tutorials': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/tutorials')}
+2025-03-14 17:30:42,757 - test_video_generator - INFO - Step 1: Generating script...
+2025-03-14 17:30:42,757 - script_generator - INFO - Starting script generation for topic: Pythagorean theore with duration 2min, sophistication 3, dry_run=False
+2025-03-14 17:30:42,757 - script_generator - INFO - Script generation started at 17:30:42
+2025-03-14 17:30:42,758 - script_generator - INFO - Planning 3 scenes for a 2-minute video
+2025-03-14 17:30:42,758 - script_generator - INFO - Sophistication level: advanced level, using sophisticated concepts and terminology appropriate for advanced students
+2025-03-14 17:30:42,758 - script_generator - INFO - Calling OpenAI API...
+2025-03-14 17:31:02,613 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-14 17:31:02,622 - script_generator - INFO - OpenAI API call completed in 19.86 seconds with response length 2497 characters
+2025-03-14 17:31:02,623 - script_generator - INFO - Last time code: [02:00] (120 seconds)
+2025-03-14 17:31:02,624 - script_generator - INFO - Full script saved to /Users/dariuskashani/CodeProjects/ai_tutor/output/data/full_script.txt
+2025-03-14 17:31:02,624 - script_generator - INFO - Script generation completed in 19.87 seconds
+2025-03-14 17:31:02,624 - test_video_generator - INFO - Script generated with 2497 characters
+2025-03-14 17:31:02,624 - test_video_generator - INFO - Step 2: Extracting scenes from script...
+2025-03-14 17:31:02,624 - script_generator - INFO - Scene 1 length: 779 characters
+2025-03-14 17:31:02,624 - script_generator - INFO - Scene 2 length: 567 characters
+2025-03-14 17:31:02,624 - script_generator - INFO - Scene 3 length: 500 characters
+2025-03-14 17:31:02,625 - test_video_generator - INFO - Extracted 3 scenes from script
+2025-03-14 17:31:02,625 - test_video_generator - INFO - Step 3: Generating Manim code for each scene...
+2025-03-14 17:31:02,625 - test_video_generator - INFO - Generating Manim code for scene 1 at /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:31:02,625 - src.backend.manim_generator - INFO - Generating Manim code for scene 0: [00:05] Our exploration begins with an elegant tit...
+2025-03-14 17:31:02,625 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 17:31:02,625 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 0 using generative-manim approach
+2025-03-14 17:31:19,279 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-14 17:31:19,298 - src.backend.generative_manim_integration - INFO - Received response (2411 characters)
+2025-03-14 17:31:19,298 - src.backend.generative_manim_integration - INFO - Generated Manim code successfully (2407 characters)
+2025-03-14 17:31:19,299 - test_video_generator - INFO - Manim code for scene 1 saved to /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:31:19,299 - test_video_generator - INFO - Backup of scene 1 saved to output/scenes/backup_scene_0.py
+2025-03-14 17:31:19,299 - test_video_generator - INFO - Generating Manim code for scene 2 at /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 17:31:19,299 - src.backend.manim_generator - INFO - Generating Manim code for scene 1: [01:05] Unveil an equation of a circle, x squared ...
+2025-03-14 17:31:19,299 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 17:31:19,299 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 1 using generative-manim approach
+2025-03-14 17:31:19,322 - werkzeug - INFO -  * Detected change in '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/output/scenes/backup_scene_0.py', reloading
+2025-03-14 17:31:19,633 - werkzeug - INFO -  * Restarting with watchdog (fsevents)
+2025-03-14 17:31:20,280 - werkzeug - WARNING -  * Debugger is active!
+2025-03-14 17:31:20,285 - werkzeug - INFO -  * Debugger PIN: 121-610-201
+2025-03-14 17:34:44,727 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8743
+ * Running on http://192.168.1.24:8743
+2025-03-14 17:34:44,728 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-14 17:34:44,732 - werkzeug - INFO -  * Restarting with watchdog (fsevents)
+2025-03-14 17:34:45,202 - werkzeug - WARNING -  * Debugger is active!
+2025-03-14 17:34:45,207 - werkzeug - INFO -  * Debugger PIN: 121-610-201
+2025-03-14 17:36:45,972 - run_app - INFO - Generating video for topic: Simple Triangle, duration: 1, level: 1, dry_run: True
+2025-03-14 17:36:45,972 - test_video_integration - INFO - Starting test video generation for topic: Simple Triangle
+2025-03-14 17:36:45,972 - test_video_integration - INFO - Parameters: duration=1min, sophistication_level=1, dry_run=True
+2025-03-14 17:36:45,972 - test_video_generator - INFO - Starting test video generation for topic: Simple Triangle
+2025-03-14 17:36:45,972 - test_video_generator - INFO - Parameters: duration=1min, sophistication_level=1, dry_run=True, use_generative_manim=True
+2025-03-14 17:36:45,972 - test_video_generator - INFO - Output directories: {'project': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output'), 'scenes': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/scenes'), 'videos': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/videos'), 'audio': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/audio'), 'data': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/data'), 'temp': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/temp'), 'tutorials': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/tutorials')}
+2025-03-14 17:36:45,972 - test_video_generator - INFO - Step 1: Generating script...
+2025-03-14 17:36:45,972 - script_generator - INFO - Starting script generation for topic: Simple Triangle with duration 1min, sophistication 1, dry_run=True
+2025-03-14 17:36:45,972 - script_generator - INFO - DRY RUN mode: Returning placeholder script
+2025-03-14 17:36:45,972 - test_video_generator - INFO - Script generated with 619 characters
+2025-03-14 17:36:45,972 - test_video_generator - INFO - Step 2: Extracting scenes from script...
+2025-03-14 17:36:45,972 - script_generator - INFO - Scene 1 length: 93 characters
+2025-03-14 17:36:45,972 - script_generator - INFO - Scene 2 length: 55 characters
+2025-03-14 17:36:45,972 - test_video_generator - INFO - Extracted 2 scenes from script
+2025-03-14 17:36:45,972 - test_video_generator - INFO - Step 3: Generating Manim code for each scene...
+2025-03-14 17:36:45,972 - test_video_generator - INFO - Generating Manim code for scene 1 at /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:36:45,972 - src.backend.manim_generator - INFO - Generating Manim code for scene 0: Start with a title screen showing "Simple Triangle...
+2025-03-14 17:36:45,972 - src.backend.manim_generator - INFO - Dry run mode - returning fallback code
+2025-03-14 17:36:45,972 - src.backend.manim_generator - INFO - Using fallback code generation due to API error
+2025-03-14 17:36:45,973 - test_video_generator - INFO - Manim code for scene 1 saved to /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:36:45,973 - test_video_generator - INFO - Backup of scene 1 saved to output/scenes/backup_scene_0.py
+2025-03-14 17:36:45,973 - test_video_generator - INFO - Generating Manim code for scene 2 at /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 17:36:45,973 - src.backend.manim_generator - INFO - Generating Manim code for scene 1: Show a detailed diagram and explanation of the con...
+2025-03-14 17:36:45,973 - src.backend.manim_generator - INFO - Dry run mode - returning fallback code
+2025-03-14 17:36:45,973 - src.backend.manim_generator - INFO - Using fallback code generation due to API error
+2025-03-14 17:36:45,973 - test_video_generator - INFO - Manim code for scene 2 saved to /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 17:36:45,973 - test_video_generator - INFO - Backup of scene 2 saved to output/scenes/backup_scene_1.py
+2025-03-14 17:36:45,973 - test_video_generator - INFO - Step 4: Creating timing data...
+2025-03-14 17:36:45,974 - src.backend.video_generator - INFO - Scene 1: 0.0s to 30.0s (duration: 30.0s)
+2025-03-14 17:36:45,974 - src.backend.video_generator - INFO - Scene 2: 30.0s to 60.0s (duration: 30.0s)
+2025-03-14 17:36:45,974 - test_video_generator - INFO - Created timing data for 2 scenes
+2025-03-14 17:36:45,974 - test_video_generator - INFO - Step 5: Rendering scenes...
+2025-03-14 17:36:45,974 - src.backend.video_generator - INFO - Rendering 2 Manim scenes
+2025-03-14 17:36:45,995 - werkzeug - INFO -  * Detected change in '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/output/scenes/backup_scene_0.py', reloading
+2025-03-14 17:36:45,995 - werkzeug - INFO -  * Detected change in '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/output/scenes/backup_scene_1.py', reloading
+2025-03-14 17:36:46,232 - werkzeug - INFO -  * Restarting with watchdog (fsevents)
+2025-03-14 17:36:46,876 - werkzeug - WARNING -  * Debugger is active!
+2025-03-14 17:36:46,880 - werkzeug - INFO -  * Debugger PIN: 121-610-201
+2025-03-14 17:40:00,231 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:9000
+ * Running on http://192.168.1.24:9000
+2025-03-14 17:40:00,232 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-14 17:40:00,236 - werkzeug - INFO -  * Restarting with watchdog (fsevents)
+2025-03-14 17:40:00,715 - werkzeug - WARNING -  * Debugger is active!
+2025-03-14 17:40:00,720 - werkzeug - INFO -  * Debugger PIN: 121-610-201
+2025-03-14 17:40:24,920 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 17:40:24] "GET / HTTP/1.1" 200 -
+2025-03-14 17:40:26,079 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 17:40:26] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-03-14 17:40:33,748 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 17:40:33] "GET /test-video.html HTTP/1.1" 200 -
+2025-03-14 17:40:38,217 - run_app - INFO - Generating video for topic: Simple Triangle, duration: 1, level: 1, dry_run: False
+2025-03-14 17:40:38,217 - test_video_integration - INFO - Starting test video generation for topic: Simple Triangle
+2025-03-14 17:40:38,217 - test_video_integration - INFO - Parameters: duration=1min, sophistication_level=1, dry_run=False
+2025-03-14 17:40:38,217 - test_video_generator - INFO - Starting test video generation for topic: Simple Triangle
+2025-03-14 17:40:38,217 - test_video_generator - INFO - Parameters: duration=1min, sophistication_level=1, dry_run=False, use_generative_manim=True
+2025-03-14 17:40:38,218 - test_video_generator - INFO - Output directories: {'project': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output'), 'scenes': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/scenes'), 'videos': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/videos'), 'audio': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/audio'), 'data': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/data'), 'temp': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/temp'), 'tutorials': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/tutorials')}
+2025-03-14 17:40:38,218 - test_video_generator - INFO - Step 1: Generating script...
+2025-03-14 17:40:38,218 - script_generator - INFO - Starting script generation for topic: Simple Triangle with duration 1min, sophistication 1, dry_run=False
+2025-03-14 17:40:38,218 - script_generator - INFO - Script generation started at 17:40:38
+2025-03-14 17:40:38,218 - script_generator - INFO - Planning 3 scenes for a 1-minute video
+2025-03-14 17:40:38,219 - script_generator - INFO - Sophistication level: beginner-friendly, using simple language and basic concepts
+2025-03-14 17:40:38,219 - script_generator - INFO - Calling OpenAI API...
+2025-03-14 17:40:56,456 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-14 17:40:56,476 - script_generator - INFO - OpenAI API call completed in 18.26 seconds with response length 1796 characters
+2025-03-14 17:40:56,476 - script_generator - INFO - Last time code: [01:00] (60 seconds)
+2025-03-14 17:40:56,477 - script_generator - INFO - Full script saved to /Users/dariuskashani/CodeProjects/ai_tutor/output/data/full_script.txt
+2025-03-14 17:40:56,477 - script_generator - INFO - Script generation completed in 18.26 seconds
+2025-03-14 17:40:56,477 - test_video_generator - INFO - Script generated with 1796 characters
+2025-03-14 17:40:56,477 - test_video_generator - INFO - Step 2: Extracting scenes from script...
+2025-03-14 17:40:56,477 - script_generator - INFO - Scene 1 length: 808 characters
+2025-03-14 17:40:56,477 - script_generator - INFO - Scene 2 length: 566 characters
+2025-03-14 17:40:56,478 - script_generator - INFO - Scene 3 length: 367 characters
+2025-03-14 17:40:56,478 - test_video_generator - INFO - Extracted 3 scenes from script
+2025-03-14 17:40:56,478 - test_video_generator - INFO - Step 3: Generating Manim code for each scene...
+2025-03-14 17:40:56,478 - test_video_generator - INFO - Generating Manim code for scene 1 at /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:40:56,478 - src.backend.manim_generator - INFO - Generating Manim code for scene 0: [00:00] Start with a title screen that reads "Simp...
+2025-03-14 17:40:56,479 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 17:40:56,479 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 0 using generative-manim approach
+2025-03-14 17:41:15,124 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-14 17:41:15,138 - src.backend.generative_manim_integration - INFO - Received response (2777 characters)
+2025-03-14 17:41:15,138 - src.backend.generative_manim_integration - INFO - Generated Manim code successfully (2773 characters)
+2025-03-14 17:41:15,139 - test_video_generator - INFO - Manim code for scene 1 saved to /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:41:15,139 - test_video_generator - INFO - Backup of scene 1 saved to output/scenes/backup_scene_0.py
+2025-03-14 17:41:15,139 - test_video_generator - INFO - Generating Manim code for scene 2 at /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 17:41:15,139 - src.backend.manim_generator - INFO - Generating Manim code for scene 1: [00:36] Now, show a real-world example. [00:38] Dr...
+2025-03-14 17:41:15,139 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 17:41:15,140 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 1 using generative-manim approach
+2025-03-14 17:41:15,162 - werkzeug - INFO -  * Detected change in '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/output/scenes/backup_scene_0.py', reloading
+2025-03-14 17:41:15,965 - werkzeug - INFO -  * Restarting with watchdog (fsevents)
+2025-03-14 17:41:16,592 - werkzeug - WARNING -  * Debugger is active!
+2025-03-14 17:41:16,598 - werkzeug - INFO -  * Debugger PIN: 121-610-201
+2025-03-14 17:41:16,614 - run_app - INFO - Generating video for topic: Simple Triangle, duration: 1, level: 1, dry_run: False
+2025-03-14 17:41:16,614 - test_video_integration - INFO - Starting test video generation for topic: Simple Triangle
+2025-03-14 17:41:16,614 - test_video_integration - INFO - Parameters: duration=1min, sophistication_level=1, dry_run=False
+2025-03-14 17:41:16,614 - test_video_generator - INFO - Starting test video generation for topic: Simple Triangle
+2025-03-14 17:41:16,614 - test_video_generator - INFO - Parameters: duration=1min, sophistication_level=1, dry_run=False, use_generative_manim=True
+2025-03-14 17:41:16,614 - test_video_generator - INFO - Output directories: {'project': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output'), 'scenes': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/scenes'), 'videos': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/videos'), 'audio': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/audio'), 'data': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/data'), 'temp': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/temp'), 'tutorials': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/tutorials')}
+2025-03-14 17:41:16,614 - test_video_generator - INFO - Step 1: Generating script...
+2025-03-14 17:41:16,614 - script_generator - INFO - Starting script generation for topic: Simple Triangle with duration 1min, sophistication 1, dry_run=False
+2025-03-14 17:41:16,614 - script_generator - INFO - Script generation started at 17:41:16
+2025-03-14 17:41:16,614 - script_generator - INFO - Planning 3 scenes for a 1-minute video
+2025-03-14 17:41:16,614 - script_generator - INFO - Sophistication level: beginner-friendly, using simple language and basic concepts
+2025-03-14 17:41:16,614 - script_generator - INFO - Calling OpenAI API...
+2025-03-14 17:41:32,058 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-14 17:41:32,071 - script_generator - INFO - OpenAI API call completed in 15.46 seconds with response length 1799 characters
+2025-03-14 17:41:32,071 - script_generator - INFO - Last time code: [01:15] (75 seconds)
+2025-03-14 17:41:32,072 - script_generator - INFO - Full script saved to /Users/dariuskashani/CodeProjects/ai_tutor/output/data/full_script.txt
+2025-03-14 17:41:32,072 - script_generator - INFO - Script generation completed in 15.46 seconds
+2025-03-14 17:41:32,072 - test_video_generator - INFO - Script generated with 1799 characters
+2025-03-14 17:41:32,072 - test_video_generator - INFO - Step 2: Extracting scenes from script...
+2025-03-14 17:41:32,072 - script_generator - INFO - Scene 1 length: 568 characters
+2025-03-14 17:41:32,072 - script_generator - INFO - Scene 2 length: 357 characters
+2025-03-14 17:41:32,072 - script_generator - INFO - Scene 3 length: 382 characters
+2025-03-14 17:41:32,072 - test_video_generator - INFO - Extracted 3 scenes from script
+2025-03-14 17:41:32,072 - test_video_generator - INFO - Step 3: Generating Manim code for each scene...
+2025-03-14 17:41:32,073 - test_video_generator - INFO - Generating Manim code for scene 1 at /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:41:32,073 - src.backend.manim_generator - INFO - Generating Manim code for scene 0: [00:05] Our first scene begins with a title screen...
+2025-03-14 17:41:32,073 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 17:41:32,073 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 0 using generative-manim approach
+2025-03-14 17:41:48,332 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-14 17:41:48,334 - src.backend.generative_manim_integration - INFO - Received response (2071 characters)
+2025-03-14 17:41:48,334 - src.backend.generative_manim_integration - INFO - Generated Manim code successfully (2067 characters)
+2025-03-14 17:41:48,335 - test_video_generator - INFO - Manim code for scene 1 saved to /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:41:48,336 - test_video_generator - INFO - Backup of scene 1 saved to output/scenes/backup_scene_0.py
+2025-03-14 17:41:48,336 - test_video_generator - INFO - Generating Manim code for scene 2 at /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 17:41:48,336 - src.backend.manim_generator - INFO - Generating Manim code for scene 1: [00:35] In our second scene, we illustrate the tri...
+2025-03-14 17:41:48,336 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 17:41:48,336 - src.backend.generative_manim_integration - INFO - Generating Manim code for scene 1 using generative-manim approach
+2025-03-14 17:41:48,359 - werkzeug - INFO -  * Detected change in '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/output/scenes/backup_scene_0.py', reloading
+2025-03-14 17:41:49,290 - werkzeug - INFO -  * Restarting with watchdog (fsevents)
+2025-03-14 17:41:49,909 - werkzeug - WARNING -  * Debugger is active!
+2025-03-14 17:41:49,915 - werkzeug - INFO -  * Debugger PIN: 121-610-201
+2025-03-14 17:43:53,948 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 17:43:53] "[36mGET / HTTP/1.1[0m" 304 -
+2025-03-14 17:46:38,441 - werkzeug - INFO -  * Detected change in '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/run_app.py', reloading
+2025-03-14 17:46:38,755 - werkzeug - INFO -  * Restarting with watchdog (fsevents)
+2025-03-14 17:46:39,407 - werkzeug - WARNING -  * Debugger is active!
+2025-03-14 17:46:39,414 - werkzeug - INFO -  * Debugger PIN: 121-610-201
+2025-03-14 17:46:57,589 - werkzeug - INFO -  * Detected change in '/Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/run_app.py', reloading
+2025-03-14 17:46:57,756 - werkzeug - INFO -  * Restarting with watchdog (fsevents)
+2025-03-14 17:46:58,239 - werkzeug - WARNING -  * Debugger is active!
+2025-03-14 17:46:58,243 - werkzeug - INFO -  * Debugger PIN: 121-610-201
+2025-03-14 17:48:31,719 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:9000
+ * Running on http://192.168.1.24:9000
+2025-03-14 17:48:31,720 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-14 17:48:38,844 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 17:48:38] "HEAD /health HTTP/1.1" 200 -
+2025-03-14 17:49:00,667 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 17:49:00] "GET / HTTP/1.1" 200 -
+2025-03-14 17:49:02,168 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 17:49:02] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-03-14 17:49:02,929 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 17:49:02] "GET /test-video.html HTTP/1.1" 200 -
+2025-03-14 17:49:38,469 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 17:49:38] "[36mGET / HTTP/1.1[0m" 304 -
+2025-03-14 17:49:43,999 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 17:49:43] "GET /test-video.html HTTP/1.1" 200 -
+2025-03-14 17:50:02,428 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 17:50:02] "HEAD /test-video.html HTTP/1.1" 200 -
+2025-03-14 17:50:10,624 - run_app - INFO - Generating video for topic: Square, duration: 1, level: 1, dry_run: True
+2025-03-14 17:50:10,624 - test_video_integration - INFO - Starting test video generation for topic: Square
+2025-03-14 17:50:10,624 - test_video_integration - INFO - Parameters: duration=1min, sophistication_level=1, dry_run=True
+2025-03-14 17:50:10,624 - test_video_generator - INFO - Starting test video generation for topic: Square
+2025-03-14 17:50:10,624 - test_video_generator - INFO - Parameters: duration=1min, sophistication_level=1, dry_run=True, use_generative_manim=True
+2025-03-14 17:50:10,624 - test_video_generator - INFO - Output directories: {'project': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output'), 'scenes': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/scenes'), 'videos': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/videos'), 'audio': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/audio'), 'data': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/data'), 'temp': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/temp'), 'tutorials': PosixPath('/Users/dariuskashani/CodeProjects/ai_tutor/output/tutorials')}
+2025-03-14 17:50:10,624 - test_video_generator - INFO - Step 1: Generating script...
+2025-03-14 17:50:10,624 - script_generator - INFO - Starting script generation for topic: Square with duration 1min, sophistication 1, dry_run=True
+2025-03-14 17:50:10,624 - script_generator - INFO - DRY RUN mode: Returning placeholder script
+2025-03-14 17:50:10,624 - test_video_generator - INFO - Script generated with 574 characters
+2025-03-14 17:50:10,624 - test_video_generator - INFO - Step 2: Extracting scenes from script...
+2025-03-14 17:50:10,624 - script_generator - INFO - Scene 1 length: 84 characters
+2025-03-14 17:50:10,625 - script_generator - INFO - Scene 2 length: 55 characters
+2025-03-14 17:50:10,625 - test_video_generator - INFO - Extracted 2 scenes from script
+2025-03-14 17:50:10,625 - test_video_generator - INFO - Step 3: Generating Manim code for each scene...
+2025-03-14 17:50:10,625 - test_video_generator - INFO - Generating Manim code for scene 1 at /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:50:10,625 - src.backend.manim_generator - INFO - Generating Manim code for scene 0: Start with a title screen showing "Square" in larg...
+2025-03-14 17:50:10,625 - src.backend.manim_generator - INFO - Dry run mode - returning fallback code
+2025-03-14 17:50:10,625 - src.backend.manim_generator - INFO - Using fallback code generation due to API error
+2025-03-14 17:50:10,625 - test_video_generator - INFO - Manim code for scene 1 saved to /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:50:10,625 - test_video_generator - INFO - Backup of scene 1 saved to output/scenes/backup_scene_0.py
+2025-03-14 17:50:10,625 - test_video_generator - INFO - Generating Manim code for scene 2 at /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 17:50:10,625 - src.backend.manim_generator - INFO - Generating Manim code for scene 1: Show a detailed diagram and explanation of the con...
+2025-03-14 17:50:10,625 - src.backend.manim_generator - INFO - Dry run mode - returning fallback code
+2025-03-14 17:50:10,626 - src.backend.manim_generator - INFO - Using fallback code generation due to API error
+2025-03-14 17:50:10,626 - test_video_generator - INFO - Manim code for scene 2 saved to /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 17:50:10,626 - test_video_generator - INFO - Backup of scene 2 saved to output/scenes/backup_scene_1.py
+2025-03-14 17:50:10,626 - test_video_generator - INFO - Step 4: Creating timing data...
+2025-03-14 17:50:10,626 - src.backend.video_generator - INFO - Scene 1: 0.0s to 30.0s (duration: 30.0s)
+2025-03-14 17:50:10,626 - src.backend.video_generator - INFO - Scene 2: 30.0s to 60.0s (duration: 30.0s)
+2025-03-14 17:50:10,626 - test_video_generator - INFO - Created timing data for 2 scenes
+2025-03-14 17:50:10,626 - test_video_generator - INFO - Step 5: Rendering scenes...
+2025-03-14 17:50:10,626 - src.backend.video_generator - INFO - Rendering 2 Manim scenes
+2025-03-14 17:50:11,432 - src.backend.manim_generator - INFO - Manim import successful
+2025-03-14 17:50:11,432 - src.backend.video_generator - INFO - Rendering scene 1 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:50:11,432 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:50:11,432 - src.backend.manim_generator - INFO - Cleaning scene file: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:50:11,433 - src.backend.manim_generator - INFO - Scene file cleaned successfully: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 17:50:14,096 - src.backend.video_generator - WARNING - Rendered video for scene 1 not found. Creating placeholder.
+2025-03-14 17:50:14,097 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4 with text: Scene 1 rendered but video not found
+2025-03-14 17:50:14,763 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4
+2025-03-14 17:50:14,763 - src.backend.video_generator - INFO - Rendering scene 2 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 17:50:14,763 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 17:50:14,763 - src.backend.manim_generator - INFO - Cleaning scene file: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 17:50:14,764 - src.backend.manim_generator - INFO - Scene file cleaned successfully: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 17:50:17,763 - src.backend.video_generator - WARNING - Rendered video for scene 2 not found. Creating placeholder.
+2025-03-14 17:50:17,764 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4 with text: Scene 2 rendered but video not found
+2025-03-14 17:50:18,238 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4
+2025-03-14 17:50:18,238 - src.backend.video_generator - INFO - Rendered 2 Manim scenes
+2025-03-14 17:50:18,239 - test_video_generator - INFO - Rendered 2 scene videos
+2025-03-14 17:50:18,239 - test_video_generator - INFO - Step 6: Generating audio narration...
+2025-03-14 17:50:18,239 - src.backend.video_generator - INFO - [DRY RUN] Creating silent audio placeholder.
+2025-03-14 17:50:18,239 - src.backend.video_generator - INFO - Creating silent audio placeholder at generated/audio/narration.mp3
+2025-03-14 17:50:18,239 - test_video_generator - INFO - Generated audio narration at generated/audio/narration.mp3
+2025-03-14 17:50:18,239 - test_video_generator - INFO - Step 7: Generating subtitle file...
+2025-03-14 17:50:18,239 - src.backend.video_generator - INFO - Generating subtitle file from script...
+2025-03-14 17:50:18,240 - src.backend.video_generator - INFO - Generated SRT file with 6 entries at /Users/dariuskashani/CodeProjects/ai_tutor/output/data/subtitles.srt
+2025-03-14 17:50:18,240 - test_video_generator - INFO - Generated subtitle file at /Users/dariuskashani/CodeProjects/ai_tutor/output/data/subtitles.srt
+2025-03-14 17:50:18,240 - test_video_generator - INFO - Step 8: Merging videos with audio...
+2025-03-14 17:50:18,278 - src.backend.video_generator - INFO - Videos concatenated to /Users/dariuskashani/CodeProjects/ai_tutor/output/temp/concat_video.mp4
+2025-03-14 17:50:18,279 - src.backend.video_generator - INFO - Final video created at root: /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/final_video.mp4
+2025-03-14 17:50:18,279 - src.backend.video_generator - INFO - Final video created at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/final_video.mp4
+2025-03-14 17:50:18,279 - src.backend.video_generator - INFO - Created accessible copy at output/final_video.mp4
+2025-03-14 17:50:18,279 - test_video_generator - INFO - Video generation completed in 7.65 seconds
+2025-03-14 17:50:18,279 - test_video_generator - INFO - Final video: /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/final_video.mp4
+2025-03-14 17:50:18,279 - test_video_generator - INFO - Verified final video exists at /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/final_video.mp4 with size 28554 bytes
+2025-03-14 17:50:18,279 - test_video_integration - INFO - Found video at: /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/final_video.mp4
+2025-03-14 17:50:18,279 - test_video_integration - INFO - Video generated successfully in 7.66 seconds. Size: 27.88 KB
+2025-03-14 17:50:18,279 - run_app - INFO - Video generated successfully at /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/final_video.mp4
+2025-03-14 17:50:18,280 - werkzeug - INFO - 127.0.0.1 - - [14/Mar/2025 17:50:18] "HEAD /test-video?topic=Square&duration=1&level=1&dry_run=true HTTP/1.1" 200 -
+2025-03-14 17:54:33,184 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:9000
+ * Running on http://192.168.1.24:9000
+2025-03-14 17:54:33,184 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
