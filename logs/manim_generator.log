@@ -359,3 +359,20 @@
 2025-03-14 17:50:14,764 - src.backend.manim_generator - INFO - Scene file cleaned successfully: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
 2025-03-14 17:54:32,930 - src.backend.manim_generator - INFO - Loading Manim knowledge from: /Users/dariuskashani/CodeProjects/ai_tutor/stored_data/manim_knowledge.txt
 2025-03-14 17:54:32,931 - src.backend.manim_generator - INFO - Loaded 728 bytes of knowledge
+2025-03-14 18:01:39,625 - src.backend.manim_generator - INFO - Loading Manim knowledge from: /Users/dariuskashani/CodeProjects/ai_tutor/stored_data/manim_knowledge.txt
+2025-03-14 18:01:39,626 - src.backend.manim_generator - INFO - Loaded 728 bytes of knowledge
+2025-03-14 18:03:39,260 - src.backend.manim_generator - INFO - Loading Manim knowledge from: /Users/dariuskashani/CodeProjects/ai_tutor/stored_data/manim_knowledge.txt
+2025-03-14 18:03:39,261 - src.backend.manim_generator - INFO - Loaded 728 bytes of knowledge
+2025-03-14 18:04:07,773 - src.backend.manim_generator - INFO - Generating Manim code for scene 0: [0:02] Start with a title screen that displays "Si...
+2025-03-14 18:04:07,774 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 18:04:28,454 - src.backend.manim_generator - INFO - Generating Manim code for scene 1: [0:32] Illustrate a real-world application of tria...
+2025-03-14 18:04:28,454 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 18:04:43,425 - src.backend.manim_generator - INFO - Generating Manim code for scene 2: [0:52] Transition to a map example. At 0:55, highl...
+2025-03-14 18:04:43,425 - src.backend.manim_generator - INFO - Using generative-manim approach for code generation
+2025-03-14 18:04:53,943 - src.backend.manim_generator - INFO - Manim import successful
+2025-03-14 18:04:53,944 - src.backend.manim_generator - INFO - Cleaning scene file: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 18:04:53,944 - src.backend.manim_generator - INFO - Scene file cleaned successfully: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 18:04:58,280 - src.backend.manim_generator - INFO - Cleaning scene file: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 18:04:58,280 - src.backend.manim_generator - INFO - Scene file cleaned successfully: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 18:04:59,176 - src.backend.manim_generator - INFO - Cleaning scene file: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 18:04:59,176 - src.backend.manim_generator - INFO - Scene file cleaned successfully: /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py

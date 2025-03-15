@@ -2,28 +2,64 @@ from manim import *
 
 class UserAnimationScene(Scene):
     def construct(self):
-        title = Text('Scene Generation Fallback', color=RED)
+        # Title screen
+        title = Text("Simple Triangle", font_size=64, color=BLUE)
+        title.move_to(ORIGIN)
         self.play(Write(title))
-        self.wait(1)
-        explanation = Text('Unable to generate custom animation', color=WHITE, font_size=24)
-        explanation.next_to(title, DOWN)
-        self.play(FadeIn(explanation))
-        self.wait(1)
-        scene_topic = Text('Start with a title screen show...', color=BLUE, font_size=30)
-        scene_topic.next_to(explanation, DOWN, buff=0.5)
-        self.play(Create(scene_topic))
-        self.wait(2)
-        circle = Circle(color=BLUE)
-        square = Square(color=RED)
-        square.next_to(circle, RIGHT)
-        self.play(Create(circle), run_time=1)
-        self.play(Create(square), run_time=1)
-        self.play(circle.animate.scale(0.5), square.animate.scale(0.5))
-        self.wait(1)
-        desc = Text('Scene description preview:', color=YELLOW, font_size=20)
-        desc.to_edge(DOWN, buff=1.5)
-        self.play(Write(desc))
-        short_desc = Text('Description preview unavailable', color=GREEN, font_size=18)
-        short_desc.next_to(desc, DOWN)
-        self.play(Write(short_desc))
-        self.wait(2)
+        self.wait(3)  # Wait until 0:05
+
+        # Move title to the top
+        self.play(title.animate.to_edge(UP))
+        self.wait(2)  # Wait until 0:07
+
+        # Draw triangle
+        triangle = Polygon([-3, -2, 0], [3, -2, 0], [0, 2, 0], color=ORANGE)
+        self.play(Create(triangle))
+        self.wait(3)  # Wait until 0:10
+
+        # Label sides
+        labels = VGroup(
+            Text("a", color=WHITE).move_to(triangle.get_center() + [-2, 0.5, 0]),
+            Text("b", color=WHITE).move_to(triangle.get_center() + [2, 0.5, 0]),
+            Text("c", color=WHITE).move_to(triangle.get_center() + [0, -1.5, 0])
+        )
+        self.play(Write(labels))
+
+        # Highlight corners
+        corners = VGroup(
+            Dot(triangle.get_vertices()[0], color=YELLOW),
+            Dot(triangle.get_vertices()[1], color=YELLOW),
+            Dot(triangle.get_vertices()[2], color=YELLOW)
+        )
+        self.play(FadeIn(corners))
+        self.wait(5)  # Wait until 0:15
+
+        # Annotate angles
+        angles = VGroup(
+            Text("α", color=RED).move_to(triangle.get_vertices()[0] + [-0.5, 0.5, 0]),
+            Text("β", color=RED).move_to(triangle.get_vertices()[1] + [0.5, 0.5, 0]),
+            Text("γ", color=RED).move_to(triangle.get_vertices()[2] + [0, 1, 0])
+        )
+        self.play(Write(angles))
+        self.wait(5)  # Wait until 0:20
+
+        # Sum of angles statement
+        angle_sum = Text("The sum of the angles of a triangle always equals 180 degrees", color=GREEN)
+        angle_sum.to_edge(DOWN)
+        self.play(Write(angle_sum))
+        self.wait(5)  # Wait until 0:25
+
+        # Animate angles adding up
+        angle_line = Line([-3, -3, 0], [3, -3, 0], color=RED)
+        self.play(Transform(angles, angle_line))
+        self.wait(5)  # Wait until 0:30
+
+        # Transition to a more complex triangle example
+        complex_triangle = Polygon([-2, -1, 0], [2, -1, 0], [1, 2, 0], color=PURPLE)
+        self.play(ReplacementTransform(triangle, complex_triangle))
+        self.play(ReplacementTransform(labels, VGroup(
+            Text("d", color=WHITE).move_to(complex_triangle.get_center() + [-1, 0.5, 0]),
+            Text("e", color=WHITE).move_to(complex_triangle.get_center() + [1, 0.5, 0]),
+            Text("f", color=WHITE).move_to(complex_triangle.get_center() + [0, -1.5, 0])
+        )))
+        self.wait(2)  # Hold final scene

@@ -155,7 +155,8 @@ def run_video_generation_job(job_id, topic, duration, level, dry_run):
     from src.backend.test_video_integration import run_test_video_and_return_path
     
     try:
-        # Define progress callback function
+        # Define progress callback function - but we'll use it manually since
+        # run_test_video_and_return_path doesn't support it
         def progress_callback(progress, message):
             active_jobs[job_id]["progress"] = progress
             active_jobs[job_id]["message"] = message
@@ -164,17 +165,20 @@ def run_video_generation_job(job_id, topic, duration, level, dry_run):
         # Update job status
         active_jobs[job_id]["status"] = "running"
         active_jobs[job_id]["progress"] = 10
-        active_jobs[job_id]["message"] = "Generating video..."
+        active_jobs[job_id]["message"] = "Starting video generation..."
         
-        # Run the video generation
+        # Update progress manually at various stages
+        progress_callback(20, "Generating script...")
+        
+        # Run the video generation without the progress_callback parameter
         video_path, message = run_test_video_and_return_path(
             topic=topic,
             duration_minutes=duration,
             sophistication_level=level,
-            dry_run=dry_run,
-            progress_callback=progress_callback
+            dry_run=dry_run
         )
         
+        # Update final progress
         if video_path and os.path.exists(video_path):
             logger.info(f"Video generated successfully at {video_path}")
             active_jobs[job_id]["status"] = "success"

@@ -2,50 +2,39 @@ from manim import *
 
 class UserAnimationScene(Scene):
     def construct(self):
-        # Create the ladder, wall, and ground
-        wall = Line(ORIGIN, UP * 4, color=BLUE)
-        ground = Line(ORIGIN, RIGHT * 5, color=GREEN)
-        ladder = Line(ORIGIN, RIGHT * 3 + UP * 4, color=RED)
-        right_angle = RightAngle(ground, wall)
+        # Create a map background
+        map_background = Rectangle(width=config.frame_width, height=config.frame_height, color=BLUE_B)
+        map_background.set_fill(BLUE_D, opacity=1)
+        self.play(Create(map_background))
 
-        # Create the triangle and labels
-        triangle = VGroup(wall, ground, ladder, right_angle)
+        # Define points for the triangle
+        p1, p2, p3 = [-4, 1, 0], [3, 2, 0], [-1, -2, 0]
+
+        # Create the triangle
+        triangle = Polygon(p1, p2, p3, color=WHITE)
+        triangle.set_fill(YELLOW, opacity=0.5)
+        self.play(Create(triangle), run_time=3)
+
+        # Label sides and angles
         labels = VGroup(
-            Text("20 ft", color=BLUE).next_to(wall, LEFT),
-            Text("25 ft", color=RED).move_to(ladder.get_center() + LEFT * 0.5),
-            Text("x ft", color=GREEN).next_to(ground, DOWN)
+            Text("A").move_to(p1),
+            Text("B").move_to(p2),
+            Text("C").move_to(p3)
         )
+        self.play(Write(labels), run_time=2)
 
-        # Display the triangle and labels
-        self.play(Create(triangle), Write(labels))
-        self.wait(3)
-
-        # Overlay the Pythagorean theorem
-        theorem = Text("a² + b² = c²").to_edge(UP)
-        self.play(Write(theorem))
+        # Display text about triangles in navigation
+        text = Text("Triangles can help us calculate distances and areas in navigation and geography.", font_size=24)
+        text.to_edge(DOWN)
+        self.play(Write(text), run_time=2)
         self.wait(2)
 
-        # Substitute the values
-        values = Text("20² + x² = 25²").move_to(theorem.get_center())
-        self.play(Transform(theorem, values))
+        # Animate a plane flying along the triangle
+        plane = Triangle().scale(0.2).set_fill(RED, opacity=1)
+        plane.move_to(p1)
+        path = VMobject()
+        path.set_points_as_corners([p1, p2, p3, p1])
+        self.play(MoveAlongPath(plane, path), run_time=3)
+
+        # Final wait
         self.wait(2)
-
-        # Show the calculated ground distance
-        ground_distance = Text("x = 15 ft").next_to(ground, DOWN)
-        self.play(Transform(labels[2], ground_distance))
-        self.wait(6)
-
-        # Animate a safety warning about the correct angle for ladder placement
-        safety_warning = Text("Ensure correct angle for safety!", color=YELLOW).to_edge(DOWN)
-        self.play(Write(safety_warning))
-        self.wait(4)
-
-        # Show a montage of triangles in various contexts
-        montage_texts = [
-            Text("Architecture").to_corner(UL),
-            Text("Navigation").to_corner(UR),
-            Text("Physics").to_corner(DR)
-        ]
-        montage = VGroup(*montage_texts)
-        self.play(LaggedStart(*[Write(text) for text in montage_texts], lag_ratio=0.5))
-        self.wait(4)

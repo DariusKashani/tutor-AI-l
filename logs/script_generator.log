@@ -215,3 +215,15 @@
 2025-03-14 17:50:10,624 - script_generator - INFO - DRY RUN mode: Returning placeholder script
 2025-03-14 17:50:10,624 - script_generator - INFO - Scene 1 length: 84 characters
 2025-03-14 17:50:10,625 - script_generator - INFO - Scene 2 length: 55 characters
+2025-03-14 18:03:50,199 - script_generator - INFO - Starting script generation for topic: Simple Triangle with duration 1min, sophistication 1, dry_run=False
+2025-03-14 18:03:50,200 - script_generator - INFO - Script generation started at 18:03:50
+2025-03-14 18:03:50,200 - script_generator - INFO - Planning 3 scenes for a 1-minute video
+2025-03-14 18:03:50,200 - script_generator - INFO - Sophistication level: beginner-friendly, using simple language and basic concepts
+2025-03-14 18:03:50,200 - script_generator - INFO - Calling OpenAI API...
+2025-03-14 18:04:07,771 - script_generator - INFO - OpenAI API call completed in 17.57 seconds with response length 1943 characters
+2025-03-14 18:04:07,772 - script_generator - INFO - Last time code: [01:00] (60 seconds)
+2025-03-14 18:04:07,773 - script_generator - INFO - Full script saved to /Users/dariuskashani/CodeProjects/ai_tutor/output/data/full_script.txt
+2025-03-14 18:04:07,773 - script_generator - INFO - Script generation completed in 17.57 seconds
+2025-03-14 18:04:07,773 - script_generator - INFO - Scene 1 length: 625 characters
+2025-03-14 18:04:07,773 - script_generator - INFO - Scene 2 length: 460 characters
+2025-03-14 18:04:07,773 - script_generator - INFO - Scene 3 length: 366 characters

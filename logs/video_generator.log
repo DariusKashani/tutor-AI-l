@@ -1475,3 +1475,76 @@ TypeError: Angle.__init__() got multiple values for argument 'radius'
 2025-03-14 17:50:18,279 - src.backend.video_generator - INFO - Final video created at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/final_video.mp4
 2025-03-14 17:50:18,279 - src.backend.video_generator - INFO - Created accessible copy at output/final_video.mp4
 2025-03-14 17:54:33,139 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 18:01:39,822 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 18:03:39,465 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-14 18:04:53,222 - src.backend.video_generator - INFO - Scene 1: 0.0s to 20.0s (duration: 20.0s)
+2025-03-14 18:04:53,222 - src.backend.video_generator - INFO - Scene 2: 20.0s to 40.0s (duration: 20.0s)
+2025-03-14 18:04:53,222 - src.backend.video_generator - INFO - Scene 3: 40.0s to 60.0s (duration: 20.0s)
+2025-03-14 18:04:53,222 - src.backend.video_generator - INFO - Rendering 3 Manim scenes
+2025-03-14 18:04:53,944 - src.backend.video_generator - INFO - Rendering scene 1 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 18:04:53,944 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_0.py
+2025-03-14 18:04:57,791 - src.backend.video_generator - WARNING - Rendered video for scene 1 not found. Creating placeholder.
+2025-03-14 18:04:57,791 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4 with text: Scene 1 rendered but video not found
+2025-03-14 18:04:58,280 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_0.mp4
+2025-03-14 18:04:58,280 - src.backend.video_generator - INFO - Rendering scene 2 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 18:04:58,280 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_1.py
+2025-03-14 18:04:58,725 - src.backend.video_generator - ERROR - Error rendering scene 2:
+STDOUT: Manim Community v0.19.0
+
+
+STDERR: /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib/python3.13/site-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+  warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+╭─────────────── Traceback (most recent call last) ───────────────╮
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib │
+│ /python3.13/site-packages/manim/cli/render/commands.py:125 in   │
+│ render                                                          │
+│                                                                 │
+│   122 │   │   │   try:                                          │
+│   123 │   │   │   │   with tempconfig({}):                      │
+│   124 │   │   │   │   │   scene = SceneClass()                  │
+│ ❱ 125 │   │   │   │   │   scene.render()                        │
+│   126 │   │   │   except Exception:                             │
+│   127 │   │   │   │   error_console.print_exception()           │
+│   128 │   │   │   │   sys.exit(1)                               │
+│                                                                 │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/.venv/lib │
+│ /python3.13/site-packages/manim/scene/scene.py:237 in render    │
+│                                                                 │
+│    234 │   │   """                                              │
+│    235 │   │   self.setup()                                     │
+│    236 │   │   try:                                             │
+│ ❱  237 │   │   │   self.construct()                             │
+│    238 │   │   except EndSceneEarlyException:                   │
+│    239 │   │   │   pass                                         │
+│    240 │   │   except RerunSceneException:                      │
+│                                                                 │
+│ /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_ │
+│ 1.py:6 in construct                                             │
+│                                                                 │
+│    3 class UserAnimationScene(Scene):                           │
+│    4 │   def construct(self):                                   │
+│    5 │   │   # Create a pyramid with four triangular faces      │
+│ ❱  6 │   │   pyramid = Pyramid(base_side_length=2, height=3, co │
+│    7 │   │   pyramid.set_fill(BLUE, opacity=0.5)                │
+│    8 │   │   self.play(Create(pyramid), run_time=3)             │
+│    9 │   │   self.wait(0.5)                                     │
+╰─────────────────────────────────────────────────────────────────╯
+NameError: name 'Pyramid' is not defined
+
+2025-03-14 18:04:58,726 - src.backend.video_generator - ERROR - Name error detected: Pyramid. Creating placeholder.
+2025-03-14 18:04:58,726 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4 with text: Undefined name: Pyramid
+2025-03-14 18:04:59,176 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_1.mp4
+2025-03-14 18:04:59,176 - src.backend.video_generator - INFO - Rendering scene 3 from /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 18:04:59,176 - src.backend.video_generator - INFO - Cleaning scene file /Users/dariuskashani/CodeProjects/ai_tutor/output/scenes/scene_2.py
+2025-03-14 18:05:01,133 - src.backend.video_generator - WARNING - Rendered video for scene 3 not found. Creating placeholder.
+2025-03-14 18:05:01,133 - src.backend.video_generator - INFO - Creating placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_2.mp4 with text: Scene 3 rendered but video not found
+2025-03-14 18:05:01,587 - src.backend.video_generator - INFO - Created placeholder video at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/placeholder_scene_2.mp4
+2025-03-14 18:05:01,588 - src.backend.video_generator - INFO - Rendered 3 Manim scenes
+2025-03-14 18:05:01,588 - src.backend.video_generator - WARNING - ElevenLabs not available, creating silent audio.
+2025-03-14 18:05:01,588 - src.backend.video_generator - INFO - Creating silent audio placeholder at generated/audio/narration.mp3
+2025-03-14 18:05:01,588 - src.backend.video_generator - INFO - Generating subtitle file from script...
+2025-03-14 18:05:01,588 - src.backend.video_generator - INFO - Generated SRT file with 7 entries at /Users/dariuskashani/CodeProjects/ai_tutor/output/data/subtitles.srt
+2025-03-14 18:05:01,626 - src.backend.video_generator - INFO - Videos concatenated to /Users/dariuskashani/CodeProjects/ai_tutor/output/temp/concat_video.mp4
+2025-03-14 18:05:01,627 - src.backend.video_generator - INFO - Final video created at root: /Users/dariuskashani/CodeProjects/ai_tutor/tutor-AI-l/final_video.mp4
+2025-03-14 18:05:01,627 - src.backend.video_generator - INFO - Final video created at /Users/dariuskashani/CodeProjects/ai_tutor/output/videos/final_video.mp4
+2025-03-14 18:05:01,628 - src.backend.video_generator - INFO - Created accessible copy at output/final_video.mp4
