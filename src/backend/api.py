@@ -365,10 +365,20 @@ def create_tutorial_endpoint():
             "level": data["level"],
             "duration": data["duration"],
             "use_gm_api": data.get("use_gm_api", False),
-            "gm_model": data.get("gm_model", "gemini-1.5-flash")
+            "gm_model": data.get("gm_model", "gemini-1.5-flash"),
+            "force_regenerate": data.get("force_regenerate", False)
         }
-        task_id = task_manager.create_task("tutorial", params)
+        
+        # Generate a unique task ID
+        task_id = f"tutorial_{int(time.time())}_{params['topic'].replace(' ', '_')}"
+        
+        # Create the task and get the Task object
+        task = task_manager.create_task(task_id, "tutorial", params)
+        
+        # Start the task in a background thread
         task_manager.run_task_in_thread(task_id, target=create_tutorial_task, kwargs=params)
+        
+        # Return the task ID, not the Task object
         return jsonify({"task_id": task_id, "message": "Tutorial generation started"})
     except Exception as e:
         logger.exception("Error in create_tutorial_endpoint")
@@ -383,7 +393,8 @@ def create_tutorial_task(task_id, **params):
         duration = params["duration"]
         use_gm_api = params.get("use_gm_api", False)
         gm_model = params.get("gm_model", "gemini-1.5-flash")
-        logger.info(f"Creating tutorial for task {task_id}: {topic}, {level}, {duration}min")
+        force_regenerate = params.get("force_regenerate", False)
+        logger.info(f"Creating tutorial for task {task_id}: {topic}, {level}, {duration}min, force_regenerate={force_regenerate}")
 
         task_manager.update_task(task_id, progress=10, message=f"Starting tutorial generation for {topic}...")
 
@@ -396,19 +407,20 @@ def create_tutorial_task(task_id, **params):
             duration=duration,
             use_gm_api=use_gm_api,
             gm_model=gm_model,
-            progress_callback=progress_callback
+            progress_callback=progress_callback,
+            force_regenerate=force_regenerate
         )
 
         dirs = get_project_dirs()
-        output_video = os.path.join(dirs["output"], "final_video.mp4")
+        output_video = os.path.join(dirs["videos"], "final_video.mp4")
         if os.path.exists(output_video):
             task_manager.update_task(task_id, progress=100, message="Tutorial generated successfully",
                                      status="completed", result={
                                          "video_path": output_video,
-                                         "video_url": "/output/final_video.mp4"
+                                         "video_url": "/output/videos/final_video.mp4"
                                      })
             logger.info(f"Task {task_id} completed successfully")
-            return {"video_path": output_video, "video_url": "/output/final_video.mp4"}
+            return {"video_path": output_video, "video_url": "/output/videos/final_video.mp4"}
         else:
             task_manager.update_task(task_id, progress=100, message="Failed to create tutorial video",
                                      status="error", error="Output video not found")

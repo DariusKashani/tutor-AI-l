@@ -1,0 +1,147 @@
+{
+  "tutorial": {
+    "task_id": "tutorial",
+    "task_type": {
+      "topic": "Pythagorean Theorem",
+      "level": 2,
+      "duration": 5,
+      "use_gm_api": false,
+      "gm_model": "gemini-1.5-flash"
+    },
+    "status": "pending",
+    "progress": 0.0,
+    "message": "Task initialized",
+    "params": {},
+    "created_at": 1742027531.727575,
+    "updated_at": 1742027531.727575,
+    "completed_at": null,
+    "result": null,
+    "error": null
+  },
+  "tutorial_1742022577_Triangle_Area": {
+    "task_id": "tutorial_1742022577_Triangle_Area",
+    "task_type": "tutorial",
+    "status": "error",
+    "progress": 100,
+    "message": "Error: create_math_tutorial() got an unexpected keyword argument 'use_gm_api'",
+    "params": {
+      "topic": "Triangle Area",
+      "level": 2,
+      "duration": 2,
+      "use_gm_api": false,
+      "gm_model": "gemini-1.5-flash",
+      "task_id": "tutorial_1742022577_Triangle_Area"
+    },
+    "created_at": 1742022577.406154,
+    "updated_at": 1742022577.408909,
+    "completed_at": 1742022577.4089081,
+    "result": null,
+    "error": "create_math_tutorial() got an unexpected keyword argument 'use_gm_api'"
+  },
+  "tutorial_1742022648_Triangle_Area": {
+    "task_id": "tutorial_1742022648_Triangle_Area",
+    "task_type": "tutorial",
+    "status": "error",
+    "progress": 100,
+    "message": "Error: create_math_tutorial() got an unexpected keyword argument 'use_gm_api'",
+    "params": {
+      "topic": "Triangle Area",
+      "level": 2,
+      "duration": 2,
+      "use_gm_api": false,
+      "gm_model": "gemini-1.5-flash",
+      "task_id": "tutorial_1742022648_Triangle_Area"
+    },
+    "created_at": 1742022648.1596081,
+    "updated_at": 1742022648.161418,
+    "completed_at": 1742022648.161417,
+    "result": null,
+    "error": "create_math_tutorial() got an unexpected keyword argument 'use_gm_api'"
+  },
+  "tutorial_1742022785_Triangle_Area": {
+    "task_id": "tutorial_1742022785_Triangle_Area",
+    "task_type": "tutorial",
+    "status": "error",
+    "progress": 100,
+    "message": "Error: 'output'",
+    "params": {
+      "topic": "Triangle Area",
+      "level": 2,
+      "duration": 2,
+      "use_gm_api": false,
+      "gm_model": "gemini-1.5-flash",
+      "task_id": "tutorial_1742022785_Triangle_Area"
+    },
+    "created_at": 1742022785.675166,
+    "updated_at": 1742022859.7324579,
+    "completed_at": 1742022859.7324538,
+    "result": null,
+    "error": "'output'"
+  },
+  "tutorial_1742024776_Circle_Area": {
+    "task_id": "tutorial_1742024776_Circle_Area",
+    "task_type": "tutorial",
+    "status": "completed",
+    "progress": 100,
+    "message": "Tutorial generated successfully",
+    "params": {
+      "topic": "Circle Area",
+      "level": 2,
+      "duration": 2,
+      "use_gm_api": false,
+      "gm_model": "gemini-1.5-flash",
+      "task_id": "tutorial_1742024776_Circle_Area"
+    },
+    "created_at": 1742024776.590644,
+    "updated_at": 1742024828.072011,
+    "completed_at": 1742024828.0720088,
+    "result": {
+      "video_path": "/Users/dariuskashani/CodeProjects/ai_tutor/output/videos/final_video.mp4",
+      "video_url": "/output/videos/final_video.mp4"
+    },
+    "error": null
+  },
+  "tutorial_1742025427_Euler_Formula": {
+    "task_id": "tutorial_1742025427_Euler_Formula",
+    "task_type": "tutorial",
+    "status": "completed",
+    "progress": 100,
+    "message": "Tutorial generated successfully",
+    "params": {
+      "topic": "Euler Formula",
+      "level": 2,
+      "duration": 2,
+      "use_gm_api": false,
+      "gm_model": "gemini-1.5-flash",
+      "task_id": "tutorial_1742025427_Euler_Formula"
+    },
+    "created_at": 1742025427.9799502,
+    "updated_at": 1742025501.30918,
+    "completed_at": 1742025501.3091788,
+    "result": {
+      "video_path": "/Users/dariuskashani/CodeProjects/ai_tutor/output/videos/final_video.mp4",
+      "video_url": "/output/videos/final_video.mp4"
+    },
+    "error": null
+  },
+  "tutorial_1742028020_Fibonacci_Sequence": {
+    "task_id": "tutorial_1742028020_Fibonacci_Sequence",
+    "task_type": "tutorial",
+    "status": "error",
+    "progress": 0.0,
+    "message": "Error: create_tutorial_task() missing 1 required positional argument: 'task_id'",
+    "params": {
+      "topic": "Fibonacci Sequence",
+      "level": 2,
+      "duration": 5,
+      "use_gm_api": false,
+      "gm_model": "gemini-1.5-flash",
+      "force_regenerate": true
+    },
+    "created_at": 1742028020.713668,
+    "updated_at": 1742028020.715793,
+    "completed_at": 1742028020.715793,
+    "result": null,
+    "error": "create_tutorial_task() missing 1 required positional argument: 'task_id'"
+  }
+}

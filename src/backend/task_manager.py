@@ -172,6 +172,47 @@ class TaskManager:
         with self._lock:
             return dict(self._tasks)
     
+    def run_task_in_thread(self, task_id: str, target: Callable, args: tuple = None, kwargs: dict = None):
+        """
+        Run a task in a separate thread.
+        
+        Args:
+            task_id: ID of the task to run
+            target: Function to execute
+            args: Positional arguments for the function
+            kwargs: Keyword arguments for the function
+        """
+        task = self.get_task(task_id)
+        if not task:
+            logger.error(f"Cannot run nonexistent task: {task_id}")
+            return
+            
+        # Update task status to running
+        self.update_task(task_id, status="running", message="Task started")
+        
+        # Prepare arguments
+        args = args or ()
+        kwargs = kwargs or {}
+        
+        # Define wrapper function to handle task completion
+        def task_wrapper():
+            try:
+                logger.info(f"Starting task {task_id} in thread")
+                result = target(*args, **kwargs)
+                if result:
+                    self.update_task(task_id, status="completed", message="Task completed", result=result)
+                logger.info(f"Task {task_id} completed")
+            except Exception as e:
+                logger.exception(f"Error in task {task_id}: {str(e)}")
+                self.update_task(task_id, status="error", message=f"Error: {str(e)}", error=str(e))
+        
+        # Start thread
+        thread = threading.Thread(target=task_wrapper)
+        thread.daemon = True
+        thread.start()
+        logger.info(f"Started thread for task {task_id}")
+        return thread
+    
     def clear_tasks(self):
         """Clear all tasks."""
         with self._lock:

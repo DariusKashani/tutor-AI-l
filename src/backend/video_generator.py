@@ -10,6 +10,8 @@ import tempfile
 from pathlib import Path
 import logging
 import traceback
+import concurrent.futures
+from typing import List, Dict, Any, Tuple, Optional
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -40,10 +42,13 @@ sys.path.append(str(project_root))
 # ---------------------------
 try:
     from elevenlabs import generate as eleven_generate
+    from elevenlabs import set_api_key as eleven_set_api_key
     elevenlabs_available = True
+    logger.info("ElevenLabs package found and imported.")
 except ImportError:
     elevenlabs_available = False
     logger.warning("ElevenLabs package not found. Audio generation will use placeholder files.")
+    logger.info("To install ElevenLabs, run: pip install elevenlabs")
 
 try:
     from openai import OpenAI
@@ -67,7 +72,6 @@ from config import (
 from src.backend import script_generator
 from src.backend import manim_generator
 from src.backend.manim_generator import (
-    verify_manim_installation, 
     clean_existing_scene_file,
 )
 
@@ -108,10 +112,44 @@ if not os.path.exists(FFMPEG_PATH):
     except Exception as e:
         logger.warning(f"Error finding ffmpeg: {e}. Using default path: {FFMPEG_PATH}")
 
-from src.backend.manim_generator import (
-    verify_manim_installation, 
-    clean_existing_scene_file, 
-)
+# Only importing clean_existing_scene_file as we have our own verify_manim_installation
+from src.backend.manim_generator import clean_existing_scene_file
+
+# ---------------------------
+# Verify Manim Installation
+# ---------------------------
+def verify_manim_installation():
+    """Verify that Manim is installed and working."""
+    try:
+        # Try to import manim
+        import manim
+        logger.info(f"Found manim version: {manim.__version__}")
+        
+        # Run a simple check command
+        try:
+            import subprocess
+            result = subprocess.run(
+                ["python", "-c", "import manim; print('Manim works!')"],
+                capture_output=True,
+                text=True,
+                timeout=5
+            )
+            if "Manim works!" in result.stdout:
+                logger.info("Manim installation verified")
+                return True
+            else:
+                logger.warning(f"Manim might not be working properly: {result.stderr}")
+                return False
+        except subprocess.SubprocessError as e:
+            logger.warning(f"Failed to verify manim installation: {e}")
+            return False
+            
+    except ImportError:
+        logger.error("Manim package not found. Please install it with: pip install manim")
+        return False
+    except Exception as e:
+        logger.error(f"Error verifying Manim installation: {e}")
+        return False
 
 # ---------------------------
 # Function: Generate Subtitle File
@@ -210,6 +248,44 @@ def generate_subtitle_file(script: str, output_dirs: dict) -> Path:
 # ---------------------------
 # Function: Generate Audio Narration
 # ---------------------------
+def call_elevenlabs_api(endpoint, method="GET", data=None, headers=None):
+    """Make a direct call to the ElevenLabs API"""
+    import requests
+    
+    api_key = os.environ.get("ELEVENLABS_API_KEY")
+    if not api_key:
+        logger.error("No ElevenLabs API key found in environment variables")
+        return None
+        
+    base_url = "https://api.elevenlabs.io/v1"
+    url = f"{base_url}/{endpoint.lstrip('/')}"
+    
+    default_headers = {
+        "xi-api-key": api_key,
+        "Content-Type": "application/json"
+    }
+    
+    if headers:
+        default_headers.update(headers)
+    
+    try:
+        if method.upper() == "GET":
+            response = requests.get(url, headers=default_headers)
+        elif method.upper() == "POST":
+            response = requests.post(url, json=data, headers=default_headers)
+        else:
+            logger.error(f"Unsupported HTTP method: {method}")
+            return None
+            
+        if response.status_code == 200:
+            return response.content if endpoint.startswith("text-to-speech") else response.json()
+        else:
+            logger.error(f"API call failed: {response.status_code} - {response.text}")
+            return None
+    except Exception as e:
+        logger.exception(f"Error calling ElevenLabs API: {e}")
+        return None
+
 def generate_audio_narration(text: str, filename: str = None, dry_run: bool = False) -> Path:
     """
     Generate audio narration for the given text using ElevenLabs API.
@@ -230,7 +306,6 @@ def generate_audio_narration(text: str, filename: str = None, dry_run: bool = Fa
 
     if dry_run:
         logger.info("[DRY RUN] Creating silent audio placeholder.")
-        # Estimate duration based on word count - average person speaks at 150 words per minute
         estimated_duration = len(text.split()) / 2.5  # More realistic timing
         create_silent_audio_placeholder(audio_path, estimated_duration)
         return audio_path
@@ -238,17 +313,14 @@ def generate_audio_narration(text: str, filename: str = None, dry_run: bool = Fa
     api_key = os.environ.get("ELEVENLABS_API_KEY")
     if not api_key:
         logger.warning("No ElevenLabs API key found. Using silent audio placeholder.")
-        # Add a more realistic duration calculation
         estimated_duration = len(text.split()) / 2.5
         create_silent_audio_placeholder(audio_path, estimated_duration)
         return audio_path
 
-    try:
-        if elevenlabs_available:
-            logger.info("Using ElevenLabs for voice generation")
-            
-            # Set environment variable for the API key
-            os.environ["ELEVENLABS_API_KEY"] = api_key
+    # Method 1: Try using elevenlabs package if available
+    if elevenlabs_available:
+        try:
+            logger.info("Using ElevenLabs package for voice generation")
             
             # List of voices to try in order of preference
             voices = ["Rachel", "Adam", "Bella", "Antoni"]
@@ -259,7 +331,7 @@ def generate_audio_narration(text: str, filename: str = None, dry_run: bool = Fa
                     audio = eleven_generate(
                         text=text,
                         voice=voice,
-                        model="eleven_multilingual_v2"  # Updated to newer model
+                        model="eleven_multilingual_v2"
                     )
                     
                     with open(audio_path, "wb") as f:
@@ -270,38 +342,236 @@ def generate_audio_narration(text: str, filename: str = None, dry_run: bool = Fa
                 except Exception as voice_error:
                     logger.warning(f"Failed with voice {voice}: {str(voice_error)}")
                     continue
-            
-            # If all voices fail, fall back to silent audio
-            logger.error("All voice attempts failed. Using silent audio placeholder.")
-            estimated_duration = len(text.split()) / 2.5
-            create_silent_audio_placeholder(audio_path, estimated_duration)
-        else:
-            logger.warning("ElevenLabs package not available. Creating silent audio.")
-            estimated_duration = len(text.split()) / 2.5
-            create_silent_audio_placeholder(audio_path, estimated_duration)
+                    
+            logger.warning("All voice attempts with package failed. Trying direct API calls.")
+        except Exception as e:
+            logger.exception(f"Error using ElevenLabs package: {e}")
+    
+    # Method 2: Use direct API calls if package isn't available or failed
+    try:
+        logger.info("Attempting direct ElevenLabs API calls")
         
-        return audio_path
+        # Default voice IDs to try
+        voice_ids = [
+            "21m00Tcm4TlvDq8ikWAM",  # Rachel
+            "pNInz6obpgDQGcFmaJgB",  # Adam
+            "EXAVITQu4vr4xnSDxMaL",  # Bella
+            "ErXwobaYiN019PkySvjV"   # Antoni
+        ]
+        
+        # Try to get available voices first
+        try:
+            voices_data = call_elevenlabs_api("voices")
+            if voices_data and "voices" in voices_data:
+                # Get voice IDs from API response
+                api_voice_ids = [v["voice_id"] for v in voices_data["voices"]]
+                if api_voice_ids:
+                    voice_ids = api_voice_ids[:4]  # Limit to first 4 voices
+                    logger.info(f"Retrieved {len(voice_ids)} voice IDs from API")
+        except Exception as e:
+            logger.warning(f"Could not retrieve voices from API, using default voice IDs: {e}")
+        
+        # Try each voice ID
+        for voice_id in voice_ids:
+            try:
+                logger.info(f"Attempting to generate audio with voice ID: {voice_id}")
+                
+                # Direct API call to generate speech
+                data = {
+                    "text": text,
+                    "model_id": "eleven_multilingual_v2",
+                    "voice_settings": {
+                        "stability": 0.5,
+                        "similarity_boost": 0.5
+                    }
+                }
+                
+                audio_content = call_elevenlabs_api(
+                    f"text-to-speech/{voice_id}", 
+                    method="POST", 
+                    data=data
+                )
+                
+                if audio_content:
+                    with open(audio_path, "wb") as f:
+                        f.write(audio_content)
+                    
+                    logger.info(f"Successfully generated audio with direct API call using voice ID {voice_id}")
+                    return audio_path
+                else:
+                    logger.warning(f"Failed to generate audio with voice ID {voice_id}")
+            except Exception as voice_error:
+                logger.warning(f"API call failed for voice ID {voice_id}: {str(voice_error)}")
+                continue
+    
     except Exception as e:
-        logger.exception(f"Error generating audio narration: {e}")
-        estimated_duration = len(text.split()) / 2.5
-        create_silent_audio_placeholder(audio_path, estimated_duration)
-        return audio_path
+        logger.exception(f"Error with direct API implementation: {e}")
+    
+    # If all methods fail, use silent audio
+    logger.error("All audio generation attempts failed. Using silent audio placeholder.")
+    estimated_duration = len(text.split()) / 2.5
+    create_silent_audio_placeholder(audio_path, estimated_duration)
+    return audio_path
+
+# ---------------------------
+# Function: Render Single Scene
+# ---------------------------
+def render_single_scene(scene_data: Tuple[int, str, Path, bool]) -> Tuple[int, str, bool]:
+    """
+    Render a single Manim scene file.
+    
+    Args:
+        scene_data: Tuple containing (index, scene_file_path, output_directory, force_regenerate)
+        
+    Returns:
+        Tuple containing (index, output_file_path, success_status)
+    """
+    i, scene_file, output_dir, force_regenerate = scene_data
+    output_path = output_dir / f"scene_{i}.mp4"
+    scene_path = Path(scene_file)
+    
+    logger.info(f"Rendering scene {i+1} from {scene_file}")
+    logger.info(f"Cleaning scene file {scene_file}")
+    clean_existing_scene_file(str(scene_path))
+
+    # If output file already exists with non-zero size and we're not force regenerating, skip rendering
+    if not force_regenerate and output_path.exists() and output_path.stat().st_size > 0:
+        logger.info(f"Output file already exists at {output_path}, skipping rendering")
+        return (i, str(output_path), True)
+    elif force_regenerate and output_path.exists():
+        logger.info(f"Force regenerating scene at {output_path}")
+        try:
+            output_path.unlink()  # Delete the existing file
+            logger.info(f"Deleted existing file: {output_path}")
+        except Exception as e:
+            logger.warning(f"Could not delete existing scene file: {e}")
+        
+    # Try multiple approaches to render the scene
+    success = False
+    
+    # Approach 1: Using Python module approach (most reliable)
+    try:
+        logger.info(f"Trying Python module approach to render Manim scene {i+1}")
+        # Use importlib to dynamically import the scene file and run it
+        import importlib.util
+        import sys
+        
+        # Prepare a unique module name
+        module_name = f"scene_module_{i}_{int(time.time())}"
+        
+        # Create a spec and import the module
+        spec = importlib.util.spec_from_file_location(module_name, scene_path)
+        if spec and spec.loader:
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[module_name] = module
+            spec.loader.exec_module(module)
+            
+            # Check if UserAnimationScene exists in the module
+            if hasattr(module, 'UserAnimationScene'):
+                # Configure Manim to output directly to our desired location with the desired filename
+                from manim import config
+                config.media_dir = str(output_dir)
+                config.video_dir = str(output_dir)
+                config.output_file = f"scene_{i}"
+                
+                # Create and render the scene
+                scene = module.UserAnimationScene()
+                scene.render()
+                
+                # Verify the output file exists
+                if output_path.exists() and output_path.stat().st_size > 0:
+                    logger.info(f"Successfully rendered to {output_path} using Python module approach")
+                    success = True
+                else:
+                    # Look for any other generated mp4 file in the output directory
+                    possible_outputs = list(output_dir.glob("*.mp4"))
+                    if possible_outputs:
+                        for possible_output in possible_outputs:
+                            if "scene_" in possible_output.name and possible_output.stat().st_size > 0:
+                                if possible_output.name != output_path.name:
+                                    # If found but with wrong name, rename it
+                                    possible_output.rename(output_path)
+                                    logger.info(f"Renamed {possible_output} to {output_path}")
+                                success = True
+                                break
+            else:
+                logger.warning(f"UserAnimationScene not found in {scene_path}")
+        else:
+            logger.warning(f"Failed to create spec for {scene_path}")
+    except Exception as e:
+        logger.warning(f"Python module approach failed for scene {i+1}: {e}")
+    
+    # Approach 2: Using subprocess with improved command and error handling
+    if not success:
+        try:
+            # Try with Python executable to ensure correct environment
+            logger.info(f"Trying subprocess approach with Python executable for scene {i+1}")
+            
+            # Create a temporary script that runs the scene
+            temp_dir = Path(tempfile.mkdtemp())
+            temp_script = temp_dir / "run_scene.py"
+            
+            with open(temp_script, "w") as f:
+                f.write(f"""
+import sys
+import os
+sys.path.append("{str(project_root)}")
+
+from manim import config
+config.media_dir = "{str(output_dir)}"
+config.video_dir = "{str(output_dir)}"
+config.output_file = "scene_{i}"
+
+# Import and run the scene
+sys.path.append(os.path.dirname("{str(scene_path)}"))
+from {scene_path.stem} import UserAnimationScene
+
+scene = UserAnimationScene()
+scene.render()
+""")
+            
+            # Run the temporary script
+            cmd = [sys.executable, str(temp_script)]
+            proc = subprocess.run(cmd, capture_output=True, text=True)
+            
+            if proc.returncode == 0:
+                logger.info(f"Subprocess execution successful for scene {i+1}")
+                if output_path.exists() and output_path.stat().st_size > 0:
+                    logger.info(f"Successfully rendered to {output_path} using subprocess approach")
+                    success = True
+            else:
+                logger.warning(f"Subprocess failed: {proc.stderr}")
+            
+            # Clean up
+            shutil.rmtree(temp_dir)
+            
+        except Exception as e:
+            logger.warning(f"Subprocess approach failed for scene {i+1}: {e}")
+    
+    # If all approaches failed, create a placeholder video
+    if not success:
+        logger.error(f"All rendering approaches failed for scene {i+1}. Creating placeholder video.")
+        create_placeholder_video(output_path, text=f"Scene {i+1} failed to render")
+    
+    return (i, str(output_path), success)
 
 # ---------------------------
 # Function: Render Manim Scenes
 # ---------------------------
-def render_manim_scenes(scene_files: list, output_dir: str) -> list:
+def render_manim_scenes(scene_files: List[str], output_dir: str, force_regenerate: bool = False, max_workers: int = None) -> List[str]:
     """
-    Render a list of Manim scene files and return paths to the rendered video files.
+    Render a list of Manim scene files in parallel and return paths to the rendered video files.
     
     Args:
         scene_files: List of paths to scene files.
         output_dir: Directory where rendered videos will be saved.
+        force_regenerate: If True, regenerate scenes even if they already exist.
+        max_workers: Maximum number of worker processes. If None, uses the number of CPUs.
         
     Returns:
         List of paths to rendered video files.
     """
-    logger.info(f"Rendering {len(scene_files)} Manim scenes")
+    logger.info(f"Rendering {len(scene_files)} Manim scenes in parallel")
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     
@@ -316,305 +586,37 @@ def render_manim_scenes(scene_files: list, output_dir: str) -> list:
         # Assumes create_placeholder_videos is defined elsewhere
         return create_placeholder_videos(len(scene_files), {"output_dir": str(output_dir)})
 
-    video_files = []
-    for i, scene_file in enumerate(scene_files):
-        output_path = output_dir / f"scene_{i}.mp4"
-        video_files.append(str(output_path))
+    # Prepare the data for parallel processing
+    scene_data = [(i, scene_file, output_dir, force_regenerate) for i, scene_file in enumerate(scene_files)]
+    results = []
+    
+    # Use ProcessPoolExecutor for CPU-bound tasks
+    # If max_workers is None, it will default to the number of CPUs
+    with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
+        # Submit all tasks
+        future_to_scene = {executor.submit(render_single_scene, sd): sd for sd in scene_data}
         
-        scene_path = Path(scene_file)
-        if not scene_path.exists():
-            logger.error(f"Scene file not found: {scene_file}")
-            create_placeholder_video(output_path, text=f"Scene {i+1} not found")
-            continue
-
-        logger.info(f"Rendering scene {i+1} from {scene_file}")
-        logger.info(f"Cleaning scene file {scene_file}")
-        clean_existing_scene_file(str(scene_path))
-
-        # If output file already exists with non-zero size, skip rendering
-        if output_path.exists() and output_path.stat().st_size > 0:
-            logger.info(f"Output file already exists at {output_path}, skipping rendering")
-            continue
-            
-        # Try multiple approaches to render the scene
-        success = False
-        
-        # Approach 1: Using Python module approach (most reliable)
-        try:
-            logger.info("Trying Python module approach to render Manim scene")
-            # Use importlib to dynamically import the scene file and run it
-            import importlib.util
-            import sys
-            
-            # Prepare a unique module name
-            module_name = f"scene_module_{i}_{int(time.time())}"
-            
-            # Create a spec and import the module
-            spec = importlib.util.spec_from_file_location(module_name, scene_path)
-            if spec and spec.loader:
-                module = importlib.util.module_from_spec(spec)
-                sys.modules[module_name] = module
-                spec.loader.exec_module(module)
-                
-                # Check if UserAnimationScene exists in the module
-                if hasattr(module, 'UserAnimationScene'):
-                    # Configure Manim to output directly to our desired location with the desired filename
-                    from manim import config
-                    config.media_dir = str(output_dir)
-                    config.video_dir = str(output_dir)
-                    config.output_file = f"scene_{i}"
-                    
-                    # Create and render the scene
-                    scene = module.UserAnimationScene()
-                    scene.render()
-                    
-                    # Verify the output file exists
-                    if output_path.exists() and output_path.stat().st_size > 0:
-                        logger.info(f"Successfully rendered to {output_path} using Python module approach")
-                        success = True
-                    else:
-                        # Look for any other generated mp4 file in the output directory
-                        possible_outputs = list(output_dir.glob("*.mp4"))
-                        if possible_outputs:
-                            for possible_output in possible_outputs:
-                                if "scene_" in possible_output.name and possible_output.stat().st_size > 0:
-                                    if possible_output.name != output_path.name:
-                                        # If found but with wrong name, rename it
-                                        possible_output.rename(output_path)
-                                        logger.info(f"Renamed {possible_output} to {output_path}")
-                                    success = True
-                                    break
-                else:
-                    logger.warning(f"UserAnimationScene not found in {scene_path}")
-            else:
-                logger.warning(f"Failed to create spec for {scene_path}")
-        except Exception as e:
-            logger.warning(f"Python module approach failed: {e}")
-        
-        # Approach 2: Using subprocess with improved command and error handling
-        if not success:
+        # Process results as they complete
+        for future in concurrent.futures.as_completed(future_to_scene):
+            scene_data_item = future_to_scene[future]
             try:
-                # Try with Python executable to ensure correct environment
-                logger.info("Trying subprocess approach with Python executable")
-                
-                # Create a temporary script that runs the scene
-                run_script = output_dir / f"run_manim_{i}.py"
-                with open(run_script, "w") as f:
-                    f.write(f"""
-import sys
-sys.path.append("{os.path.dirname(os.path.abspath(scene_path))}")
-from manim import *
-from pathlib import Path
-
-# Configure Manim to output directly to the desired location with the correct filename
-config.media_dir = "{output_dir}"
-config.video_dir = "{output_dir}"
-config.output_file = "scene_{i}"
-
-# Compatibility fixes for different Manim versions
-if 'ShowCreation' not in globals():
-    ShowCreation = Create  # Updated name in newer Manim versions
-
-if 'FRAME_WIDTH' not in globals():
-    FRAME_WIDTH = config.frame_width  # Updated in newer Manim versions
-    FRAME_HEIGHT = config.frame_height
-
-# Add missing shapes/objects that might be referenced
-if 'Checkmark' not in globals():
-    class Checkmark(VMobject):
-        def __init__(self, **kwargs):
-            super().__init__(**kwargs)
-            self.set_points_as_corners([
-                UP + LEFT, DOWN, RIGHT + UP,
-            ])
-            self.scale(0.5)
-
-# Physics compatibility code
-if 'Pendulum' not in globals():
-    class Pendulum(VGroup):
-        def __init__(self, length=3, angle=PI/4, weight_diameter=0.5, **kwargs):
-            super().__init__(**kwargs)
-            self.length = length
-            self.angle = angle
-            self.weight_diameter = weight_diameter
-            self.pivot = Dot(ORIGIN, color=WHITE)
-            self.rod = Line(ORIGIN, length * RIGHT, color=GRAY)
-            self.rod.rotate(angle, about_point=ORIGIN)
-            self.bob = Circle(radius=weight_diameter/2, color=BLUE, fill_opacity=1)
-            self.bob.move_to(self.rod.get_end())
-            self.add(self.pivot, self.rod, self.bob)
-            
-        def get_angle(self):
-            return self.angle
-
-if 'Pyramid' not in globals():
-    class Pyramid(ThreeDObject):
-        def __init__(self, base_side_length=2, height=3, color=BLUE, **kwargs):
-            super().__init__(**kwargs)
-            self.base_side_length = base_side_length
-            self.height = height
-            self.set_color(color)
-            self.create_pyramid()
-            
-        def create_pyramid(self):
-            # Create square base
-            base = Square(side_length=self.base_side_length)
-            base.rotate(PI/4, axis=UP)  # Rotate to diamond shape
-            
-            # Create apex point
-            apex = Dot3D(point=OUT * self.height)
-            
-            # Create triangular faces
-            square_vertices = base.get_vertices()
-            self.add(base)
-            
-            for i in range(4):
-                face = Polygon(
-                    square_vertices[i],
-                    square_vertices[(i+1) % 4],
-                    apex.get_center(),
-                    color=self.color,
-                    fill_opacity=0.7
-                )
-                self.add(face)
-
-# Physics-specific classes
-if 'GravityForce' not in globals():
-    class GravityForce(Arrow):
-        def __init__(self, obj, length=1, **kwargs):
-            super().__init__(obj.get_center(), obj.get_center() + DOWN * length, **kwargs)
-            self.add_updater(lambda m: m.put_start_and_end_on(obj.get_center(), obj.get_center() + DOWN * length))
-
-if 'Spring' not in globals():
-    class Spring(VMobject):
-        def __init__(self, start=ORIGIN, end=RIGHT*3, num_coils=5, radius=0.2, **kwargs):
-            super().__init__(**kwargs)
-            self.start = start
-            self.end = end
-            self.num_coils = num_coils
-            self.radius = radius
-            self.create_spring()
-            
-        def create_spring(self):
-            points = []
-            length = np.linalg.norm(self.end - self.start)
-            direction = (self.end - self.start) / length
-            normal = np.array([-direction[1], direction[0], 0])
-            
-            # Create coils
-            segment_length = length / (2 * self.num_coils + 2)
-            points.append(self.start)
-            points.append(self.start + direction * segment_length)
-            
-            for i in range(self.num_coils):
-                points.append(self.start + direction * ((2*i+1) * segment_length) + normal * self.radius)
-                points.append(self.start + direction * ((2*i+2) * segment_length) - normal * self.radius)
-            
-            points.append(self.end - direction * segment_length)
-            points.append(self.end)
-            
-            self.set_points_as_corners(points)
-
-# Import scene file
-scene_path = "{scene_path}"
-with open(scene_path, "r") as f:
-    scene_code = f.read()
-
-# Fix common issues in the scene code
-if "ShowCreation(" in scene_code and "ShowCreation = Create" not in scene_code:
-    scene_code = scene_code.replace("ShowCreation(", "Create(")
-
-if "FRAME_WIDTH" in scene_code and "FRAME_WIDTH = config.frame_width" not in scene_code:
-    scene_code = scene_code.replace("FRAME_WIDTH", "config.frame_width")
-
-if "ThreeDObject" in scene_code and "class UserAnimationScene(Scene)" in scene_code:
-    scene_code = scene_code.replace("class UserAnimationScene(Scene)", "class UserAnimationScene(ThreeDScene)")
-
-# If physics classes are used, make sure to use ThreeDScene
-physics_classes = ["GravityForce", "Pendulum", "Spring", "Pyramid", "Wave", "ArrowVectorField"]
-if any(cls in scene_code for cls in physics_classes) and "class UserAnimationScene(Scene)" in scene_code:
-    scene_code = scene_code.replace("class UserAnimationScene(Scene)", "class UserAnimationScene(ThreeDScene)")
-
-# Execute fixed scene code
-exec(scene_code)
-
-# Try to run the scene with error handling
-try:
-    scene = UserAnimationScene()
-    scene.render()
-except Exception as e:
-    print(f"Error rendering scene: {{e}}")
-    # Create a simple fallback scene with the error message
-    class FallbackScene(Scene):
-        def construct(self):
-            error_text = Text(f"Rendering Error\\n{{str(e)[:50]}}", color=RED)
-            self.play(Write(error_text))
-            self.wait(2)
-    FallbackScene().render()
-""")
-                
-                # Run the script
-                python_executable = sys.executable
-                cmd = [python_executable, str(run_script)]
-                result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
-                
-                # Verify the output file exists
-                if output_path.exists() and output_path.stat().st_size > 0:
-                    logger.info(f"Successfully rendered to {output_path} using subprocess approach")
-                    success = True
-                else:
-                    # Look for any other generated mp4 file in the output directory
-                    for mp4_file in output_dir.glob("*.mp4"):
-                        if mp4_file.stat().st_size > 0 and (f"scene_{i}" in mp4_file.name or "UserAnimationScene" in mp4_file.name):
-                            if mp4_file.name != output_path.name:
-                                # If found but with wrong name, rename it
-                                mp4_file.rename(output_path)
-                                logger.info(f"Renamed {mp4_file} to {output_path}")
-                            success = True
-                            break
-                
+                idx, output_path, success = future.result()
+                results.append((idx, output_path, success))
+                logger.info(f"Completed rendering scene {idx+1}/{len(scene_files)}")
             except Exception as e:
-                logger.warning(f"Subprocess approach failed: {e}")
-        
-        # Approach 3: Original subprocess approach (fallback)
-        if not success:
-            try:
-                logger.info("Trying original manim command approach")
-                # Adding additional flags for improved compatibility and error handling
-                cmd = [
-                    "manim", "-ql", str(scene_path), "UserAnimationScene", 
-                    "-o", f"scene_{i}", "--media_dir", str(output_dir),
-                    "--use_opengl_renderer"  # Try OpenGL renderer for better 3D support
-                ]
-                result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
-                
-                # Verify the output file exists
-                if output_path.exists() and output_path.stat().st_size > 0:
-                    logger.info(f"Successfully rendered to {output_path} using manim command approach")
-                    success = True
-                else:
-                    # Search for any generated mp4 files
-                    for root, _, files in os.walk(output_dir):
-                        for file in files:
-                            if file.endswith(".mp4") and (f"scene_{i}" in file or "UserAnimationScene" in file):
-                                file_path = Path(root) / file
-                                if file_path.stat().st_size > 0:
-                                    if file_path != output_path:
-                                        # If found but with wrong name/location, copy/move it
-                                        shutil.copy2(file_path, output_path)
-                                        logger.info(f"Copied {file_path} to {output_path}")
-                                    success = True
-                                    break
-            except Exception as e:
-                logger.warning(f"Original command approach failed: {e}")
-        
-        # If all approaches failed, create a placeholder
-        if not success or not output_path.exists() or output_path.stat().st_size == 0:
-            logger.warning(f"Failed to render scene {i+1}. Creating placeholder.")
-            create_placeholder_video(output_path, text=f"Scene {i+1} rendering failed")
-            
-    logger.info(f"Rendered {len(scene_files)} Manim scenes")
-    return video_files
+                idx = scene_data_item[0]
+                logger.error(f"Scene {idx+1} generated an exception: {e}")
+                traceback.print_exc()
+                # Create a placeholder for failed scene
+                output_path = output_dir / f"scene_{idx}.mp4"
+                create_placeholder_video(output_path, text=f"Scene {idx+1} failed with error")
+                results.append((idx, str(output_path), False))
+    
+    # Sort results by index to maintain correct order
+    results.sort(key=lambda x: x[0])
+    
+    # Return just the output paths
+    return [result[1] for result in results]
 
 # ---------------------------
 # Function: Create Timing Data
@@ -804,14 +806,22 @@ def merge_videos_with_audio(video_files: list, timing_data: list, output_dirs: d
             logger.info(f"Adding audio narration from {audio_path}")
             
             # Get video duration
-            ffprobe_cmd = [
-                FFMPEG_PATH, "-v", "error", "-select_streams", "v:0", 
-                "-show_entries", "stream=duration", "-of", "csv=p=0", 
-                str(concat_video)
-            ]
-            result = subprocess.run(ffprobe_cmd, capture_output=True, text=True, check=True)
-            video_duration = float(result.stdout.strip())
-            logger.info(f"Video duration: {video_duration:.2f} seconds")
+            try:
+                # Use ffprobe to get video duration
+                ffprobe_cmd = [
+                    FFMPEG_PATH, "-v", "error", "-select_streams", "v:0", 
+                    "-show_entries", "stream=duration", "-of", "csv=p=0", 
+                    str(concat_video)
+                ]
+                logger.info(f"Running ffprobe command: {' '.join(ffprobe_cmd)}")
+                result = subprocess.run(ffprobe_cmd, capture_output=True, text=True, check=True)
+                video_duration = float(result.stdout.strip())
+                logger.info(f"Video duration: {video_duration:.2f} seconds")
+            except subprocess.CalledProcessError as e:
+                logger.error(f"Error getting video duration: {str(e)}")
+                if e.stderr:
+                    logger.error(f"ffprobe error output: {e.stderr}")
+                logger.info("Using estimated duration from timing data")
             
             # Add audio to video
             subprocess.run([
@@ -984,17 +994,53 @@ def create_placeholder_videos(count: int, output_dirs: dict) -> list:
     
     video_files = []
     for i in range(count):
-        placeholder = output_dir / f"placeholder_scene_{i}.mp4"
-        create_placeholder_video(placeholder, text=f"Placeholder for scene {i+1}")
-        video_files.append(str(placeholder))
+        video_path = output_dir / f"scene_{i}.mp4"
+        create_placeholder_video(video_path, text=f"Placeholder for scene {i+1}")
+        video_files.append(str(video_path))
     
     logger.info(f"Created {count} placeholder videos")
     return video_files
 
 # ---------------------------
+# Function: Generate Manim Code in Parallel
+# ---------------------------
+def generate_manim_code_parallel(scene_data, output_dirs, dry_run=False):
+    """
+    Generate Manim code for a scene in parallel.
+    
+    Args:
+        scene_data: A tuple of (index, scene_description)
+        output_dirs: Dictionary with output directories
+        dry_run: Whether to use placeholder content
+        
+    Returns:
+        Tuple of (index, scene_path, success)
+    """
+    i, scene_description = scene_data
+    try:
+        scene_path = get_scene_path(i)
+        logger.info(f"Generating Manim code for scene {i+1} at {scene_path}")
+        
+        manim_code = manim_generator.generate_manim_code(
+            scene_description=scene_description,
+            scene_index=i,
+            output_dirs=output_dirs,
+            dry_run=dry_run
+        )
+        
+        scene_path.parent.mkdir(parents=True, exist_ok=True)
+        scene_path.write_text(manim_code)
+        logger.info(f"Manim code for scene {i+1} saved to {scene_path}")
+        return (i, scene_path, True)
+    except Exception as e:
+        logger.error(f"Error generating Manim code for scene {i+1}: {str(e)}")
+        return (i, get_scene_path(i), False)
+
+# ---------------------------
 # Function: Create Math Tutorial
 # ---------------------------
-def create_math_tutorial(topic, level="beginner", duration=3, dry_run=False, progress_callback=None, timeout=300):
+def create_math_tutorial(topic, level="beginner", duration=5, dry_run=False, progress_callback=None, 
+                        timeout=300, use_gm_api=False, gm_model="gemini-1.5-flash"):
     """
     Create a complete math tutorial from script generation to final video.
     
@@ -1005,6 +1051,8 @@ def create_math_tutorial(topic, level="beginner", duration=3, dry_run=False, pro
         dry_run: If True, use placeholder content instead of generated content.
         progress_callback: Function to call with progress updates.
         timeout: Timeout in seconds for the entire process.
+        use_gm_api: Whether to use Google's Gemini API.
+        gm_model: Gemini model to use.
         
     Returns:
         Path to the final video if successful, None otherwise.
@@ -1012,8 +1060,8 @@ def create_math_tutorial(topic, level="beginner", duration=3, dry_run=False, pro
     try:
         start_time = time.time()
         
-        # Ensure minimum duration
-        duration = max(duration, 3)  # Minimum 3 minute duration
+        # Ensure duration is within range of 3-15 minutes
+        duration = max(3, min(int(duration), 15))  # Minimum 3, maximum 15 minute duration
         
         logger.info(f"Creating math tutorial: {topic}, level: {level}, duration: {duration} min, dry_run: {dry_run}")
         
@@ -1044,7 +1092,9 @@ def create_math_tutorial(topic, level="beginner", duration=3, dry_run=False, pro
             topic=topic,
             level=level,
             duration=script_duration,
-            dry_run=dry_run
+            dry_run=dry_run,
+            use_gm_api=use_gm_api,
+            gm_model=gm_model
         )
         progress_callback(10.0, f"Script generation completed ({len(script)} characters)")
         
@@ -1059,50 +1109,46 @@ def create_math_tutorial(topic, level="beginner", duration=3, dry_run=False, pro
         logger.info(f"Extracted {len(scenes)} scenes from script")
         progress_callback(15.0, f"Extracted {len(scenes)} scenes from script")
         
-        # Step 3: Generate Manim code for each scene
+        # Step 3: Generate Manim code for each scene IN PARALLEL
+        progress_callback(20.0, f"Generating animation code for {len(scenes)} scenes in parallel...")
+        
+        # Prepare data for parallel processing
+        scene_data = [(i, scene_description) for i, scene_description in enumerate(scenes)]
+        
+        # Determine number of workers for scene generation
+        import multiprocessing
+        cpu_count = multiprocessing.cpu_count()
+        max_workers = min(max(1, cpu_count - 1), len(scenes))  # Use all CPUs except one
+        
         scene_files = []
-        for i, scene_description in enumerate(scenes):
-            progress_percentage = 15.0 + (i / len(scenes) * 20.0)
-            progress_callback(progress_percentage, f"Generating animation code for scene {i+1}/{len(scenes)}...")
+        with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
+            # Submit all tasks
+            future_to_scene = {executor.submit(generate_manim_code_parallel, sd, output_dirs, dry_run): sd for sd in scene_data}
             
-            try:
-                scene_path = get_scene_path(i)
-                logger.info(f"Generating Manim code for scene {i+1} at {scene_path}")
-                
-                manim_code = manim_generator.generate_manim_code(
-                    scene_description=scene_description,
-                    scene_index=i,
-                    output_dirs=output_dirs,
-                    dry_run=dry_run
-                )
-                
-                scene_path.parent.mkdir(parents=True, exist_ok=True)
-                scene_path.write_text(manim_code)
-                scene_files.append(scene_path)
-                logger.info(f"Manim code for scene {i+1} saved to {scene_path}")
-            except Exception as e:
-                logger.error(f"Error generating Manim code for scene {i+1}: {str(e)}")
-                # Continue with other scenes if one fails
+            # Process results as they complete
+            for i, future in enumerate(concurrent.futures.as_completed(future_to_scene)):
+                progress_percentage = 20.0 + ((i + 1) / len(scenes) * 15.0)
+                try:
+                    idx, scene_path, success = future.result()
+                    if success:
+                        scene_files.append(scene_path)
+                    progress_callback(progress_percentage, f"Generated code for scene {idx+1}/{len(scenes)}")
+                except Exception as e:
+                    logger.error(f"Error in scene generation executor: {e}")
+        
+        # Sort scene files by index to maintain correct order
+        scene_files.sort(key=lambda p: int(p.stem.split('_')[-1]))
+        logger.info(f"Generated {len(scene_files)} scene files in parallel")
         
         # Step 4: Create timing data 
         progress_callback(35.0, f"Creating timing data for video...")
         timing_data = create_timing_data(scenes, output_dirs, duration)
         progress_callback(40.0, f"Created timing data for {len(timing_data)} scenes")
         
-        # Calculate total video duration from timing data
-        if timing_data:
-            estimated_duration = timing_data[-1]["end_time"] / 60
-            logger.info(f"Estimated video duration based on timing data: {estimated_duration:.2f} minutes")
-            if estimated_duration < duration:
-                logger.warning(f"Estimated duration is less than requested duration. Adjusting timing...")
-                # Recalculate timing data with increased duration
-                timing_data = create_timing_data(scenes, output_dirs, int(duration * 1.1))
-                logger.info(f"Adjusted timing data for minimum duration of {duration} minutes")
-        
         # Step 5: Render scenes
-        progress_callback(45.0, f"Rendering scene animations...")
-        video_files = render_manim_scenes(scene_files, output_dirs["videos"])
-        progress_callback(70.0, f"Rendered {len(video_files)} scene videos")
+        progress_callback(45.0, f"Rendering scene animations in parallel...")
+        video_files = render_manim_scenes(scene_files, output_dirs["videos"], max_workers=max_workers)
+        progress_callback(70.0, f"Rendered {len(video_files)} scene videos in parallel")
         
         # Step 6: Generate audio narration
         progress_callback(75.0, f"Generating audio narration...")
