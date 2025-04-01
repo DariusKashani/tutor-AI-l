@@ -17,12 +17,13 @@ from flask_cors import CORS
 # ---------------------------
 # External Module Imports
 # ---------------------------
+from backend import generate_script
 from src.backend.manim_generator import (
     generate_manim_code, 
     clean_existing_scene_file, 
     render_scene
 )
-from src.backend import video_generator, manim_generator, script_generator
+from src.backend import video_generator, manim_generator
 from src.backend.task_manager import task_manager
 from config import get_project_dirs
 
@@ -124,7 +125,7 @@ def generate_tutorial_task(topic, level, duration, api_key=None, dry_run=False):
             timeout_seconds = 300  # 5 minutes timeout
             logger.info(f"[TASK:{task_id}] Starting video generation with timeout {timeout_seconds}s")
 
-            result = video_generator.create_math_tutorial(
+            result = video_generator.make_make_video(
                 topic=topic,
                 level=level,
                 duration=duration,
@@ -256,7 +257,7 @@ def generate_script_task(task_id, **params):
         duration = params["duration"]
         logger.info(f"Generating script for task {task_id}: {topic}, {level}, {style}, {duration}min")
         task_manager.update_task(task_id, progress=10, message=f"Generating script for {topic}...")
-        script = script_generator.generate_script(topic, level, style, duration)
+        script = generate_script.generate_script(topic, level, style, duration)
         task_manager.update_task(task_id, progress=100, message="Script generation completed",
                                  status="completed", result={"script": script})
         return {"script": script}
@@ -401,7 +402,7 @@ def create_tutorial_task(task_id, **params):
         def progress_callback(progress, message):
             task_manager.update_task(task_id, progress=progress, message=message)
 
-        video_generator.create_math_tutorial(
+        video_generator.make_make_video(
             topic=topic,
             level=level,
             duration=duration,

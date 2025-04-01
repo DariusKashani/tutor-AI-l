@@ -1,0 +1,2 @@
+2025-03-31 09:22:05,521 - src.backend.video_generator - WARNING - ElevenLabs package not found. Audio generation will use placeholder files.
+2025-03-31 09:22:05,522 - src.backend.video_generator - INFO - To install ElevenLabs, run: pip install elevenlabs
